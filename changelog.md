@@ -1,5 +1,11 @@
 # OceanWP Changelog
 
+### _2026_XX_XX_ - 4.1.6
+- **Improved**:: Responsvie Logo output when main logo is set as site title
+- **Fixed**:: Mobile View, and parallax footer width issue when the site layout is boxed. (14339)
+- **Fixed**:: Widget Margin Bottom Issue. (13472)
+- **Fixed**:: Dracula Dark Mode Menu Issue in OceanWP Theme. (13416)
+
 ### _2026.02.16_ - 4.1.5
 - **NEW: Customizer**:: WooCommerce: Archives: Toolbar: Shop Result Count Max Cap option for the 'ALL' preview link: Added to protect server performance. Defaults to 36 for new sites and 100 for existing sites (max limit 1200).
 - **Added**:: Compatibility: PHP 8.X+: Deprecated: Increment on non-alphanumeric string is deprecated in .../themes/oceanwp/partials/header/style/medium-header.php on line 50
