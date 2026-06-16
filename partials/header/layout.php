@@ -35,6 +35,41 @@ if ( true !== get_theme_mod( 'ocean_header_full_width', false ) ) {
 	$class = 'container';
 }
 
+$has_video = function_exists( 'has_header_video' ) && has_header_video();
+$has_image = has_header_image();
+
+$video_controls = get_theme_mod( 'ocean_display_header_video_controls', true );
+
+$media_classes = array();
+
+if ( $has_video ) {
+	$media_classes[] = 'has-video';
+
+	if ( $video_controls ) {
+		$media_classes[] = 'has-video-controls';
+	} else {
+		$media_classes[] = 'no-video-controls';
+	}
+}
+
+if ( $has_image ) {
+	$media_classes[] = 'has-image';
+}
+
+$overlay_classes = array();
+
+if ( $has_video ) {
+	$overlay_classes[] = 'has-video';
+}
+
+if ( $has_image ) {
+	$overlay_classes[] = 'has-image';
+}
+
+if ( $has_video && $has_image ) {
+	$overlay_classes[] = 'has-video-image';
+}
+
 do_action( 'ocean_before_header' );
 
 // If transparent header style.
@@ -56,10 +91,12 @@ if ( 'transparent' === $header_style
 
 		<?php
 		// If header video.
-		if ( function_exists( 'has_header_video' ) && has_header_video() ) {
+		if ( $has_video || $has_image ) {
 			?>
-			<div class="custom-header-media">
+			<div class="custom-header-media <?php echo esc_attr( implode( ' ', $media_classes ) ); ?>">
+
 				<?php the_custom_header_markup(); ?>
+
 			</div>
 			<?php
 		}
@@ -113,14 +150,11 @@ if ( 'transparent' === $header_style
 
 		<?php
 		// If header media.
-		if ( has_header_image() ) {
+		if ( $has_video || $has_image ) {
 			?>
-			<div class="overlay-header-media"></div>
+			<div class="overlay-header-media <?php echo esc_attr( implode( ' ', $overlay_classes ) ); ?>"></div>
 			<?php
 		}
-		?>
-
-		<?php
 	}
 	?>
 

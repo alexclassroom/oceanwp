@@ -1,10 +1,14 @@
 import delegate from "delegate";
 import { slideUp, slideDown, fadeIn, fadeOut, visible } from "../../lib/utils";
+import { options } from "../../constants";
+import initAccessibleSubmenus from "../menu/accessible-submenus";
+
 
 class FullScreenMobileMenu {
   #elements = {
     body: document.body,
   };
+  #activeTrigger = null;
 
   constructor() {
     if (!this.#elements.body.classList.contains("fullscreen-mobile")) {
@@ -26,7 +30,23 @@ class FullScreenMobileMenu {
     };
   };
 
+  #getMobileDropdownTarget = () => {
+    return options.mobileDropdownTarget || options.sidrDropdownTarget || "link";
+  };
+
   #start = () => {
+
+    if (options.semanticMobileHeader) {
+      initAccessibleSubmenus({
+        root: this.#elements.menu,
+        openClass: "open-sub",
+        targetMode: this.#getMobileDropdownTarget() === "link" ? "link" : "button",
+        duration: 250,
+      });
+
+      return;
+    }
+
     this.#elements.menu
       ?.querySelectorAll(".menu-item-has-children > a")
       ?.forEach((menuItemLink) => {
@@ -42,27 +62,26 @@ class FullScreenMobileMenu {
 
     delegate(document.body, ".mobile-menu", "click", this.#onMenuButtonClick);
 
-	document
-	.querySelectorAll('#mobile-fullscreen ul > li > a[href^="#"]:not([href="#"]), #mobile-fullscreen ul > li > a[href*="/#"]:not([href="#"])')
-	.forEach((anchorLink) => {
-		anchorLink.addEventListener("click", this.#handleAnchorLinks);
-	});
-
-
-
-
     document
-      .querySelectorAll(
-        '#mobile-fullscreen nav ul > li.menu-item-has-children > a > span.dropdown-toggle, #mobile-fullscreen nav ul > li.menu-item-has-children > a[href="#"]'
-      )
-      .forEach((menuItemLink) => {
-        menuItemLink.addEventListener("click", this.#onDropownToggleIcon);
-        menuItemLink.addEventListener("tap", this.#onDropownToggleIcon);
+      .querySelectorAll('#mobile-fullscreen ul > li > a[href^="#"]:not([href="#"]), #mobile-fullscreen ul > li > a[href*="/#"]:not([href="#"])')
+      .forEach((anchorLink) => {
+        anchorLink.addEventListener("click", this.#handleAnchorLinks);
       });
 
+    if (!options.semanticMobileHeader) {
+      document
+        .querySelectorAll(
+          '#mobile-fullscreen nav ul > li.menu-item-has-children > a > span.dropdown-toggle, #mobile-fullscreen nav ul > li.menu-item-has-children > a[href="#"]'
+        )
+        .forEach((menuItemLink) => {
+          menuItemLink.addEventListener("click", this.#onDropownToggleIcon);
+          menuItemLink.addEventListener("tap", this.#onDropownToggleIcon);
+        });
+    }
+
     document
       .querySelectorAll(
-        '#mobile-fullscreen .fs-dropdown-menu li a[href*="#"]:not([href="#"]), #mobile-fullscreen #mobile-nav li a[href*="#"]:not([href="#"]), #mobile-fullscreen a.close'
+        '#mobile-fullscreen .fs-dropdown-menu li a[href*="#"]:not([href="#"]), #mobile-fullscreen #mobile-nav li a[href*="#"]:not([href="#"]), #mobile-fullscreen .close'
       )
       .forEach((menuItemLink) => {
         menuItemLink.addEventListener("click", this.#onCloseIconClick);
@@ -104,9 +123,14 @@ class FullScreenMobileMenu {
     event.preventDefault();
     event.stopPropagation();
 
+    this.#activeTrigger = event.currentTarget;
+
     this.#elements.toggleMenuBtn.classList.add("exit");
     this.#elements.menu.classList.add("active");
     this.#elements.hamburgerBtn?.classList.add("is-active");
+
+    this.#elements.toggleMenuBtn?.setAttribute("aria-expanded", "true");
+    this.#elements.hamburgerBtn?.setAttribute("aria-expanded", "true");
 
     fadeIn(this.#elements.menu);
 
@@ -116,7 +140,7 @@ class FullScreenMobileMenu {
     this.#elements.html.style.marginRight =
       htmlWidthAfterOverflowHidden - htmlWidthBeforeOverflowHidden + "px";
 
-    this.#elements.menu.querySelector("a.close").focus();
+    this.#elements.menu.querySelector(".close")?.focus();
   };
 
   #onCloseIconClick = (event) => {
@@ -133,12 +157,21 @@ class FullScreenMobileMenu {
       this.#elements.toggleMenuBtn.classList.remove("exit");
       this.#elements.menu.classList.remove("active");
 
+      this.#elements.toggleMenuBtn?.setAttribute("aria-expanded", "false");
+
       fadeOut(this.#elements.menu);
 
       this.#elements.html.style.overflow = "";
       this.#elements.html.style.marginRight = "";
 
       this.#elements.hamburgerBtn?.classList.remove("is-active");
+      this.#elements.hamburgerBtn?.setAttribute("aria-expanded", "false");
+
+      if (this.#activeTrigger) {
+        setTimeout(() => {
+          this.#activeTrigger.focus();
+        }, 50);
+      }
   }
 };
 
@@ -148,6 +181,8 @@ class FullScreenMobileMenu {
 		// console.log("Menu is visible");
       this.#elements.toggleMenuBtn.classList.remove("exit");
       this.#elements.menu.classList.remove("active");
+
+      this.#elements.toggleMenuBtn?.setAttribute("aria-expanded", "false");
 
       fadeOut(this.#elements.menu);
 
@@ -167,6 +202,7 @@ class FullScreenMobileMenu {
         });
 
       this.#elements.hamburgerBtn?.classList.remove("is-active");
+      this.#elements.hamburgerBtn?.setAttribute("aria-expanded", "false");
 	}
   };
 
@@ -206,16 +242,16 @@ class FullScreenMobileMenu {
     const escKey = event.keyCode === 27;
     const enterKey = event.keyCode === 13;
 
-    const closeIcon = this.#elements.menu.querySelector("a.close");
+    const closeIcon = this.#elements.menu.querySelector(".close");
 
     const navElements = this.#elements.menu
       .querySelector("nav")
-      .querySelectorAll("a, span.dropdown-toggle, input, button");
+      .querySelectorAll("a, button, [role='button'], input");
 
     const navFirstElement = navElements[0];
     const navLastElement = navElements[navElements.length - 1];
 
-    closeIcon.style.outline = "";
+    closeIcon?.style && (closeIcon.style.outline = "");
 
     if (escKey) {
       event.preventDefault();

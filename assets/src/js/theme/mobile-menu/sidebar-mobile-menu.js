@@ -62,9 +62,25 @@ class SidebarMobileMenu {
       timing: "ease",
       bind: "click",
       onOpen() {
-        document.querySelector("a.sidr-class-toggle-sidr-close")?.focus();
-        document.querySelector("a.sidr-class-toggle-sidr-close svg")?.classList.remove("sidr-class-owp-icon", "sidr-class-owp-icon--close");
-        document.querySelector("a.sidr-class-toggle-sidr-close svg")?.classList.add("owp-icon", "owp-icon--close");
+        const closeBtn = document.querySelector(
+          "#sidr .sidr-class-toggle-sidr-close"
+        );
+
+        closeBtn?.focus();
+
+        closeBtn
+          ?.querySelector("svg")
+          ?.classList.remove(
+            "sidr-class-owp-icon",
+            "sidr-class-owp-icon--close"
+          );
+
+        closeBtn
+          ?.querySelector("svg")
+          ?.classList.add(
+            "owp-icon",
+            "owp-icon--close"
+          );
 
         self.#elements.hamburgerBtn?.classList.add("is-active");
 
@@ -158,7 +174,7 @@ class SidebarMobileMenu {
       });
 
     this.#sidebarToggleMenuBtn = document.querySelector(
-      "a.sidr-class-toggle-sidr-close"
+      "#sidr .sidr-class-toggle-sidr-close"
     );
   };
 

@@ -26,6 +26,14 @@ if ( 'sidebar' === oceanwp_mobile_menu_style() ) {
 	$menu_args['menu_class'] = 'mobile-menu dropdown-menu';
 }
 
+$mobile_style = oceanwp_mobile_menu_style();
+
+if ( 'sidebar' !== $mobile_style ) {
+	$context = 'fullscreen' === $mobile_style ? 'mobile-fullscreen' : 'mobile-dropdown';
+
+	$menu_args = oceanwp_apply_nav_walker_context( $menu_args, $context );
+}
+
 // Display menu if defined.
 if ( has_nav_menu( $menu_location ) ) : ?>
 

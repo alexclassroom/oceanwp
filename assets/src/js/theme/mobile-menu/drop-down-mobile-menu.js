@@ -1,6 +1,7 @@
 import delegate from "delegate";
 import { options } from "../../constants";
 import { slideUp, slideDown, slideToggle } from "../../lib/utils";
+import initAccessibleSubmenus from "../menu/accessible-submenus";
 
 class DropDownMobileMenu {
   #elements = {
@@ -32,8 +33,26 @@ class DropDownMobileMenu {
     };
   };
 
+  #getMobileDropdownTarget = () => {
+    return options.mobileDropdownTarget || options.sidrDropdownTarget || "link";
+  };
+
+
   #start = () => {
     this.#isMenuOpen = false;
+
+    if (options.semanticMobileHeader) {
+      initAccessibleSubmenus({
+        root: this.#elements.navWrapper,
+        openClass: "active",
+        targetMode: this.#getMobileDropdownTarget() === "link" ? "link" : "button",
+        duration: 250,
+      });
+
+      this.#menuItemsToggleIcon = null;
+
+      return;
+    }
 
     this.#elements.parentMenuItems?.forEach((menuItem) => {
       let span = document.createElement("span");
@@ -119,6 +138,20 @@ class DropDownMobileMenu {
     !!this.#elements.navWrapper && slideToggle(this.#elements.navWrapper, 400);
     this.#elements.toggleMenuBtn?.classList.toggle("opened");
     this.#elements.hamburgerBtn?.classList.toggle("is-active");
+
+    const isOpen =
+      this.#elements.toggleMenuBtn?.classList.contains("opened");
+
+    this.#elements.toggleMenuBtn?.setAttribute(
+      "aria-expanded",
+      isOpen ? "true" : "false"
+    );
+
+    this.#elements.hamburgerBtn?.setAttribute(
+      "aria-expanded",
+      isOpen ? "true" : "false"
+    );
+
     this.#elements.toggleMenuBtn?.focus();
   };
 
@@ -126,6 +159,11 @@ class DropDownMobileMenu {
     !!this.#elements.navWrapper && slideUp(this.#elements.navWrapper, 250);
     this.#elements.toggleMenuBtn?.classList.remove("opened");
     this.#elements.hamburgerBtn?.classList.remove("is-active");
+
+    this.#elements.toggleMenuBtn?.setAttribute("aria-expanded", "false");
+    this.#elements.hamburgerBtn?.setAttribute("aria-expanded", "false");
+
+    this.#isMenuOpen = false;
   };
 
   #onWindowResize = (event) => {
@@ -145,7 +183,7 @@ class DropDownMobileMenu {
 
     const menuItemPlusIcon = event.currentTarget;
     const menuItem =
-      options.sidrDropdownTarget == "link"
+      this.#getMobileDropdownTarget() == "link"
         ? menuItemPlusIcon.parentNode
         : menuItemPlusIcon.parentNode.parentNode;
     const subMenu = menuItem.lastElementChild;
@@ -182,7 +220,7 @@ class DropDownMobileMenu {
     const closeIcon = this.#elements.toggleMenuBtn;
 
     const navElements = this.#elements.nav?.querySelectorAll(
-      "a, span.dropdown-toggle, input, button"
+      "a, button, [role='button'], input"
     );
 
     const navFirstElement = navElements[0];

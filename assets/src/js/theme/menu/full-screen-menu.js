@@ -94,19 +94,40 @@ class FullScreenMenu {
     this.#closeMenu();
   };
 
-  #openMenu = () => {
+ #openMenu = () => {
     this.#elements.header.classList.add("nav-open");
     this.#elements.toggleMenuBtn.classList.add("exit");
     this.#elements.logo?.classList.add("opened");
     this.#elements.menu.classList.add("active");
 
+    this.#elements.toggleMenuBtn.setAttribute(
+      "aria-expanded",
+      "true"
+    );
+
     fadeIn(this.#elements.menu);
 
-    const htmlWidthBeforeOverflowHidden = this.#elements.html.innerWidth;
+    const htmlWidthBeforeOverflowHidden =
+      this.#elements.html.innerWidth;
+
     this.#elements.html.style.overflow = "hidden";
-    const htmlWidthAfterOverflowHidden = this.#elements.html.innerWidth;
+
+    const htmlWidthAfterOverflowHidden =
+      this.#elements.html.innerWidth;
+
     this.#elements.html.style.marginRight =
-      htmlWidthBeforeOverflowHidden - htmlWidthAfterOverflowHidden + "px";
+      htmlWidthBeforeOverflowHidden -
+      htmlWidthAfterOverflowHidden +
+      "px";
+
+    setTimeout(() => {
+      const firstFocusable =
+        this.#elements.menu.querySelector(
+          'a, button, input, [tabindex="0"]'
+        );
+
+      firstFocusable?.focus();
+    }, 100);
   };
 
   #closeMenu = () => {
@@ -115,22 +136,35 @@ class FullScreenMenu {
     this.#elements.logo?.classList.remove("opened");
     this.#elements.menu.classList.remove("active");
 
+    this.#elements.toggleMenuBtn.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
     fadeOut(this.#elements.menu);
 
     this.#elements.html.style.overflow = "";
     this.#elements.html.style.marginRight = "";
 
     document
-      .querySelectorAll("#full-screen-menu #site-navigation ul > li.dropdown")
+      .querySelectorAll(
+        "#full-screen-menu #site-navigation ul > li.dropdown"
+      )
       .forEach((menuItem) => {
         menuItem.classList.remove("open-sub");
       });
 
     document
-      .querySelectorAll("#full-screen-menu #site-navigation ul.sub-menu")
+      .querySelectorAll(
+        "#full-screen-menu #site-navigation ul.sub-menu"
+      )
       .forEach((subMenu) => {
         slideUp(subMenu, 250);
       });
+
+    setTimeout(() => {
+      this.#elements.toggleMenuBtn?.focus();
+    }, 100);
   };
 
   /**
@@ -141,47 +175,95 @@ class FullScreenMenu {
       return;
     }
 
-    const tabKey = event.keyCode === 9;
+    const tabKey = event.key === "Tab" || event.keyCode === 9;
     const shiftKey = event.shiftKey;
-    const escKey = event.keyCode === 27;
-    const enterKey = event.keyCode === 13;
+    const escKey = event.key === "Escape" || event.keyCode === 27;
+    const enterKey = event.key === "Enter" || event.keyCode === 13;
 
     const closeIcon = this.#elements.toggleMenuBtn;
 
-    const navElements = this.#elements.menu
-      .querySelector("nav")
-      .querySelectorAll("a, span.nav-arrow, input, button");
+    const focusableInside = [
+      ...this.#elements.menu.querySelectorAll(
+        'a, button, input, [tabindex="0"]'
+      ),
+    ].filter(
+      (element) =>
+        element.offsetWidth > 0 ||
+        element.offsetHeight > 0 ||
+        element.getClientRects().length
+    );
 
-    const navFirstElement = navElements[0];
-    const navLastElement = navElements[navElements.length - 1];
+    if (!focusableInside.length) {
+      return;
+    }
+
+    const firstMenuElement = focusableInside[0];
+    const lastMenuElement =
+      focusableInside[focusableInside.length - 1];
+
+    if (!closeIcon) {
+      return;
+    }
 
     closeIcon.style.outline = "";
 
+    // ESC closes menu.
     if (escKey) {
       event.preventDefault();
       this.#closeMenu();
+      return;
     }
 
-    if (enterKey && document.activeElement.classList.contains("nav-arrow")) {
+    // ENTER activates submenu toggle.
+    if (
+      enterKey &&
+      document.activeElement?.classList.contains("nav-arrow")
+    ) {
       event.preventDefault();
       document.activeElement.click();
+      return;
     }
 
-    if (!shiftKey && tabKey && navLastElement === document.activeElement) {
+    if (!tabKey) {
+      return;
+    }
+
+    // Shift + Tab from trigger -> last menu item.
+    if (
+      shiftKey &&
+      document.activeElement === closeIcon
+    ) {
       event.preventDefault();
-      closeIcon.style.outline = "1px dashed rgba(255, 255, 255, 0.6)";
+      lastMenuElement.focus();
+      return;
+    }
+
+    // Tab from last menu item -> trigger.
+    if (
+      !shiftKey &&
+      document.activeElement === lastMenuElement
+    ) {
+      event.preventDefault();
+
+      closeIcon.style.outline =
+        "1px dashed rgba(255, 255, 255, 0.6)";
+
       closeIcon.focus();
+      return;
     }
 
-    if (shiftKey && tabKey && navFirstElement === document.activeElement) {
+    // Shift + Tab from first menu item -> trigger.
+    if (
+      shiftKey &&
+      document.activeElement === firstMenuElement
+    ) {
       event.preventDefault();
-      closeIcon.style.outline = "1px dashed rgba(255, 255, 255, 0.6)";
+
+      closeIcon.style.outline =
+        "1px dashed rgba(255, 255, 255, 0.6)";
+
       closeIcon.focus();
-    }
-
-    // If there are no elements in the menu, don't move the focus
-    if (tabKey && navFirstElement === navLastElement) {
-      event.preventDefault();
+      return;
     }
   };
 }

@@ -24,6 +24,46 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 		private $displayed = 0;
 
 		/**
+		 * Menu context.
+		 *
+		 * @var string
+		 */
+		private $context = 'default';
+
+		/**
+		 * Whether semantic submenu toggle buttons should be output.
+		 *
+		 * @var bool
+		 */
+		private $semantic_submenu_toggles = false;
+
+		/**
+		 * Submenu IDs indexed by depth.
+		 *
+		 * @var array
+		 */
+		private $submenu_ids = array();
+
+		/**
+		 * Constructor.
+		 *
+		 * @param array $args Walker args.
+		 */
+		public function __construct( $args = array() ) {
+			$args = wp_parse_args(
+				$args,
+				array(
+					'context'                  => 'default',
+					'semantic_submenu_toggles' => false,
+				)
+			);
+
+			$this->context                  = sanitize_html_class( $args['context'] );
+			$this->semantic_submenu_toggles = (bool) $args['semantic_submenu_toggles'];
+		}
+
+
+		/**
 		 * Starts the list before the elements are added.
 		 *
 		 * @since 3.0.0
@@ -37,14 +77,24 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 		public function start_lvl( &$output, $depth = 0, $args = null ) {
 			$indent = str_repeat( "\t", $depth );
 
+			$classes = array( 'sub-menu' );
+
 			// Megamenu columns
 			$col = ! empty( $this->megamenu_col ) ? ( 'col-' . $this->megamenu_col . '' ) : 'col-2';
 
 			if ( $depth === 0 && $this->megamenu != '' && 'full_screen' != oceanwp_header_style() && 'vertical' != oceanwp_header_style() ) {
-				$output .= "\n$indent<ul class=\"megamenu " . $col . " sub-menu\">\n";
-			} else {
-				$output .= "\n$indent<ul class=\"sub-menu\">\n";
+				$classes = array( 'megamenu', $col, 'sub-menu' );
 			}
+
+			$atts = array(
+				'class' => implode( ' ', $classes ),
+			);
+
+			if ( $this->semantic_submenu_toggles && ! empty( $this->submenu_ids[ $depth ] ) ) {
+				$atts['id'] = $this->submenu_ids[ $depth ];
+			}
+
+			$output .= "\n$indent<ul" . $this->build_html_atts( $atts ) . ">\n";
 		}
 
 		/**
@@ -114,6 +164,16 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 			 * @param int      $depth Depth of menu item. Used for padding.
 			 */
 			$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
+
+			$has_children = ! empty( $args->has_children );
+			$submenu_id   = '';
+
+			if ( $this->semantic_submenu_toggles && $has_children ) {
+				$submenu_id                   = 'oceanwp-sub-menu-' . absint( $item->ID );
+				$this->submenu_ids[ $depth ] = $submenu_id;
+				$classes[]                   = 'oceanwp-has-accessible-toggle';
+			}
+
 
 			/**
 			 * Filters the CSS class(es) applied to a menu item's list item element.
@@ -207,6 +267,13 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 			}
 
 			$item_output .= '</a>';
+
+			if ( $this->semantic_submenu_toggles && ! empty( $args->has_children ) ) {
+				$submenu_id = 'oceanwp-sub-menu-' . absint( $item->ID );
+
+				$item_output .= $this->get_submenu_toggle_button( $item, $submenu_id, $depth, $args );
+			}
+
 
 			if ( ( ! empty( $item->template ) || ! empty( $item->mega_template ) ) && $this->megamenu != '' && 'vertical' != oceanwp_header_style() ) {
 				ob_start();
@@ -387,24 +454,32 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 			$header_style         = oceanwp_header_style();
 			$full_screen_dropdown = '<span class="nav-arrow"></span>';
 
-			if ( isset( $args[0] ) && is_object( $args[0] ) ) {
-				$args[0]->has_children = ! empty( $children_elements[ $element->$id_field ] );
+			$has_children = ! empty( $children_elements[ $element->$id_field ] );
+
+			if ( ! empty( $args[0] ) ) {
+				$args[0]->has_children = $has_children;
 			}
 
-			// Down Arrows
-			if ( ! empty( $children_elements[ $element->$id_field ] ) && ( $depth == 0 )
-				|| ( isset( $element->category_post ) && $element->category_post !== '' ) && $element->object === 'category'
-				&& 'full_screen' != $header_style ) {
+			if (
+				$has_children && 0 === $depth
+				|| (
+					isset( $element->category_post )
+					&& $element->category_post !== ''
+					&& $element->object === 'category'
+					&& 'full_screen' !== $header_style
+				)
+			) {
 				$element->classes[] = 'dropdown';
-				if ( true == get_theme_mod( 'ocean_menu_arrow_down', true ) ) {
-					( 'full_screen' == $header_style ) ? $element->title .= '' . $full_screen_dropdown : $element->title .= oceanwp_icon( 'angle_down', false, 'nav-arrow' );
+
+				if ( ! $this->semantic_submenu_toggles && true == get_theme_mod( 'ocean_menu_arrow_down', true ) ) {
+					( 'full_screen' == $header_style ) ? $element->title .= $full_screen_dropdown : $element->title .= oceanwp_icon( 'angle_down', false, 'nav-arrow' );
 				}
 			}
 
-			// Right/Left Arrows
-			if ( ! empty( $children_elements[ $element->$id_field ] ) && ( $depth > 0 ) ) {
+			if ( $has_children && $depth > 0 ) {
 				$element->classes[] = 'dropdown';
-				if ( true == get_theme_mod( 'ocean_menu_arrow_side', true ) ) {
+
+				if ( ! $this->semantic_submenu_toggles && true == get_theme_mod( 'ocean_menu_arrow_side', true ) ) {
 					if ( is_rtl() ) {
 						( 'full_screen' == $header_style ) ? $element->title .= $full_screen_dropdown : $element->title .= oceanwp_icon( 'angle_left', false, 'nav-arrow' );
 					} else {
@@ -417,6 +492,116 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 			Walker_Nav_Menu::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
 
 		}
+
+		/**
+		 * Get submenu toggle button.
+		 *
+		 * @param WP_Post  $item       Menu item.
+		 * @param string   $submenu_id Submenu ID.
+		 * @param int      $depth      Menu depth.
+		 * @param stdClass $args       Menu args.
+		 *
+		 * @return string
+		 */
+		private function get_submenu_toggle_button( $item, $submenu_id, $depth, $args ) {
+			$label = sprintf(
+				/* translators: %s: menu item title. */
+				esc_html__( 'Toggle submenu: %s', 'oceanwp' ),
+				wp_strip_all_tags( $item->title )
+			);
+
+			$classes = array(
+				'dropdown-toggle',
+				'oceanwp-sub-menu-toggle',
+				'oceanwp-sub-menu-toggle-' . $this->context,
+			);
+
+			$classes = apply_filters(
+				'oceanwp_submenu_toggle_button_classes',
+				$classes,
+				$item,
+				$depth,
+				$args,
+				$this->context
+			);
+
+			$atts = array(
+				'type'          => 'button',
+				'class'         => implode( ' ', array_map( 'sanitize_html_class', $classes ) ),
+				'aria-expanded' => 'false',
+				'aria-controls' => $submenu_id,
+			);
+
+			$atts = apply_filters(
+				'oceanwp_submenu_toggle_button_atts',
+				$atts,
+				$item,
+				$submenu_id,
+				$depth,
+				$args,
+				$this->context
+			);
+
+			$output  = '<button' . $this->build_html_atts( $atts ) . '>';
+			$output .= '<span class="screen-reader-text">' . esc_html( $label ) . '</span>';
+			$output .= $this->get_submenu_toggle_icon( $depth );
+			$output .= '</button>';
+
+			return $output;
+		}
+
+		/**
+		 * Get submenu toggle icon.
+		 *
+		 * @param int $depth Menu depth.
+		 *
+		 * @return string
+		 */
+		private function get_submenu_toggle_icon( $depth ) {
+			$header_style = oceanwp_header_style();
+
+			if ( 'full_screen' === $this->context ) {
+				return '<span class="nav-arrow" aria-hidden="true"></span>';
+			}
+
+			if ( 0 === $depth ) {
+				return oceanwp_icon( 'angle_down', false, 'nav-arrow' );
+			}
+
+			if ( is_rtl() ) {
+				return oceanwp_icon( 'angle_left', false, 'nav-arrow' );
+			}
+
+			return oceanwp_icon( 'angle_right', false, 'nav-arrow' );
+		}
+
+		/**
+		 * Build escaped HTML attributes.
+		 *
+		 * @param array $atts Attributes.
+		 *
+		 * @return string
+		 */
+		private function build_html_atts( $atts ) {
+			$output = '';
+
+			foreach ( $atts as $attr => $value ) {
+				if ( is_bool( $value ) ) {
+					$value = $value ? $attr : '';
+				}
+
+				if ( '' === $value || false === $value || null === $value ) {
+					continue;
+				}
+
+				$value = 'href' === $attr ? esc_url( $value ) : esc_attr( $value );
+
+				$output .= ' ' . esc_attr( $attr ) . '="' . $value . '"';
+			}
+
+			return $output;
+		}
+
 
 	}
 }

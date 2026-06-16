@@ -1,5 +1,6 @@
 import { options } from "../../constants";
 import { slideDown, slideUp } from "../../lib/utils";
+import initAccessibleSubmenus from "../menu/accessible-submenus";
 
 class VerticalHeader {
   #elements = {
@@ -22,27 +23,39 @@ class VerticalHeader {
   #setElements = () => {
     this.#elements = {
       ...this.#elements,
-      toggleMenuBtn: document.querySelector("a.vertical-toggle"),
+      toggleMenuBtn: document.querySelector(".vertical-toggle"),
       body: document.body,
     };
   };
 
   #start = () => {
-    this.#elements.header
-      .querySelectorAll("li.menu-item-has-children:not(.btn) > a")
-      .forEach((menuLink) => {
-        menuLink.insertAdjacentHTML(
-          "beforeend",
-          '<span class="dropdown-toggle" tabindex="0"></span>'
-        );
+    if (options.semanticDesktopHeader) {
+      initAccessibleSubmenus({
+        root: this.#elements.header,
+        itemSelector: "li.menu-item-has-children:not(.btn)",
+        openClass: "active",
+        targetMode: options.verticalHeaderTarget === "link" ? "link" : "button",
+        duration: 250,
       });
 
-    this.#menuItemsPlusIcon =
-      options.verticalHeaderTarget == "link"
-        ? this.#elements.header.querySelectorAll(
-            "li.menu-item-has-children > a"
-          )
-        : this.#elements.header.querySelectorAll(".dropdown-toggle");
+      this.#menuItemsPlusIcon = [];
+    } else {
+      this.#elements.header
+        .querySelectorAll("li.menu-item-has-children:not(.btn) > a")
+        .forEach((menuLink) => {
+          menuLink.insertAdjacentHTML(
+            "beforeend",
+            '<span class="dropdown-toggle" tabindex="0"></span>'
+          );
+        });
+
+      this.#menuItemsPlusIcon =
+        options.verticalHeaderTarget == "link"
+          ? this.#elements.header.querySelectorAll(
+              "li.menu-item-has-children > a"
+            )
+          : this.#elements.header.querySelectorAll(".dropdown-toggle");
+    }
 
     new PerfectScrollbar(this.#elements.header, {
       wheelSpeed: 0.5,
@@ -52,10 +65,12 @@ class VerticalHeader {
   };
 
   #setupEventListeners = () => {
-    this.#menuItemsPlusIcon.forEach((menuItemPlusIcon) => {
-      menuItemPlusIcon.addEventListener("click", this.#onMenuItemPlusIconClick);
-      menuItemPlusIcon.addEventListener("tap", this.#onMenuItemPlusIconClick);
-    });
+    if (!options.semanticDesktopHeader) {
+      this.#menuItemsPlusIcon.forEach((menuItemPlusIcon) => {
+        menuItemPlusIcon.addEventListener("click", this.#onMenuItemPlusIconClick);
+        menuItemPlusIcon.addEventListener("tap", this.#onMenuItemPlusIconClick);
+      });
+    }
 
     this.#elements.toggleMenuBtn.addEventListener(
       "click",
@@ -95,76 +110,155 @@ class VerticalHeader {
   #onToggleMenuBtnClick = (event) => {
     event.preventDefault();
 
-    if (!this.#elements.body.classList.contains("vh-opened")) {
+    const isOpening =
+      !this.#elements.body.classList.contains("vh-opened");
+
+    if (isOpening) {
       this.#elements.body.classList.add("vh-opened");
+
       this.#elements.toggleMenuBtn
         .querySelector(".hamburger")
         .classList.add("is-active");
+
+      this.#elements.toggleMenuBtn.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+      setTimeout(() => {
+        const firstFocusable =
+          this.#elements.header?.querySelector(
+            'a, button, input, [tabindex="0"]'
+          );
+
+        firstFocusable?.focus();
+      }, 50);
     } else {
       this.#elements.body.classList.remove("vh-opened");
+
       this.#elements.toggleMenuBtn
         .querySelector(".hamburger")
         .classList.remove("is-active");
-    }
 
-    this.#elements.toggleMenuBtn.focus();
+      this.#elements.toggleMenuBtn.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      this.#elements.toggleMenuBtn.focus();
+    }
   };
 
   /**
    * Trap keyboard navigation
    */
   #onDocumentKeydown = (event) => {
-    const tabKey = event.keyCode === 9;
+    const tabKey =
+      event.key === "Tab" || event.keyCode === 9;
+
     const shiftKey = event.shiftKey;
-    const escKey = event.keyCode === 27;
-    const enterKey = event.keyCode === 13;
 
-    const navElements = this.#elements.header?.querySelectorAll(
-      "a, span.dropdown-toggle, input, button"
+    const escKey =
+      event.key === "Escape" || event.keyCode === 27;
+
+    const enterKey =
+      event.key === "Enter" || event.keyCode === 13;
+
+    const toggleButton = this.#elements.toggleMenuBtn;
+
+    const focusableInside = [
+      ...this.#elements.header.querySelectorAll(
+        "a, button, [role='button'], input"
+      ),
+    ].filter(
+      (element) =>
+        element.offsetWidth > 0 ||
+        element.offsetHeight > 0 ||
+        element.getClientRects().length
     );
-    const navFirstElement = navElements ? navElements[0] : "";
-    const navLastElement = navElements
-      ? navElements[navElements.length - 1]
-      : "";
 
-    navLastElement.style.outline = "";
+    if (!focusableInside.length || !toggleButton) {
+      return;
+    }
 
-    if (this.#elements.body.classList.contains("vertical-header-style")) {
-      if (!this.#elements.body.classList.contains("vh-closed")) {
-        if (
-          enterKey &&
-          document.activeElement.classList.contains("dropdown-toggle")
-        ) {
-          document.activeElement.click();
-        }
-      }
+    const firstMenuElement = focusableInside[0];
+    const lastMenuElement =
+      focusableInside[focusableInside.length - 1];
 
-      if (!this.#elements.body.classList.contains("vh-opened")) {
-        return;
-      }
+    toggleButton.style.outline = "";
+
+    if (
+      enterKey &&
+      document.activeElement?.classList.contains(
+        "dropdown-toggle"
+      )
+    ) {
+      event.preventDefault();
+      document.activeElement.click();
+      return;
+    }
+
+    if (
+      !this.#elements.body.classList.contains("vh-opened")
+    ) {
+      return;
     }
 
     if (escKey) {
       event.preventDefault();
       this.#onToggleMenuBtnClick(event);
+      return;
     }
 
+    if (!tabKey) {
+      return;
+    }
+
+    // Shift+Tab from toggle button → last menu item
     if (
-      enterKey &&
-      document.activeElement.classList.contains("dropdown-toggle") &&
-      this.#elements.body.classList.contains("vh-closed")
+      shiftKey &&
+      document.activeElement === toggleButton
     ) {
-      document.activeElement.click();
+      event.preventDefault();
+      lastMenuElement.focus();
+      return;
     }
 
-    if (!shiftKey && tabKey && navLastElement === document.activeElement) {
+    // Tab from toggle button → first menu item
+    if (
+      !shiftKey &&
+      document.activeElement === toggleButton
+    ) {
       event.preventDefault();
-      navFirstElement.focus();
+      firstMenuElement.focus();
+      return;
     }
 
-    // If there are no elements in the menu, don't move the focus
-    if (tabKey && navFirstElement === navLastElement) {
+    // Tab from last menu item → toggle button
+    if (
+      !shiftKey &&
+      document.activeElement === lastMenuElement
+    ) {
       event.preventDefault();
+
+      toggleButton.style.outline =
+        "1px dashed rgba(255, 255, 255, 0.6)";
+
+      toggleButton.focus();
+      return;
+    }
+
+    // Shift+Tab from first menu item → toggle button
+    if (
+      shiftKey &&
+      document.activeElement === firstMenuElement
+    ) {
+      event.preventDefault();
+
+      toggleButton.style.outline =
+        "1px dashed rgba(255, 255, 255, 0.6)";
+
+      toggleButton.focus();
     }
   };
 }

@@ -84,6 +84,8 @@ final class OCEANWP_Theme_Class {
 			// Load his file in last.
 			add_action( 'wp_enqueue_scripts', array( 'OCEANWP_Theme_Class', 'custom_style_css' ), 9999 );
 
+			// add_action( 'wp_enqueue_scripts', array( 'OCEANWP_Theme_Class', 'custom_a11y_style_css' ), 9999 );
+
 			// Remove Customizer CSS script from Front-end.
 			add_action( 'init', array( 'OCEANWP_Theme_Class', 'remove_customizer_custom_css' ) );
 
@@ -527,6 +529,10 @@ final class OCEANWP_Theme_Class {
 			wp_enqueue_style( 'oceanwp-spin' );
 			wp_enqueue_style( 'ow-perfect-scrollbar' );
 		}
+
+		if ( true === get_theme_mod( 'ocean_accessibility_mode', ocean_accessibility_get_default_value() ) ) {
+			wp_enqueue_style( 'oceanwp-a11y-style', $dir . 'a11y.min.css', false, $theme_version );
+		}
 	}
 
 	/**
@@ -706,15 +712,17 @@ final class OCEANWP_Theme_Class {
 	public static function localize_array() {
 
 		// Create array.
+		$sidr_target   = oceanwp_mobile_menu_dropdown_target();
+		$mobile_target = oceanwp_mobile_menu_dropdown_target();
 		$sidr_side     = get_theme_mod( 'ocean_mobile_menu_sidr_direction', 'left' );
 		$sidr_side     = $sidr_side ? $sidr_side : 'left';
-		$sidr_target   = get_theme_mod( 'ocean_mobile_menu_sidr_dropdown_target', 'link' );
-		$sidr_target   = $sidr_target ? $sidr_target : 'link';
 		$vh_target     = get_theme_mod( 'ocean_vertical_header_dropdown_target', 'link' );
 		$vh_target     = $vh_target ? $vh_target : 'link';
 		$scroll_offset = get_theme_mod( 'ocean_scroll_effect_offset_value' );
 		$scroll_offset = $scroll_offset ? $scroll_offset : 0;
-		$array       = array(
+
+		// Localize data
+		$array = array(
 			'nonce'                 => wp_create_nonce( 'oceanwp' ),
 			'isRTL'                 => is_rtl(),
 			'menuSearchStyle'       => oceanwp_menu_search_style(),
@@ -724,6 +732,9 @@ final class OCEANWP_Theme_Class {
 			'sidrSide'              => $sidr_side,
 			'sidrDropdownTarget'    => $sidr_target,
 			'verticalHeaderTarget'  => $vh_target,
+			'mobileDropdownTarget'  => $mobile_target,
+			'semanticMobileHeader'  => oceanwp_is_semantic_mobile_header_enabled(),
+			'semanticDesktopHeader' => oceanwp_is_semantic_desktop_header_enabled(),
 			'customScrollOffset'    => $scroll_offset,
 			'customSelects'         => '.woocommerce-ordering .orderby, #dropdown_product_cat, .widget_categories select, .widget_archive select, .single-product .variations_form .variations select',
 			'loadMoreLoadingText'   => esc_html__('Loading...', 'oceanwp'),

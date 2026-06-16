@@ -39,3 +39,6 @@ if ( OCEANWP_LIFTERLMS_ACTIVE ) {
 if ( OCEANWP_LEARNDASH_ACTIVE ) {
 	require OCEANWP_INC_DIR . 'customizer/css-output/learndash.php';
 }
+
+// If Accessibility CSS is activated.
+require OCEANWP_INC_DIR . 'customizer/css-output/a11y.php';
