@@ -78,7 +78,7 @@ $args = array(
 
 ?>
 
-<section id="comments" class="<?php echo esc_attr( $classes ); ?>">
+<section id="comments" class="<?php echo esc_attr( $classes ); ?>" aria-label="<?php echo esc_attr_x( 'Comments', 'Aria label for the comments section', 'oceanwp' ); ?>">
 
 	<?php
 	// Display comment form if position set to before the comment list.
