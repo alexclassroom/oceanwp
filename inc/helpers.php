@@ -27,7 +27,6 @@
  [ General ]
 /*-------------------------------------------------------------------------------*/
 
-
 if ( ! function_exists( 'oceanwp_html_classes' ) ) {
 
 	/**
@@ -971,6 +970,7 @@ if ( ! function_exists( 'oceanwp_top_bar_style' ) ) {
 		return apply_filters( 'ocean_top_bar_style', $style );
 	}
 }
+
 /**
  * Topbar Content classes
  *
@@ -5004,49 +5004,49 @@ function owp_parse_attr( $context, $attributes = array(), $args = array() ) {
  */
 function oceanwp_mobile_search_icon() {
 
-    $class        = '';
-    $search_style = oceanwp_mobile_menu_search_style();
-    $search_style = $search_style ? $search_style : 'disabled';
-    $header_style = oceanwp_header_style();
+	$class        = '';
+	$search_style = oceanwp_mobile_menu_search_style();
+	$search_style = $search_style ? $search_style : 'disabled';
+	$header_style = oceanwp_header_style();
 
-    if ( 'disabled' === $search_style || 'vertical' === $header_style ) {
-        return;
-    }
+	if ( 'disabled' === $search_style || 'vertical' === $header_style ) {
+		return;
+	}
 
-    // Get correct search icon class.
-    if ( 'drop_down' == $search_style ) {
-        $class = 'dropdown';
-    } elseif ( 'overlay' == $search_style ) {
-        $class = 'overlay';
-    } else {
-        $class = '';
-    }
+	// Get correct search icon class.
+	if ( 'drop_down' == $search_style ) {
+		$class = 'dropdown';
+	} elseif ( 'overlay' == $search_style ) {
+		$class = 'overlay';
+	} else {
+		$class = '';
+	}
 
-    // SEO link txt.
-    $anchorlink_text = esc_html( oceanwp_theme_strings( 'owp-string-mobile-search-anchor', false ) );
+	// SEO link txt.
+	$anchorlink_text = esc_html( oceanwp_theme_strings( 'owp-string-mobile-search-anchor', false ) );
 
-    // New accessibility settings.
-    $a11y_mode_tags = get_theme_mod( 'ocean_accessibility_header_search_tags', false );
-    $aria_label     = oceanwp_theme_strings( 'owp-string-mobile-search', false );
-    $target_id      = 'icon-searchform-' . $class;
+	// New accessibility settings.
+	$a11y_mode_tags = get_theme_mod( 'ocean_accessibility_header_search_tags', false );
+	$aria_label     = oceanwp_theme_strings( 'owp-string-mobile-search', false );
+	$target_id      = 'icon-searchform-' . $class;
 
-    // Build operational ARIA attributes.
-    $aria_attrs = sprintf( 'aria-label="%s" aria-expanded="false" aria-controls="%s"', esc_attr( $aria_label ), esc_attr( $target_id ) );
+	// Build operational ARIA attributes.
+	$aria_attrs = sprintf( 'aria-label="%s" aria-expanded="false" aria-controls="%s"', esc_attr( $aria_label ), esc_attr( $target_id ) );
 
-    if ( $a11y_mode_tags ) {
-        $tag   = 'button';
-        $attrs = 'type="button" class="search-icon-' . esc_attr( $class ) . '" ' . $aria_attrs;
-    } else {
-        $tag   = 'a';
-        $attrs = sprintf( 'href="%s" class="search-icon-%s" %s', esc_url( ocean_get_site_name_anchors( $anchorlink_text ) ), esc_attr( $class ), $aria_attrs );
-    }
-    ?>
+	if ( $a11y_mode_tags ) {
+		$tag   = 'button';
+		$attrs = 'type="button" class="search-icon-' . esc_attr( $class ) . '" ' . $aria_attrs;
+	} else {
+		$tag   = 'a';
+		$attrs = sprintf( 'href="%s" class="search-icon-%s" %s', esc_url( ocean_get_site_name_anchors( $anchorlink_text ) ), esc_attr( $class ), $aria_attrs );
+	}
+	?>
 
-    <<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php echo $attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-        <?php oceanwp_icon( 'search' ); ?>
-    </<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?> <?php echo $attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?>>
+		<?php oceanwp_icon( 'search' ); ?>
+	</<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?>>
 
-    <?php
+	<?php
 }
 
 /**
@@ -5056,149 +5056,149 @@ function oceanwp_mobile_search_icon() {
  */
 function oceanwp_mobile_search_form_html() {
 
-    $class        = '';
-    $search_style = oceanwp_mobile_menu_search_style();
-    $search_style = $search_style ? $search_style : 'disabled';
-    $header_style = oceanwp_header_style();
-    $post_type    = get_theme_mod( 'ocean_menu_search_source', 'any' );
+	$class        = '';
+	$search_style = oceanwp_mobile_menu_search_style();
+	$search_style = $search_style ? $search_style : 'disabled';
+	$header_style = oceanwp_header_style();
+	$post_type    = get_theme_mod( 'ocean_menu_search_source', 'any' );
 
-    // Assign mobile search form unique ID.
-    $ocean_msf_id = oceanwp_unique_id( 'ocean-mobile-search-' );
+	// Assign mobile search form unique ID.
+	$ocean_msf_id = oceanwp_unique_id( 'ocean-mobile-search-' );
 
-    if ( 'disabled' === $search_style || 'vertical' === $header_style ) {
-        return;
-    }
+	if ( 'disabled' === $search_style || 'vertical' === $header_style ) {
+		return;
+	}
 
-    // Get correct search icon class.
-    if ( 'drop_down' == $search_style ) {
-        $class = 'dropdown';
-    } elseif ( 'header_replace' == $search_style ) {
-        $class = 'overlay';
-    } elseif ( 'overlay' == $search_style ) {
-        $class = 'overlay';
-    } else {
-        $class = '';
-    }
+	// Get correct search icon class.
+	if ( 'drop_down' == $search_style ) {
+		$class = 'dropdown';
+	} elseif ( 'header_replace' == $search_style ) {
+		$class = 'overlay';
+	} elseif ( 'overlay' == $search_style ) {
+		$class = 'overlay';
+	} else {
+		$class = '';
+	}
 
-    // SEO link txt.
-    $anchorlink_text = esc_html( oceanwp_theme_strings( 'owp-string-mh-search-close-anchor', false ) );
+	// SEO link txt.
+	$anchorlink_text = esc_html( oceanwp_theme_strings( 'owp-string-mh-search-close-anchor', false ) );
 
-    // New accessibility settings.
-    $a11y_mode_tags    = get_theme_mod( 'ocean_accessibility_header_search_tags', false );
-    $display_label     = get_theme_mod( 'ocean_display_header_search_form_label', false );
-    $custom_label_text = get_theme_mod( 'ocean_custom_header_search_form_label' );
+	// New accessibility settings.
+	$a11y_mode_tags    = get_theme_mod( 'ocean_accessibility_header_search_tags', false );
+	$display_label     = get_theme_mod( 'ocean_display_header_search_form_label', false );
+	$custom_label_text = get_theme_mod( 'ocean_custom_header_search_form_label' );
 
-    // Aria labels, screen reader & descriptions.
-    $form_aria_label  = oceanwp_theme_strings( 'owp-string-search-form-label', false );
-    $input_aria_label = oceanwp_theme_strings( 'owp-string-search-field', false );
-    $form_close_scrd  = oceanwp_theme_strings( 'owp-string-esc-close-notice', false );
-    $close_form_label = oceanwp_theme_strings( 'owp-string-close-search-form', false );
-    $form_placeholder = oceanwp_theme_strings( 'owp-string-search-text', false );
-    $ov_placeholder   = oceanwp_theme_strings( 'owp-string-search-overlay-search-text', false );
+	// Aria labels, screen reader & descriptions.
+	$form_aria_label  = oceanwp_theme_strings( 'owp-string-search-form-label', false );
+	$input_aria_label = oceanwp_theme_strings( 'owp-string-search-field', false );
+	$form_close_scrd  = oceanwp_theme_strings( 'owp-string-esc-close-notice', false );
+	$close_form_label = oceanwp_theme_strings( 'owp-string-close-search-form', false );
+	$form_placeholder = oceanwp_theme_strings( 'owp-string-search-text', false );
+	$ov_placeholder   = oceanwp_theme_strings( 'owp-string-search-overlay-search-text', false );
 
-    // Fallback text selection.
-    $label_text = ! empty( $custom_label_text ) ? $custom_label_text : $form_aria_label;
+	// Fallback text selection.
+	$label_text = ! empty( $custom_label_text ) ? $custom_label_text : $form_aria_label;
 
-    // Search form conditional aria attributes construction.
-    $form_aria_label_attr       = '';
-    $form_input_aria_label_attr = '';
+	// Search form conditional aria attributes construction.
+	$form_aria_label_attr       = '';
+	$form_input_aria_label_attr = '';
 
-    if ( ! $display_label ) {
-        $form_aria_label_attr       = sprintf( 'aria-label="%s"', esc_attr( $label_text ) );
-        $form_input_aria_label_attr = sprintf( 'aria-label="%s"', esc_attr( $input_aria_label ) );
-    }
+	if ( ! $display_label ) {
+		$form_aria_label_attr       = sprintf( 'aria-label="%s"', esc_attr( $label_text ) );
+		$form_input_aria_label_attr = sprintf( 'aria-label="%s"', esc_attr( $input_aria_label ) );
+	}
 
-    // Setup the ESC description element identification key.
-    $desc_id = $ocean_msf_id . '-desc';
+	// Setup the ESC description element identification key.
+	$desc_id = $ocean_msf_id . '-desc';
 
-    // HTML elements for the overlay close button.
-    if ( $a11y_mode_tags ) {
-        $close_tag   = 'button';
-        $close_attrs = 'type="button" class="button-close search-overlay-close"';
-    } else {
-        $close_tag   = 'a';
-        $close_attrs = sprintf( 'href="%s" class="search-overlay-close"', esc_url( ocean_get_site_name_anchors( $anchorlink_text ) ) );
-    }
+	// HTML elements for the overlay close button.
+	if ( $a11y_mode_tags ) {
+		$close_tag   = 'button';
+		$close_attrs = 'type="button" class="button-close search-overlay-close"';
+	} else {
+		$close_tag   = 'a';
+		$close_attrs = sprintf( 'href="%s" class="search-overlay-close"', esc_url( ocean_get_site_name_anchors( $anchorlink_text ) ) );
+	}
 
-    if ( 'drop_down' === $search_style ) {
-        $mobile_search_content = '';
-        ob_start();
-        ?>
-        <form <?php echo $form_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> role="search" method="get" class="mobile-searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-            
-            <?php if ( $display_label ) : ?>
-                <label for="<?php echo esc_attr( $ocean_msf_id ); ?>" class="mobile-dropdown-search-visible-label">
-                    <?php echo esc_html( $label_text ); ?>
-                </label>
-            <?php else : ?>
-                <span class="screen-reader-text"><?php echo esc_html( $label_text ); ?></span>
-            <?php endif; ?>
+	if ( 'drop_down' === $search_style ) {
+		$mobile_search_content = '';
+		ob_start();
+		?>
+		<form <?php echo $form_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?> role="search" method="get" class="mobile-searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+			
+			<?php if ( $display_label ) : ?>
+				<label for="<?php echo esc_attr( $ocean_msf_id ); ?>" class="mobile-dropdown-search-visible-label">
+					<?php echo esc_html( $label_text ); ?>
+				</label>
+			<?php else : ?>
+				<span class="screen-reader-text"><?php echo esc_html( $label_text ); ?></span>
+			<?php endif; ?>
 
-            <input type="text" class="field" id="<?php echo esc_attr( $ocean_msf_id ); ?>" name="s" placeholder="<?php echo esc_attr( $form_placeholder ); ?>" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-describedby="<?php echo esc_attr( $desc_id ); ?>">
-            
-            <?php if ( 'any' !== $post_type ) { ?>
-                <input type="hidden" name="post_type" value="<?php echo esc_attr( $post_type ); ?>">
-            <?php } ?>
+			<input type="text" class="field" id="<?php echo esc_attr( $ocean_msf_id ); ?>" name="s" placeholder="<?php echo esc_attr( $form_placeholder ); ?>" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-describedby="<?php echo esc_attr( $desc_id ); ?>">
+			
+			<?php if ( 'any' !== $post_type ) { ?>
+				<input type="hidden" name="post_type" value="<?php echo esc_attr( $post_type ); ?>">
+			<?php } ?>
 
-            <span id="<?php echo esc_attr( $desc_id ); ?>" class="screen-reader-text">
-                <?php echo esc_html( $form_close_scrd ); ?>
-            </span>
-        </form>
-        <?php
-        $mobile_search_content .= ob_get_clean();
-    } elseif ( 'overlay' === $search_style ) {
-        $mobile_search_content = '';
-        ob_start();
-        ?>
-        <div class="container clr">
-            <form id="mhso-search" <?php echo $form_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> role="search" method="get" class="mobile-searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-                
-                <?php if ( ! $display_label ) : ?>
-                    <<?php echo $close_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php echo $close_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-label="<?php echo esc_attr( $close_form_label ); ?>">
-                        <span></span>
-                    </<?php echo $close_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-                <?php endif; ?>
+			<span id="<?php echo esc_attr( $desc_id ); ?>" class="screen-reader-text">
+				<?php echo esc_html( $form_close_scrd ); ?>
+			</span>
+		</form>
+		<?php
+		$mobile_search_content .= ob_get_clean();
+	} elseif ( 'overlay' === $search_style ) {
+		$mobile_search_content = '';
+		ob_start();
+		?>
+		<div class="container clr">
+			<form id="mhso-search" <?php echo $form_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?> role="search" method="get" class="mobile-searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+				
+				<?php if ( ! $display_label ) : ?>
+					<<?php echo $close_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?> <?php echo $close_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?> aria-label="<?php echo esc_attr( $close_form_label ); ?>">
+						<span></span>
+					</<?php echo $close_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?>>
+				<?php endif; ?>
 
-                <?php if ( $display_label ) : ?>
-                    <label for="<?php echo esc_attr( $ocean_msf_id ); ?>" class="mobile-overlay-search-visible-label">
-                        <?php echo esc_html( $label_text ); ?>
-                    </label>
-                <?php else : ?>
-                    <span class="screen-reader-text"><?php echo esc_html( $label_text ); ?></span>
-                <?php endif; ?>
+				<?php if ( $display_label ) : ?>
+					<label for="<?php echo esc_attr( $ocean_msf_id ); ?>" class="mobile-overlay-search-visible-label">
+						<?php echo esc_html( $label_text ); ?>
+					</label>
+				<?php else : ?>
+					<span class="screen-reader-text"><?php echo esc_html( $label_text ); ?></span>
+				<?php endif; ?>
 
-                <span class="search-text">
-                    <?php echo esc_html( $ov_placeholder ); ?>
-                    <span aria-hidden="true" focusable="false"><i></i><i></i><i></i></span>
-                </span>
+				<span class="search-text">
+					<?php echo esc_html( $ov_placeholder ); ?>
+					<span aria-hidden="true" focusable="false"><i></i><i></i><i></i></span>
+				</span>
 
-                <input class="mobile-search-overlay-input" id="<?php echo esc_attr( $ocean_msf_id ); ?>" type="search" name="s" autocomplete="off" value="" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-describedby="<?php echo esc_attr( $desc_id ); ?>">
-                
-                <?php if ( 'any' !== $post_type ) { ?>
-                    <input type="hidden" name="post_type" value="<?php echo esc_attr( $post_type ); ?>">
-                <?php } ?>
+				<input class="mobile-search-overlay-input" id="<?php echo esc_attr( $ocean_msf_id ); ?>" type="search" name="s" autocomplete="off" value="" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?> aria-describedby="<?php echo esc_attr( $desc_id ); ?>">
+				
+				<?php if ( 'any' !== $post_type ) { ?>
+					<input type="hidden" name="post_type" value="<?php echo esc_attr( $post_type ); ?>">
+				<?php } ?>
 
-                <?php if ( $display_label ) : ?>
-                    <<?php echo $close_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php echo $close_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-label="<?php echo esc_attr( $close_form_label ); ?>">
-                        <span></span>
-                    </<?php echo $close_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-                <?php endif; ?>
+				<?php if ( $display_label ) : ?>
+					<<?php echo $close_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?> <?php echo $close_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?> aria-label="<?php echo esc_attr( $close_form_label ); ?>">
+						<span></span>
+					</<?php echo $close_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?>>
+				<?php endif; ?>
 
-                <span id="<?php echo esc_attr( $desc_id ); ?>" class="screen-reader-text">
-                    <?php echo esc_html( $form_close_scrd ); ?>
-                </span>
-            </form>
-        </div>
-        <?php
-        $mobile_search_content .= ob_get_clean();
-    }
-    ?>
+				<span id="<?php echo esc_attr( $desc_id ); ?>" class="screen-reader-text">
+					<?php echo esc_html( $form_close_scrd ); ?>
+				</span>
+			</form>
+		</div>
+		<?php
+		$mobile_search_content .= ob_get_clean();
+	}
+	?>
 
-    <div id="icon-searchform-<?php echo esc_attr( $class ); ?>" class="search-style-<?php echo esc_attr( $class ); ?>">
-        <?php echo $mobile_search_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-    </div>
+	<div id="icon-searchform-<?php echo esc_attr( $class ); ?>" class="search-style-<?php echo esc_attr( $class ); ?>">
+		<?php echo $mobile_search_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+	</div>
 
-    <?php
+	<?php
 }
 
 /**
@@ -5428,29 +5428,6 @@ if ( ! function_exists( 'ocean_wpml_filter_oceanwp_library_shortcode' ) ) {
 	add_filter( 'shortcode_atts_oceanwp_library', 'ocean_wpml_filter_oceanwp_library_shortcode', 10, 3 );
 }
 
-// if ( ! function_exists( 'owp_shop_result_count_cap_max_default') ) {
-// 	/**
-// 	 * Get Shop Result Count Max Cap Default
-// 	 *
-// 	 * @return int
-// 	 * @since 4.1.5
-// 	 */
-// 	function owp_shop_result_count_cap_max_default() {
-
-// 		$installed_version = get_option( 'oceanwp_theme_installed_version' );
-
-// 		if ( empty( $installed_version ) || ! is_string( $installed_version ) ) {
-// 			return apply_filters( 'oceanwp_shop_result_count_max_cap_default', 100 );
-// 		}
-
-// 		if ( version_compare( $installed_version, '4.1.5', '<' ) ) {
-// 			return apply_filters( 'oceanwp_shop_result_count_max_cap_default', 100 );
-// 		}
-
-// 		return apply_filters( 'oceanwp_shop_result_count_max_cap_default', 36 );
-// 	}
-// }
-
 if ( ! function_exists( 'oceanwp_is_existing_installation' ) ) {
 	/**
 	 * Check if installation existed before a given version.
@@ -5515,19 +5492,18 @@ if ( ! function_exists( 'ocean_accessibility_get_default_value' ) ) {
 	}
 }
 
-
 /**
  * Whether semantic mobile menu markup is enabled.
  *
  * @return bool
  */
 function oceanwp_is_semantic_mobile_header_enabled() {
-    $enabled = get_theme_mod( 'ocean_accessibility_mobile_header_tags', false );
+	$enabled = get_theme_mod( 'ocean_accessibility_mobile_header_tags', false );
 
-    return (bool) apply_filters(
-        'oceanwp_is_semantic_mobile_header_enabled',
-        $enabled
-    );
+	return (bool) apply_filters(
+		'oceanwp_is_semantic_mobile_header_enabled',
+		$enabled
+	);
 }
 
 /**
@@ -5536,12 +5512,12 @@ function oceanwp_is_semantic_mobile_header_enabled() {
  * @return bool
  */
 function oceanwp_is_semantic_desktop_header_enabled() {
-    $enabled = get_theme_mod( 'ocean_accessibility_main_header_tags', false );
+	$enabled = get_theme_mod( 'ocean_accessibility_main_header_tags', false );
 
-    return (bool) apply_filters(
-        'oceanwp_is_semantic_desktop_header_enabled',
-        $enabled
-    );
+	return (bool) apply_filters(
+		'oceanwp_is_semantic_desktop_header_enabled',
+		$enabled
+	);
 }
 
 /**
@@ -5552,10 +5528,10 @@ function oceanwp_is_semantic_desktop_header_enabled() {
  * @return string
  */
 function oceanwp_mobile_menu_dropdown_target() {
-    $target = get_theme_mod( 'ocean_mobile_menu_sidr_dropdown_target', 'link' );
-    $target = $target ? $target : 'link';
+	$target = get_theme_mod( 'ocean_mobile_menu_sidr_dropdown_target', 'link' );
+	$target = $target ? $target : 'link';
 
-    return apply_filters( 'oceanwp_mobile_menu_dropdown_target', $target );
+	return apply_filters( 'oceanwp_mobile_menu_dropdown_target', $target );
 }
 
 /**
@@ -5566,22 +5542,22 @@ function oceanwp_mobile_menu_dropdown_target() {
  * @return OceanWP_Custom_Nav_Walker
  */
 function oceanwp_get_nav_walker( $context = 'default' ) {
-    $semantic = false;
+	$semantic = false;
 
-    if ( in_array( $context, array( 'mobile-dropdown', 'mobile-fullscreen' ), true ) ) {
-        $semantic = oceanwp_is_semantic_mobile_header_enabled();
-    }
+	if ( in_array( $context, array( 'mobile-dropdown', 'mobile-fullscreen' ), true ) ) {
+		$semantic = oceanwp_is_semantic_mobile_header_enabled();
+	}
 
-    if ( 'vertical-header' === $context ) {
-        $semantic = oceanwp_is_semantic_desktop_header_enabled();
-    }
+	if ( 'vertical-header' === $context ) {
+		$semantic = oceanwp_is_semantic_desktop_header_enabled();
+	}
 
-    return new OceanWP_Custom_Nav_Walker(
-        array(
-            'context'                  => $context,
-            'semantic_submenu_toggles' => $semantic,
-        )
-    );
+	return new OceanWP_Custom_Nav_Walker(
+		array(
+			'context'                  => $context,
+			'semantic_submenu_toggles' => $semantic,
+		)
+	);
 }
 
 /**
@@ -5593,7 +5569,7 @@ function oceanwp_get_nav_walker( $context = 'default' ) {
  * @return array
  */
 function oceanwp_apply_nav_walker_context( $args, $context = 'default' ) {
-    $args['walker'] = oceanwp_get_nav_walker( $context );
+	$args['walker'] = oceanwp_get_nav_walker( $context );
 
-    return $args;
+	return $args;
 }
