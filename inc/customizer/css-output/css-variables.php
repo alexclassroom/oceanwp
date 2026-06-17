@@ -115,25 +115,46 @@ class OceanWP_CSS_Variables {
 	 *
 	 * Priority:
 	 * 1. User-saved Customizer value.
-	 * 2. Old default for existing installs.
-	 * 3. New default for new installs.
+	 * 2. Compatibility-aware Customizer default.
+	 * 3. Internal token old/new default.
+	 * 4. Fallback.
 	 *
 	 * @param array $token Token data.
 	 * @return string
 	 */
 	private function get_token_value( $token ) {
 
-		$setting     = isset( $token['setting'] ) ? $token['setting'] : '';
-		$old_default = isset( $token['old'] ) ? $token['old'] : '';
-		$new_default = isset( $token['new'] ) ? $token['new'] : $old_default;
-		$type        = isset( $token['type'] ) ? $token['type'] : 'text';
+		$setting  = isset( $token['setting'] ) ? $token['setting'] : '';
+		$fallback = isset( $token['fallback'] ) ? $token['fallback'] : '';
+		$type     = isset( $token['type'] ) ? $token['type'] : 'text';
 
-		$default = $this->get_compatible_default( $old_default, $new_default );
-
+		/*
+		 * Real Customizer-backed token.
+		 *
+		 * Example:
+		 * ocean_theme_button_color
+		 * button_typography[font-size]
+		 */
 		if ( $setting ) {
+			$default = function_exists( 'oceanwp_get_customizer_default' )
+				? oceanwp_get_customizer_default( $setting, $fallback, self::COMPAT_VERSION )
+				: $fallback;
+
 			$value = $this->get_theme_mod_value( $setting, $default );
-		} else {
-			$value = $default;
+		}
+
+		/*
+		 * Internal-only token.
+		 *
+		 * Example:
+		 * --owp-focus-outline-width
+		 * --owp-widget-link-underline-offset
+		 */
+		else {
+			$old_default = isset( $token['old'] ) ? $token['old'] : $fallback;
+			$new_default = isset( $token['new'] ) ? $token['new'] : $old_default;
+
+			$value = $this->get_compatible_default( $old_default, $new_default );
 		}
 
 		if ( '' === $value || null === $value ) {
@@ -213,20 +234,36 @@ class OceanWP_CSS_Variables {
 			return '';
 		}
 
-		// Already has a CSS unit or CSS function.
+		/*
+		 * Already has a CSS unit or CSS function.
+		 */
 		if ( preg_match( '/(px|em|rem|%|vw|vh|pt|ch|ex|clamp\(|calc\(|min\(|max\()/i', $value ) ) {
 			return $value;
 		}
 
 		$unit = isset( $token['unit'] ) ? $token['unit'] : '';
 
+		/*
+		 * Unit controlled by another Customizer setting.
+		 *
+		 * Example:
+		 * button_typography[font-size-unit]
+		 */
 		if ( isset( $token['unit_setting'] ) && $token['unit_setting'] ) {
-			$old_unit = isset( $token['old_unit'] ) ? $token['old_unit'] : $unit;
-			$new_unit = isset( $token['new_unit'] ) ? $token['new_unit'] : $unit;
-			$default  = $this->get_compatible_default( $old_unit, $new_unit );
+			$unit_fallback = isset( $token['unit_fallback'] ) ? $token['unit_fallback'] : $unit;
 
-			$unit = $this->get_theme_mod_value( $token['unit_setting'], $default );
+			$unit_default = function_exists( 'oceanwp_get_customizer_default' )
+				? oceanwp_get_customizer_default( $token['unit_setting'], $unit_fallback, self::COMPAT_VERSION )
+				: $unit_fallback;
+
+			$unit = $this->get_theme_mod_value( $token['unit_setting'], $unit_default );
 		}
+
+		if ( '' === $unit || null === $unit ) {
+			return $value;
+		}
+
+		$unit = $this->sanitize_token_value( $unit, 'unit' );
 
 		if ( '' === $unit ) {
 			return $value;
@@ -252,14 +289,32 @@ class OceanWP_CSS_Variables {
 
 		switch ( $type ) {
 			case 'color':
-				// Supports hex, rgb(), rgba(), hsl(), hsla(), currentColor, transparent.
-				if ( preg_match( '/^(#([A-Fa-f0-9]{3}){1,2}|rgb[a]?\([0-9.,%\s]+\)|hsl[a]?\([0-9.,%\s]+\)|transparent|currentColor)$/', $value ) ) {
+				/*
+				 * Supports:
+				 * #fff, #ffffff, rgb(), rgba(), hsl(), hsla(), transparent, currentColor.
+				 */
+				if ( preg_match( '/^(#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})|rgb[a]?\([0-9.,%\s]+\)|hsl[a]?\([0-9.,%\s]+\)|transparent|currentColor)$/', $value ) ) {
+					return $value;
+				}
+				return '';
+
+			case 'raw':
+				/*
+				 * Controlled raw values.
+				 *
+				 * Needed for safe variable references such as:
+				 * var(--owp-link-color, #333333)
+				 */
+				if ( preg_match( '/^[a-zA-Z0-9#(),.%\-\s_]+$|^var\(--[a-zA-Z0-9\-_]+,\s*#[A-Fa-f0-9]{3,6}\)$/', $value ) ) {
 					return $value;
 				}
 				return '';
 
 			case 'size':
-				// Supports 14px, 1.2em, 100%, clamp(), calc(), etc.
+				/*
+				 * Supports:
+				 * 14px, 1.2em, 100%, clamp(), calc(), min(), max().
+				 */
 				if ( preg_match( '/^[0-9.\-+\s%a-zA-Z(),\/]+$/', $value ) ) {
 					return $value;
 				}
@@ -271,8 +326,74 @@ class OceanWP_CSS_Variables {
 				}
 				return '';
 
+			case 'unit':
+				$allowed_units = array(
+					'px',
+					'em',
+					'rem',
+					'%',
+					'vw',
+					'vh',
+					'pt',
+					'ch',
+					'ex',
+				);
+
+				if ( in_array( $value, $allowed_units, true ) ) {
+					return $value;
+				}
+				return '';
+
 			case 'font-family':
 				return sanitize_text_field( $value );
+
+			case 'font-weight':
+				$allowed_weights = array(
+					'normal',
+					'bold',
+					'bolder',
+					'lighter',
+					'100',
+					'200',
+					'300',
+					'400',
+					'500',
+					'600',
+					'700',
+					'800',
+					'900',
+				);
+
+				if ( in_array( $value, $allowed_weights, true ) ) {
+					return $value;
+				}
+				return '';
+
+			case 'text-transform':
+				$allowed_transforms = array(
+					'none',
+					'capitalize',
+					'uppercase',
+					'lowercase',
+				);
+
+				if ( in_array( $value, $allowed_transforms, true ) ) {
+					return $value;
+				}
+				return '';
+
+			case 'text-decoration':
+				$allowed_decorations = array(
+					'none',
+					'underline',
+					'overline',
+					'line-through',
+				);
+
+				if ( in_array( $value, $allowed_decorations, true ) ) {
+					return $value;
+				}
+				return '';
 
 			case 'keyword':
 				return sanitize_key( $value );
@@ -309,7 +430,9 @@ class OceanWP_CSS_Variables {
 
 		$value = trim( (string) $value );
 
-		// Avoid breaking out of declarations.
+		/*
+		 * Avoid breaking out of declarations.
+		 */
 		$value = str_replace( array( ';', '{', '}' ), '', $value );
 
 		return $value;
@@ -318,252 +441,295 @@ class OceanWP_CSS_Variables {
 	/**
 	 * CSS token map.
 	 *
-	 * This is the only place where you add new variables.
+	 * This is where future CSS variables are added.
+	 *
+	 * For real Customizer settings:
+	 * - use setting + fallback
+	 * - old/new defaults live in oceanwp_get_customizer_defaults_map()
+	 *
+	 * For internal-only values:
+	 * - leave setting empty
+	 * - use old/new directly in the token
 	 *
 	 * @return array
 	 */
 	private function get_token_map() {
 
-		return array(
+		return apply_filters(
+			'oceanwp_css_variables_token_map',
+			array(
 
-			/*
-			 * Buttons: colors.
-			 */
-			array(
-				'var'     => '--owp-button-bg-color',
-				'setting' => 'ocean_theme_button_bg',
-				'old'     => '#13aff0',
-				'new'     => '#13aff0',
-				'type'    => 'color',
-			),
-			array(
-				'var'     => '--owp-button-bg-color-hover',
-				'setting' => 'ocean_theme_button_hover_bg',
-				'old'     => '#0b7cac',
-				'new'     => '#0b7cac',
-				'type'    => 'color',
-			),
-			array(
-				'var'     => '--owp-button-text-color',
-				'setting' => 'ocean_theme_button_color',
-				'old'     => '#ffffff',
-				'new'     => '#000000',
-				'type'    => 'color',
-			),
-			array(
-				'var'     => '--owp-button-text-color-hover',
-				'setting' => 'ocean_theme_button_hover_color',
-				'old'     => '#ffffff',
-				'new'     => '#000000',
-				'type'    => 'color',
-			),
-			array(
-				'var'     => '--owp-button-border-color',
-				'setting' => 'ocean_theme_button_border_color',
-				'old'     => '',
-				'new'     => '',
-				'type'    => 'color',
-			),
-			array(
-				'var'     => '--owp-button-border-color-hover',
-				'setting' => 'ocean_theme_button_border_hover_color',
-				'old'     => '',
-				'new'     => '',
-				'type'    => 'color',
-			),
+				/*
+				 * Global links.
+				 */
+				array(
+					'var'      => '--owp-link-color',
+					'setting'  => 'ocean_links_color',
+					'fallback' => '#333333',
+					'type'     => 'color',
+				),
 
-			/*
-			 * Buttons: spacing.
-			 * These are existing settings from style-settings.php.
-			 */
-			array(
-				'var'     => '--owp-button-padding-top',
-				'setting' => 'ocean_theme_button_top_padding',
-				'old'     => '14',
-				'new'     => '14',
-				'type'    => 'size',
-				'unit'    => 'px',
-			),
-			array(
-				'var'     => '--owp-button-padding-right',
-				'setting' => 'ocean_theme_button_right_padding',
-				'old'     => '20',
-				'new'     => '20',
-				'type'    => 'size',
-				'unit'    => 'px',
-			),
-			array(
-				'var'     => '--owp-button-padding-bottom',
-				'setting' => 'ocean_theme_button_bottom_padding',
-				'old'     => '14',
-				'new'     => '14',
-				'type'    => 'size',
-				'unit'    => 'px',
-			),
-			array(
-				'var'     => '--owp-button-padding-left',
-				'setting' => 'ocean_theme_button_left_padding',
-				'old'     => '20',
-				'new'     => '20',
-				'type'    => 'size',
-				'unit'    => 'px',
-			),
+				array(
+					'var'      => '--owp-link-color-hover',
+					'setting'  => 'ocean_links_color_hover',
+					'fallback' => '#13aff0',
+					'type'     => 'color',
+				),
 
-			/*
-			 * Buttons: typography.
-			 * Existing Customizer setting IDs are array-style:
-			 * button_typography[font-size]
-			 * button_typography[font-size-unit]
-			 */
-			array(
-				'var'          => '--owp-button-font-size',
-				'setting'      => 'button_typography[font-size]',
-				'unit_setting' => 'button_typography[font-size-unit]',
-				'old'          => '12',
-				'new'          => '14',
-				'old_unit'     => 'px',
-				'new_unit'     => 'px',
-				'type'         => 'size',
-			),
-			array(
-				'var'     => '--owp-button-font-weight',
-				'setting' => 'button_typography[font-weight]',
-				'old'     => '600',
-				'new'     => '600',
-				'type'    => 'text',
-			),
-			array(
-				'var'          => '--owp-button-letter-spacing',
-				'setting'      => 'button_typography[letter-spacing]',
-				'unit_setting' => 'button_typography[letter-spacing-unit]',
-				'old'          => '0.1',
-				'new'          => '0.05',
-				'old_unit'     => 'em',
-				'new_unit'     => 'em',
-				'type'         => 'size',
-			),
-			array(
-				'var'     => '--owp-button-line-height',
-				'setting' => 'button_typography[line-height]',
-				'old'     => '1',
-				'new'     => '1.2',
-				'type'    => 'number',
-			),
-			array(
-				'var'     => '--owp-button-text-transform',
-				'setting' => 'button_typography[text-transform]',
-				'old'     => 'uppercase',
-				'new'     => 'none',
-				'type'    => 'keyword',
-			),
+				/*
+				 * Buttons: colors.
+				 */
+				array(
+					'var'      => '--owp-button-bg-color',
+					'setting'  => 'ocean_theme_button_bg',
+					'fallback' => '#13aff0',
+					'type'     => 'color',
+				),
 
-			/*
-			 * Buttons: responsive typography examples.
-			 * These only print if a user has saved tablet/mobile values,
-			 * otherwise they use empty defaults and do nothing.
-			 */
-			array(
-				'var'          => '--owp-button-font-size',
-				'setting'      => 'button_tablet_typography[font-size]',
-				'unit_setting' => 'button_typography[font-size-unit]',
-				'old'          => '',
-				'new'          => '',
-				'old_unit'     => 'px',
-				'new_unit'     => 'px',
-				'type'         => 'size',
-				'media'        => 'tablet',
-			),
-			array(
-				'var'          => '--owp-button-font-size',
-				'setting'      => 'button_mobile_typography[font-size]',
-				'unit_setting' => 'button_typography[font-size-unit]',
-				'old'          => '',
-				'new'          => '',
-				'old_unit'     => 'px',
-				'new_unit'     => 'px',
-				'type'         => 'size',
-				'media'        => 'mobile',
-			),
+				array(
+					'var'      => '--owp-button-bg-color-hover',
+					'setting'  => 'ocean_theme_button_hover_bg',
+					'fallback' => '#0b7cac',
+					'type'     => 'color',
+				),
 
-			/*
-			 * Forms: colors.
-			 */
-			array(
-				'var'     => '--owp-input-text-color',
-				'setting' => 'ocean_input_color',
-				'old'     => '#333333',
-				'new'     => '#333333',
-				'type'    => 'color',
-			),
-			array(
-				'var'     => '--owp-input-border-color',
-				'setting' => 'ocean_input_border_color',
-				'old'     => '#dddddd',
-				'new'     => '#767676',
-				'type'    => 'color',
-			),
-			array(
-				'var'     => '--owp-input-border-color-focus',
-				'setting' => 'ocean_input_border_color_focus',
-				'old'     => '#bbbbbb',
-				'new'     => '#333333',
-				'type'    => 'color',
-			),
+				array(
+					'var'      => '--owp-button-text-color',
+					'setting'  => 'ocean_theme_button_color',
+					'fallback' => '#ffffff',
+					'type'     => 'color',
+				),
 
-			/*
-			 * Forms: size examples.
-			 */
-			array(
-				'var'     => '--owp-input-font-size',
-				'setting' => '',
-				'old'     => '14',
-				'new'     => '16',
-				'type'    => 'size',
-				'unit'    => 'px',
-			),
-			array(
-				'var'     => '--owp-input-line-height',
-				'setting' => '',
-				'old'     => '1.8',
-				'new'     => '1.6',
-				'type'    => 'number',
-			),
-			array(
-				'var'     => '--owp-input-border-radius',
-				'setting' => 'ocean_input_border_top_left_radius',
-				'old'     => '3',
-				'new'     => '3',
-				'type'    => 'size',
-				'unit'    => 'px',
-			),
+				array(
+					'var'      => '--owp-button-text-color-hover',
+					'setting'  => 'ocean_theme_button_hover_color',
+					'fallback' => '#ffffff',
+					'type'     => 'color',
+				),
 
-			/*
-			 * Accessibility/internal variables.
-			 * No Customizer setting required.
-			 */
-			array(
-				'var'     => '--owp-focus-outline-width',
-				'setting' => '',
-				'old'     => '0',
-				'new'     => '2',
-				'type'    => 'size',
-				'unit'    => 'px',
-			),
-			array(
-				'var'     => '--owp-focus-outline-offset',
-				'setting' => '',
-				'old'     => '0',
-				'new'     => '2',
-				'type'    => 'size',
-				'unit'    => 'px',
-			),
-			array(
-				'var'     => '--owp-focus-outline-color',
-				'setting' => 'ocean_primary_color',
-				'old'     => '#13aff0',
-				'new'     => '#000000',
-				'type'    => 'color',
-			),
+				/*
+				 * Buttons: spacing.
+				 */
+				array(
+					'var'      => '--owp-button-padding-top',
+					'setting'  => 'ocean_theme_button_top_padding',
+					'fallback' => '14',
+					'type'     => 'size',
+					'unit'     => 'px',
+				),
+
+				array(
+					'var'      => '--owp-button-padding-right',
+					'setting'  => 'ocean_theme_button_right_padding',
+					'fallback' => '20',
+					'type'     => 'size',
+					'unit'     => 'px',
+				),
+
+				array(
+					'var'      => '--owp-button-padding-bottom',
+					'setting'  => 'ocean_theme_button_bottom_padding',
+					'fallback' => '14',
+					'type'     => 'size',
+					'unit'     => 'px',
+				),
+
+				array(
+					'var'      => '--owp-button-padding-left',
+					'setting'  => 'ocean_theme_button_left_padding',
+					'fallback' => '20',
+					'type'     => 'size',
+					'unit'     => 'px',
+				),
+
+				/*
+				 * Buttons: typography.
+				 */
+				array(
+					'var'           => '--owp-button-font-size',
+					'setting'       => 'button_typography[font-size]',
+					'unit_setting'  => 'button_typography[font-size-unit]',
+					'fallback'      => '12',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+				),
+
+				array(
+					'var'      => '--owp-button-font-weight',
+					'setting'  => 'button_typography[font-weight]',
+					'fallback' => '600',
+					'type'     => 'font-weight',
+				),
+
+				array(
+					'var'           => '--owp-button-letter-spacing',
+					'setting'       => 'button_typography[letter-spacing]',
+					'unit_setting'  => 'button_typography[letter-spacing-unit]',
+					'fallback'      => '0.1',
+					'unit_fallback' => 'em',
+					'type'          => 'size',
+				),
+
+				array(
+					'var'      => '--owp-button-line-height',
+					'setting'  => 'button_typography[line-height]',
+					'fallback' => '1',
+					'type'     => 'number',
+				),
+
+				array(
+					'var'      => '--owp-button-text-transform',
+					'setting'  => 'button_typography[text-transform]',
+					'fallback' => 'uppercase',
+					'type'     => 'text-transform',
+				),
+
+				/*
+				 * Responsive button typography.
+				 *
+				 * These only output if users saved tablet/mobile values.
+				 */
+				array(
+					'var'           => '--owp-button-font-size',
+					'setting'       => 'button_tablet_typography[font-size]',
+					'unit_setting'  => 'button_typography[font-size-unit]',
+					'fallback'      => '',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+					'media'         => 'tablet',
+				),
+
+				array(
+					'var'           => '--owp-button-font-size',
+					'setting'       => 'button_mobile_typography[font-size]',
+					'unit_setting'  => 'button_typography[font-size-unit]',
+					'fallback'      => '',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+					'media'         => 'mobile',
+				),
+
+				/*
+				 * Forms: colors.
+				 */
+				array(
+					'var'      => '--owp-input-text-color',
+					'setting'  => 'ocean_input_color',
+					'fallback' => '#333333',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-input-border-color',
+					'setting'  => 'ocean_input_border_color',
+					'fallback' => '#dddddd',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-input-border-color-focus',
+					'setting'  => 'ocean_input_border_color_focus',
+					'fallback' => '#bbbbbb',
+					'type'     => 'color',
+				),
+
+				/*
+				 * Forms: internal size examples.
+				 *
+				 * No direct Customizer setting yet.
+				 */
+				array(
+					'var'     => '--owp-input-font-size',
+					'setting' => '',
+					'old'     => '14',
+					'new'     => '16',
+					'type'    => 'size',
+					'unit'    => 'px',
+				),
+
+				array(
+					'var'     => '--owp-input-line-height',
+					'setting' => '',
+					'old'     => '1.8',
+					'new'     => '1.6',
+					'type'    => 'number',
+				),
+
+				/*
+				 * Widget/sidebar links.
+				 *
+				 * Example of new styling that did not really exist before.
+				 * Existing sites keep old behavior.
+				 * New sites get stronger link styling.
+				 */
+				array(
+					'var'     => '--owp-widget-link-color',
+					'setting' => '',
+					'old'     => 'var(--owp-link-color, #333333)',
+					'new'     => '#000000',
+					'type'    => 'raw',
+				),
+
+				array(
+					'var'     => '--owp-widget-link-color-hover',
+					'setting' => '',
+					'old'     => 'var(--owp-link-color-hover, #13aff0)',
+					'new'     => '#000000',
+					'type'    => 'raw',
+				),
+
+				array(
+					'var'     => '--owp-widget-link-text-decoration',
+					'setting' => '',
+					'old'     => 'none',
+					'new'     => 'underline',
+					'type'    => 'text-decoration',
+				),
+
+				array(
+					'var'     => '--owp-widget-link-text-decoration-hover',
+					'setting' => '',
+					'old'     => 'none',
+					'new'     => 'underline',
+					'type'    => 'text-decoration',
+				),
+
+				array(
+					'var'     => '--owp-widget-link-underline-offset',
+					'setting' => '',
+					'old'     => 'auto',
+					'new'     => '0.15em',
+					'type'    => 'size',
+				),
+
+				/*
+				 * Accessibility/internal variables.
+				 */
+				array(
+					'var'     => '--owp-focus-outline-width',
+					'setting' => '',
+					'old'     => '0',
+					'new'     => '2',
+					'type'    => 'size',
+					'unit'    => 'px',
+				),
+
+				array(
+					'var'     => '--owp-focus-outline-offset',
+					'setting' => '',
+					'old'     => '0',
+					'new'     => '2',
+					'type'    => 'size',
+					'unit'    => 'px',
+				),
+
+				array(
+					'var'      => '--owp-focus-outline-color',
+					'setting'  => 'ocean_primary_color',
+					'fallback' => '#13aff0',
+					'type'     => 'color',
+				),
+			)
 		);
 	}
 }
