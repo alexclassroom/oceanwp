@@ -34,9 +34,8 @@ class OceanWP_Customizer_Init {
 	}
 
 	public function include_settings() {
-
-		//require OCEANWP_INC_DIR . 'customizer/functions.php';
 		require OCEANWP_INC_DIR . 'customizer/helpers.php';
+		require OCEANWP_INC_DIR . 'customizer/customizer-defaults.php';
 		require OCEANWP_INC_DIR . 'customizer/callback.php';
 		require OCEANWP_INC_DIR . 'customizer/sanitize.php';
 		require OCEANWP_INC_DIR . 'customizer/svg.php';

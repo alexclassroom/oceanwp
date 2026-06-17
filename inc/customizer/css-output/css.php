@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require OCEANWP_INC_DIR . 'customizer/css-output/selectors.php';
+require OCEANWP_INC_DIR . 'customizer/css-output/css-variables.php';
 require OCEANWP_INC_DIR . 'customizer/css-output/typography.php';
 require OCEANWP_INC_DIR . 'customizer/css-output/colors.php';
 require OCEANWP_INC_DIR . 'customizer/css-output/style-settings.php';
