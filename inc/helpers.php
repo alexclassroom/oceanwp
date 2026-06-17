@@ -5498,7 +5498,9 @@ if ( ! function_exists( 'ocean_accessibility_get_default_value' ) ) {
  * @return bool
  */
 function oceanwp_is_semantic_mobile_header_enabled() {
-	$enabled = get_theme_mod( 'ocean_accessibility_mobile_header_tags', false );
+	$enabled = get_theme_mod( 'ocean_accessibility_mobile_header_tags', ocean_accessibility_get_default_value() );
+
+	$enabled = $enabled ? $enabled : false;
 
 	return (bool) apply_filters(
 		'oceanwp_is_semantic_mobile_header_enabled',
@@ -5512,7 +5514,9 @@ function oceanwp_is_semantic_mobile_header_enabled() {
  * @return bool
  */
 function oceanwp_is_semantic_desktop_header_enabled() {
-	$enabled = get_theme_mod( 'ocean_accessibility_main_header_tags', false );
+	$enabled = get_theme_mod( 'ocean_accessibility_main_header_tags', ocean_accessibility_get_default_value() );
+
+	$enabled = $enabled ? $enabled : false;
 
 	return (bool) apply_filters(
 		'oceanwp_is_semantic_desktop_header_enabled',

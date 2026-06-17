@@ -15,20 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class OceanWP_Customize_A11Y_CSS {
 
 	/**
-	 * fonts
-	 *
-	 * @var $fonts
-	 * @access private
-	 * @since 3.5.1
-	 */
-	private $fonts = array();
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
-		// add_filter('ocean_a11y_css', array($this, 'generate_css'));
-
 		add_action( 'wp_enqueue_scripts', array( $this, 'add_inline_css' ), 999 );
 	}
 
