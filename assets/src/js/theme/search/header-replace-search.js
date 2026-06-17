@@ -72,11 +72,11 @@ class HeaderReplaceSearch extends SearchBase {
 
     form.classList.toggle("show");
 
+    const isOpen = form.classList.contains("show");
+
     toggleSearchBtn?.setAttribute(
       "aria-expanded",
-      form.classList.contains("show")
-        ? "true"
-        : "false"
+      isOpen  ? "true" : "false"
     );
 
     if (this.#hasTopHeader()) {
@@ -94,9 +94,14 @@ class HeaderReplaceSearch extends SearchBase {
         "px";
     }
 
-    if (form.classList.contains("show")) {
-      input?.focus();
+    if (isOpen) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          input?.focus();
+        });
+      });
     }
+
   };
 
   #onCloseBtnClick = (event) => {

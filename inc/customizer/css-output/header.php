@@ -747,13 +747,14 @@ class OceanWP_Customize_Header_CSS {
 		}
 
 		if ( ! empty( $header_video_overlay_color ) && 'rgba(0,0,0,0.3)' != $header_video_overlay_color ) {
-			$css .= '#site-header.has-header-media .overlay-header-media.has-video{background-color:'. $header_video_overlay_color .';}';
-			$css .= '#site-header.has-header-media .overlay-header-media.has-video-image{background-color:'. $header_video_overlay_color .';}';
+			$css .= '#site-header.has-header-media .custom-header-media.has-video:before{background:'. $header_video_overlay_color .';}';
+			$css .= '#site-header.has-header-media .custom-header-media.has-video-image:before{background:'. $header_video_overlay_color .';}';
 		}
 
 		// Header media overlay color
 		if ( ! empty( $header_image_overlay_color ) && 'rgba(0,0,0,0.3)' != $header_image_overlay_color ) {
 			$css .= '#site-header.has-header-media .overlay-header-media.has-image:not(.has-video){background-color:'. $header_image_overlay_color .';}';
+			$css .= '#site-header.has-header-media .custom-header-media.has-image:not(.has-video):before{background:'. $header_image_overlay_color .';}';
 		}
 
 		// Header border color

@@ -495,8 +495,11 @@ $options = [
 				'key' => 'normal',
 				'label' =>  esc_html__( 'Select Color', 'oceanwp' ),
 				'selector' => [
-                    '#site-header.has-header-media .overlay-header-media.has-video' => 'background-color',
-                    '#site-header.has-header-media .overlay-header-media.has-video-image' => 'background-color'
+                    // '#site-header.has-header-media .overlay-header-media.has-video' => 'background-color',
+                    // '#site-header.has-header-media .overlay-header-media.has-video-image' => 'background-color'
+
+					'#site-header.has-header-media .custom-header-media.has-video:before' => 'background',
+                    '#site-header.has-header-media .custom-header-media.has-video-image:before' => 'background'
                 ],
                 'attr' => [
                     'transport' => 'postMessage',

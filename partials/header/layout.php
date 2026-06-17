@@ -38,6 +38,8 @@ if ( true !== get_theme_mod( 'ocean_header_full_width', false ) ) {
 $has_video = function_exists( 'has_header_video' ) && has_header_video();
 $has_image = has_header_image();
 
+$enabled_a11y_tag = oceanwp_is_semantic_desktop_header_enabled();
+
 $video_controls = get_theme_mod( 'ocean_display_header_video_controls', true );
 
 $media_classes = array();
@@ -54,6 +56,10 @@ if ( $has_video ) {
 
 if ( $has_image ) {
 	$media_classes[] = 'has-image';
+}
+
+if ( $enabled_a11y_tag ) {
+	$media_classes[] = 'owp-accessibility-header-enabled';
 }
 
 $overlay_classes = array();
@@ -150,7 +156,7 @@ if ( 'transparent' === $header_style
 
 		<?php
 		// If header media.
-		if ( $has_video || $has_image ) {
+		if ( $has_image && ! oceanwp_is_existing_installation( '4.2.0' ) ) {
 			?>
 			<div class="overlay-header-media <?php echo esc_attr( implode( ' ', $overlay_classes ) ); ?>"></div>
 			<?php

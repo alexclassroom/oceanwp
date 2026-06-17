@@ -80,428 +80,71 @@
 /**
  * Header media
  */
-// #site-header.has-header-media {
-//     > *:not(.overlay-header-media) {
-//         position: relative;
-//         z-index: 2;
-//     }
-
-//     .overlay-header-media {
-//         display: block;
-//         position: absolute;
-//         top: 0;
-//         left: 0;
-//         height: 100%;
-//         width: 100%;
-//         background-color: rgba(0, 0, 0, 0.3);
-//         z-index: 1;
-//     }
-// }
-
-/**
- * Video header
- */
-// #site-header .custom-header-media {
-//     position: absolute;
-//     top: 0;
-//     bottom: 0;
-//     left: 0;
-//     right: 0;
-//     overflow: hidden;
-//     width: 100%;
-
-//     &:before {
-//         content: "";
-//         position: absolute;
-//         bottom: 0;
-//         left: 0;
-//         right: 0;
-//         display: block;
-//         height: 100%;
-//         z-index: 2;
-//         background: -moz-linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 75%, rgba(0, 0, 0, 0.3) 100%);
-//         background: -webkit-linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 75%, rgba(0, 0, 0, 0.3) 100%);
-//         background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 75%, rgba(0, 0, 0, 0.3) 100%);
-//     }
-
-//     video,
-//     iframe {
-//         position: absolute;
-//         height: auto;
-//         left: 50%;
-//         max-width: 1000%;
-//         min-height: 100%;
-//         min-width: 100%;
-//         min-width: 100vw;
-//         width: auto;
-//         top: 50%;
-//         @include transform(translateX(-50%) translateY(-50%));
-//     }
-
-//     .wp-custom-header-video-button {
-//         display: none;
-//     }
-// }
-
-// .has-header-video #site-header-inner {
-//     z-index: 10;
-// }
-
-
-
-
-// #site-header {
-//     position: relative;
-
-//     .custom-header-media {
-
-//         position: absolute;
-//         inset: 0;
-
-//         overflow: hidden;
-
-//         isolation: isolate;
-
-//         z-index: 1;
-
-//         &:before {
-//             content: "";
-
-//             position: absolute;
-//             inset: 0;
-
-//             z-index: 2;
-
-//             pointer-events: none;
-
-//             background: linear-gradient(
-//                 to bottom,
-//                 rgba(0,0,0,0) 0%,
-//                 rgba(0,0,0,.3) 75%,
-//                 rgba(0,0,0,.3) 100%
-//             );
-//         }
-
-//         .wp-custom-header,
-//         .wp-custom-header img,
-//         .wp-custom-header-image,
-//         video,
-//         iframe {
-//             position: absolute;
-//             inset: 0;
-
-//             width: 100%;
-//             height: 100%;
-
-//             object-fit: cover;
-
-//             z-index: 1;
-//         }
-
-//         &.has-video.has-image {
-
-//             .wp-custom-header img,
-//             .wp-custom-header-image {
-//                 display: none;
-//             }
-
-//             video,
-//             iframe {
-//                 display: block;
-//             }
-//         }
-
-//         .wp-custom-header-video-button {
-//             align-items: center;
-//             justify-content: center;
-
-//             position: absolute;
-//             left: 20px;
-//             bottom: 20px;
-
-//             width: 44px;
-//             height: 44px;
-
-//             border-radius: 50%;
-
-//             background: rgba(0,0,0,.6);
-//             border: 2px solid rgba(255,255,255,.4);
-
-//             z-index: 5;
-
-//             cursor: pointer;
-//         }
-
-//         &.has-video-controls {
-
-//             .wp-custom-header-video-button {
-//                 display: flex;
-//             }
-//         }
-
-//         &.no-video-controls {
-
-//             .wp-custom-header-video-button {
-//                 display: none;
-//             }
-//         }
-
-//         .wp-custom-header-video-button:hover,
-//         .wp-custom-header-video-button:focus {
-//             background: rgba(0,0,0,.85);
-//             border-color: #fff;
-//             outline: 2px solid #0073aa;
-//         }
-//     }
-
-//     #site-header-inner {
-//         position: relative;
-//         z-index: 3;
-//     }
-// }
-
-// @media only screen and (max-width:959px) {
-
-//     #site-header {
-
-//         .custom-header-media.has-video.has-image {
-
-//             video,
-//             iframe {
-//                 display:none;
-//             }
-
-//             .wp-custom-header img,
-//             .wp-custom-header-image {
-//                 display:block;
-//             }
-//         }
-//     }
-// }
-
-
-
-#site-header {
-    position: relative;
-
-    &.has-header-media {
-
-        #site-header-inner,
-        #site-navigation-wrap,
-        #mobile-dropdown,
-        .oceanwp-mobile-menu-icon,
-        .mobile-menu {
-            position: relative;
-            z-index: 3;
-        }
-
-        .overlay-header-media {
-            position: absolute;
-            inset: 0;
-
-            z-index: 2;
-
-            background-color: rgba(0, 0, 0, .3);
-
-            pointer-events: none;
-        }
-    }
-
-    .custom-header-media {
-        position: absolute;
-        inset: 0;
-
-        overflow: hidden;
-
-        isolation: isolate;
-        z-index: 1;
-
-        // &:before {
-        //     content: "";
-
-        //     position: absolute;
-        //     inset: 0;
-
-        //     z-index: 2;
-
-        //     pointer-events: none;
-
-        //     background: linear-gradient(
-        //         to bottom,
-        //         rgba(0,0,0,0) 0%,
-        //         rgba(0,0,0,.3) 75%,
-        //         rgba(0,0,0,.3) 100%
-        //     );
-        // }
-
-        .wp-custom-header,
-        .wp-custom-header img,
-        video {
-            position: absolute;
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            max-width: 100%;
-            max-height: 100%;
-
-            object-fit: cover;
-
-            z-index: 1;
-        }
-
-        .custom-header-media.has-video iframe {
-            position: absolute;
-
-            top: 50%;
-            left: 50%;
-
-            width: 100vw;
-            height: 56.25vw;
-
-            min-width: 177.78vh;
-            min-height: 100vh;
-
-            transform: translate(-50%, -50%);
-        }
-
-        /**
-         * Desktop
-         * Video wins when both video and image exist.
-         */
-        &.has-video.has-image {
-
-            .wp-custom-header img {
-                display: none;
-            }
-
-            video,
-            iframe {
-                display: block;
-            }
-        }
-
-        /**
-         * Video Controls
-         */
-        .wp-custom-header-video-button {
-            display: none;
-
-            position: absolute;
-            left: 20px;
-            bottom: 15px;
-
-            align-items: center;
-            justify-content: center;
-
-            width: 38px;
-            height: 38px;
-
-            padding: 0;
-            margin: 0;
-
-            border-radius: 50%;
-
-            background-color: rgba(0, 0, 0, .6);
-            border: 2px solid rgba(255,255,255,.4);
-
-            color: #fff;
-
-            cursor: pointer;
-
-            z-index: 4;
-
-            transition: all .2s ease-in-out;
-
-            font-size: 0;
-        }
-
-        &.has-video-controls {
-
-            .wp-custom-header-video-button {
-                display: flex;
-            }
-        }
-
-        &.no-video-controls {
-
-            .wp-custom-header-video-button {
-                display: none;
-            }
-        }
-
-        .wp-custom-header-video-button:hover,
-        .wp-custom-header-video-button:focus {
-            background-color: rgba(0, 0, 0, .9);
-            border-color: #fff;
-            outline: 2px solid #0073aa;
-        }
-
-        /**
-         * Play / Pause Icons
-         *
-         * Uses currentColor so Customizer can control icon color
-         * through the button color property.
-         */
-        .wp-custom-header-video-button::before {
-            content: "";
-
-            width: 14px;
-            height: 14px;
-
-            background-color: currentColor;
-
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-        }
-
-        /**
-         * WP class names:
-         * wp-custom-header-video-play
-         * wp-custom-header-video-pause
-         */
-
-        .wp-custom-header-video-play::before {
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 19h4V5H6v14zm8-14v14h4V5h-4z'/%3E%3C/svg%3E") no-repeat center;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 19h4V5H6v14zm8-14v14h4V5h-4z'/%3E%3C/svg%3E") no-repeat center;
-        }
-
-        .wp-custom-header-video-pause::before {
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") no-repeat center;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") no-repeat center;
-
-            margin-left: 2px;
-        }
-    }
-
-    #site-header-inner {
+#site-header.has-header-media {
+    > *:not(.overlay-header-media) {
         position: relative;
-        z-index: 3;
+        z-index: 2;
+    }
+
+    .overlay-header-media {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 1;
     }
 }
 
 /**
- * Tablet / Mobile
- * Image becomes fallback when both exist.
+ * Video header
  */
-@media only screen and (max-width: 959px) {
+#site-header .custom-header-media {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    width: 100%;
 
-    #site-header {
-
-        .custom-header-media.has-video.has-image {
-
-            video,
-            iframe {
-                display: none;
-            }
-
-            .wp-custom-header img {
-                display: block;
-            }
-        }
+    &:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: block;
+        height: 100%;
+        z-index: 2;
+        background: -moz-linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 75%, rgba(0, 0, 0, 0.3) 100%);
+        background: -webkit-linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 75%, rgba(0, 0, 0, 0.3) 100%);
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 75%, rgba(0, 0, 0, 0.3) 100%);
     }
+
+    video,
+    iframe {
+        position: absolute;
+        height: auto;
+        left: 50%;
+        max-width: 1000%;
+        min-height: 100%;
+        min-width: 100%;
+        min-width: 100vw;
+        width: auto;
+        top: 50%;
+        @include transform(translateX(-50%) translateY(-50%));
+    }
+
+    .wp-custom-header-video-button {
+        display: none;
+    }
+}
+
+.has-header-video #site-header-inner {
+    z-index: 10;
 }
 
 /*------------------------------------*

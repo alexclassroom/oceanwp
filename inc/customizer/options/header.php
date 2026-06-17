@@ -2555,7 +2555,8 @@ $options = [
 						'key' => 'normal',
 						'label' => esc_html__( 'Select Color', 'oceanwp' ),
 						'selector' => [
-							'#site-header.has-header-media .overlay-header-media.has-image:not(.has-video)' => 'background-color'
+							'#site-header.has-header-media .overlay-header-media.has-image:not(.has-video)' => 'background-color',
+							'#site-header.has-header-media .custom-header-media.has-image:not(.has-video):before' => 'background'
 						],
 						'attr' => [
 							'transport' => 'postMessage',
