@@ -28,7 +28,6 @@ if ( 'vertical' === $header_style ) {
 	$header_height = 0;
 }
 
-
 // Add container class if the header is not full width.
 $class = '';
 if ( true !== get_theme_mod( 'ocean_header_full_width', false ) ) {
@@ -38,42 +37,33 @@ if ( true !== get_theme_mod( 'ocean_header_full_width', false ) ) {
 $has_video = function_exists( 'has_header_video' ) && has_header_video();
 $has_image = has_header_image();
 
-$enabled_a11y_tag = oceanwp_is_semantic_desktop_header_enabled();
+// Get accessibility settings.
+$video_controls = $has_video && oceanwp_is_accessibility_feature_enabled( 'ocean_display_header_video_controls' );
 
-$video_controls = get_theme_mod( 'ocean_display_header_video_controls', true );
+$header_media_state = '';
+
+if ( $has_video && $has_image ) {
+	$header_media_state = 'has-video-image';
+} elseif ( $has_video ) {
+	$header_media_state = 'has-video';
+} elseif ( $has_image ) {
+	$header_media_state = 'has-image';
+}
 
 $media_classes = array();
 
-if ( $has_video ) {
-	$media_classes[] = 'has-video';
-
-	if ( $video_controls ) {
-		$media_classes[] = 'has-video-controls';
-	} else {
-		$media_classes[] = 'no-video-controls';
-	}
+if ( $header_media_state ) {
+	$media_classes[] = $header_media_state;
 }
 
-if ( $has_image ) {
-	$media_classes[] = 'has-image';
-}
-
-if ( $enabled_a11y_tag ) {
-	$media_classes[] = 'owp-accessibility-header-enabled';
+if ( $video_controls ) {
+	$media_classes[] = 'has-video-controls';
 }
 
 $overlay_classes = array();
 
-if ( $has_video ) {
-	$overlay_classes[] = 'has-video';
-}
-
-if ( $has_image ) {
-	$overlay_classes[] = 'has-image';
-}
-
-if ( $has_video && $has_image ) {
-	$overlay_classes[] = 'has-video-image';
+if ( $header_media_state ) {
+	$overlay_classes[] = $header_media_state;
 }
 
 do_action( 'ocean_before_header' );
@@ -97,7 +87,7 @@ if ( 'transparent' === $header_style
 
 		<?php
 		// If header video.
-		if ( $has_video || $has_image ) {
+		if ( $has_video ) {
 			?>
 			<div class="custom-header-media <?php echo esc_attr( implode( ' ', $media_classes ) ); ?>">
 
@@ -156,7 +146,7 @@ if ( 'transparent' === $header_style
 
 		<?php
 		// If header media.
-		if ( $has_image && ! oceanwp_is_existing_installation( '4.2.0' ) ) {
+		if ( $has_image ) {
 			?>
 			<div class="overlay-header-media <?php echo esc_attr( implode( ' ', $overlay_classes ) ); ?>"></div>
 			<?php

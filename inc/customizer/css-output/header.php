@@ -1246,12 +1246,7 @@ class OceanWP_Customize_Header_CSS {
 		$css = '';
 
 		// Get site background image
-		// if ( ! empty( $header_image ) ) {
-		// 	$css .= 'background-image:url('. $header_image .');';
-		// }
-
-		// Get site background image
-		if ( ! empty( $header_image ) && ! $has_video ) {
+		if ( ! empty( $header_image ) ) {
 			$css .= 'background-image:url(' . esc_url( $header_image ) . ');';
 		}
 

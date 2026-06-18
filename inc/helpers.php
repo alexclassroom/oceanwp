@@ -5485,8 +5485,38 @@ if ( ! function_exists( 'ocean_accessibility_get_default_value' ) ) {
 
 		$default = ! oceanwp_is_existing_installation( '4.2.0' );
 
-		return apply_filters(
+		return (bool) apply_filters(
 			'ocean_accessibility_get_default_value',
+			$default
+		);
+	}
+}
+
+if ( ! function_exists( 'oceanwp_is_accessibility_feature_enabled' ) ) {
+
+	/**
+	 * Whether an accessibility feature is enabled.
+	 *
+	 * Existing installs: default false.
+	 * New installs: default true.
+	 *
+	 * @param string    $theme_mod Theme mod name.
+	 * @param bool|null $default   Optional default override.
+	 *
+	 * @return bool
+	 */
+	function oceanwp_is_accessibility_feature_enabled( $theme_mod, $default = null ) {
+
+		if ( null === $default ) {
+			$default = ocean_accessibility_get_default_value();
+		}
+
+		$enabled = get_theme_mod( $theme_mod, $default );
+
+		return (bool) apply_filters(
+			'oceanwp_is_accessibility_feature_enabled',
+			$enabled,
+			$theme_mod,
 			$default
 		);
 	}
@@ -5498,9 +5528,7 @@ if ( ! function_exists( 'ocean_accessibility_get_default_value' ) ) {
  * @return bool
  */
 function oceanwp_is_semantic_mobile_header_enabled() {
-	$enabled = get_theme_mod( 'ocean_accessibility_mobile_header_tags', ocean_accessibility_get_default_value() );
-
-	$enabled = $enabled ? $enabled : false;
+	$enabled = oceanwp_is_accessibility_feature_enabled( 'ocean_accessibility_mobile_header_tags' );
 
 	return (bool) apply_filters(
 		'oceanwp_is_semantic_mobile_header_enabled',
@@ -5514,9 +5542,7 @@ function oceanwp_is_semantic_mobile_header_enabled() {
  * @return bool
  */
 function oceanwp_is_semantic_desktop_header_enabled() {
-	$enabled = get_theme_mod( 'ocean_accessibility_main_header_tags', ocean_accessibility_get_default_value() );
-
-	$enabled = $enabled ? $enabled : false;
+	$enabled = oceanwp_is_accessibility_feature_enabled( 'ocean_accessibility_main_header_tags' );
 
 	return (bool) apply_filters(
 		'oceanwp_is_semantic_desktop_header_enabled',

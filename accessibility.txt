@@ -41,7 +41,7 @@ Primary accessibility testing tools include:
 - **Keyboard Navigation & Focus Styles:** All interactive elements (menus, buttons, links, forms) are fully operable via keyboard with visible focus indicators.
 - **ARIA Landmarks & Semantic Structure:** Core layout elements utilize HTML5 structural tags and appropriate ARIA landmark roles to establish a logical document outline for assistive technologies.
 
-*Note on Legacy Component Support:* The legacy third-party mobile sidebar mechanism (Sidr) â€” the Sidebar Mobile Header Style â€” is currently excluded from advanced accessibility features due to internal dependency restrictions. It remains available strictly as a legacy option to ensure backward compatibility for existing websites for a one-year transition period, and is actively scheduled for complete replacement by a native, fully accessible PHP/JS template architecture.
+*Note on Legacy Component Support:* The legacy third-party mobile sidebar mechanism (Sidr) - the Sidebar Mobile Header Style - is currently excluded from advanced accessibility features due to internal dependency restrictions. It remains available strictly as a legacy option to ensure backward compatibility for existing websites for a one-year transition period, and is actively scheduled for complete replacement by a native, fully accessible PHP/JS template architecture.
 
 == Accessibility Help Contact ==
 For general accessibility inquiries or assistance setting up your theme controls, please use our support desk or community forum: https://wordpress.org/support/theme/oceanwp/
