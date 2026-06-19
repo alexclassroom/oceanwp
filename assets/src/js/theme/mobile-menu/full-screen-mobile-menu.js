@@ -36,11 +36,16 @@ class FullScreenMobileMenu {
 
   #start = () => {
 
-    if (options.semanticMobileHeader) {
+    const hasPhpSubmenuControls =
+      !!this.#elements.menu?.querySelector(
+        "[data-oceanwp-submenu-toggle]"
+      );
+
+    if (hasPhpSubmenuControls) {
       initAccessibleSubmenus({
         root: this.#elements.menu,
         openClass: "open-sub",
-        targetMode: this.#getMobileDropdownTarget() === "link" ? "link" : "button",
+        toggleSelector: "[data-oceanwp-submenu-toggle]",
         duration: 250,
       });
 
@@ -63,7 +68,7 @@ class FullScreenMobileMenu {
     delegate(document.body, ".mobile-menu", "click", this.#onMenuButtonClick);
 
     document
-      .querySelectorAll('#mobile-fullscreen ul > li > a[href^="#"]:not([href="#"]), #mobile-fullscreen ul > li > a[href*="/#"]:not([href="#"])')
+      .querySelectorAll('#mobile-fullscreen ul > li > a[href^="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle]), #mobile-fullscreen ul > li > a[href*="/#"]:not([href="#"]):not([data-oceanwp-submenu-toggle])')
       .forEach((anchorLink) => {
         anchorLink.addEventListener("click", this.#handleAnchorLinks);
       });
@@ -81,7 +86,7 @@ class FullScreenMobileMenu {
 
     document
       .querySelectorAll(
-        '#mobile-fullscreen .fs-dropdown-menu li a[href*="#"]:not([href="#"]), #mobile-fullscreen #mobile-nav li a[href*="#"]:not([href="#"]), #mobile-fullscreen .close'
+        '#mobile-fullscreen .fs-dropdown-menu li a[href*="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle]), #mobile-fullscreen #mobile-nav li a[href*="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle]), #mobile-fullscreen .close'
       )
       .forEach((menuItemLink) => {
         menuItemLink.addEventListener("click", this.#onCloseIconClick);

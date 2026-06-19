@@ -1,4 +1,5 @@
 import { fadeIn, fadeOut, slideDown, slideUp } from "../../lib/utils";
+import initAccessibleSubmenus from "./accessible-submenus";
 
 class FullScreenMenu {
   #elements = {
@@ -30,6 +31,21 @@ class FullScreenMenu {
   };
 
   #start = () => {
+    const hasPhpSubmenuControls =
+      !!this.#elements.menu?.querySelector("[data-oceanwp-submenu-toggle]");
+
+    if (hasPhpSubmenuControls) {
+      initAccessibleSubmenus({
+        root: this.#elements.menu,
+        itemSelector: "li.menu-item-has-children",
+        openClass: "open-sub",
+        toggleSelector: "[data-oceanwp-submenu-toggle]",
+        duration: 250,
+      });
+
+      return;
+    }
+
     this.#elements.menu.querySelectorAll(".nav-arrow").forEach((plusBtn) => {
       plusBtn.setAttribute("tabindex", 0);
     });
@@ -41,18 +57,23 @@ class FullScreenMenu {
       this.#onToggleMenuBtnClick
     );
 
-    document
-      .querySelectorAll(
-        '#full-screen-menu #site-navigation ul > li.dropdown > a > .text-wrap > span.nav-arrow, #full-screen-menu #site-navigation ul > li.dropdown > a[href="#"]'
-      )
-      ?.forEach((menuItemLink) => {
-        menuItemLink.addEventListener("click", this.#onMenuLinkClick);
-        menuItemLink.addEventListener("tap", this.#onMenuLinkClick);
-      });
+    const hasPhpSubmenuControls =
+      !!this.#elements.menu?.querySelector("[data-oceanwp-submenu-toggle]");
+
+    if (!hasPhpSubmenuControls) {
+      document
+        .querySelectorAll(
+          '#full-screen-menu #site-navigation ul > li.dropdown > a > .text-wrap > span.nav-arrow, #full-screen-menu #site-navigation ul > li.dropdown > a[href="#"]'
+        )
+        ?.forEach((menuItemLink) => {
+          menuItemLink.addEventListener("click", this.#onMenuLinkClick);
+          menuItemLink.addEventListener("tap", this.#onMenuLinkClick);
+        });
+    }
 
     document
       .querySelectorAll(
-        '#full-screen-menu #site-navigation a.menu-link[href*="#"]:not([href="#"])'
+        '#full-screen-menu #site-navigation a.menu-link[href*="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle])'
       )
       .forEach((menuItemLink) => {
         menuItemLink.addEventListener("click", this.#onMenuHashtagLinkClick);
@@ -217,7 +238,9 @@ class FullScreenMenu {
     // ENTER activates submenu toggle.
     if (
       enterKey &&
-      document.activeElement?.classList.contains("nav-arrow")
+      document.activeElement?.matches(
+        ".nav-arrow, .dropdown-toggle, .oceanwp-sub-menu-toggle, [data-oceanwp-submenu-toggle]"
+      )
     ) {
       event.preventDefault();
       document.activeElement.click();

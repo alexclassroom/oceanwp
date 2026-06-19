@@ -41,16 +41,20 @@ class DropDownMobileMenu {
   #start = () => {
     this.#isMenuOpen = false;
 
-    if (options.semanticMobileHeader) {
+    const hasPhpSubmenuControls =
+      !!this.#elements.navWrapper?.querySelector(
+        "[data-oceanwp-submenu-toggle]"
+      );
+
+    if (hasPhpSubmenuControls) {
       initAccessibleSubmenus({
         root: this.#elements.navWrapper,
         openClass: "active",
-        targetMode: this.#getMobileDropdownTarget() === "link" ? "link" : "button",
+        toggleSelector: "[data-oceanwp-submenu-toggle]",
         duration: 250,
       });
 
-      this.#menuItemsToggleIcon = null;
-
+      this.#menuItemsToggleIcon = [];
       return;
     }
 
@@ -63,7 +67,7 @@ class DropDownMobileMenu {
     });
 
     this.#menuItemsToggleIcon =
-      options.sidrDropdownTarget == "link"
+      this.#getMobileDropdownTarget() === "link"
         ? this.#elements.navWrapper?.querySelectorAll(
             "li.menu-item-has-children > a"
           )
@@ -79,7 +83,7 @@ class DropDownMobileMenu {
     );
 
     this.#elements.navWrapper
-      ?.querySelectorAll('li a[href*="#"]:not([href="#"])')
+      ?.querySelectorAll('li a[href*="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle])')
       .forEach((menuItemLink) => {
         menuItemLink.addEventListener("click", this.#onAnchorLinkClick);
       });

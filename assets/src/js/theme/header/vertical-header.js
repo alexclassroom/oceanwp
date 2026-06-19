@@ -29,12 +29,17 @@ class VerticalHeader {
   };
 
   #start = () => {
-    if (options.semanticDesktopHeader) {
+    const hasPhpSubmenuControls =
+      !!this.#elements.header?.querySelector(
+        "[data-oceanwp-submenu-toggle]"
+      );
+
+    if (hasPhpSubmenuControls) {
       initAccessibleSubmenus({
         root: this.#elements.header,
         itemSelector: "li.menu-item-has-children:not(.btn)",
         openClass: "active",
-        targetMode: options.verticalHeaderTarget === "link" ? "link" : "button",
+        toggleSelector: "[data-oceanwp-submenu-toggle]",
         duration: 250,
       });
 
