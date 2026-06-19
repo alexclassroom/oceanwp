@@ -5551,6 +5551,42 @@ function oceanwp_is_semantic_desktop_header_enabled() {
 }
 
 /**
+ * Accessible header video layout
+ *
+ * @return bool
+ */
+function oceanwp_is_accessible_header_video_enabled() {
+	$enabled = oceanwp_is_accessibility_feature_enabled( 'ocean_accessible_header_video_layout' );
+
+	return (bool) apply_filters(
+		'oceanwp_is_accessible_header_video_enabled',
+		$enabled
+	);
+}
+
+/**
+ * Header supported
+ *
+ * @return bool
+ */
+function oceanwp_is_header_style_supported( $allowed_styles = [] ) {
+
+	$style = oceanwp_header_style();
+
+	$allowed_styles = apply_filters(
+		'oceanwp_supported_header_styles',
+		$allowed_styles,
+		$style
+	);
+
+	if ( empty( $allowed_styles ) ) {
+		return true;
+	}
+
+	return in_array( $style, $allowed_styles, true );
+}
+
+/**
  * Get neutral mobile submenu target value.
  *
  * The saved setting still has the historical Sidr name for backward compatibility.
@@ -5603,3 +5639,51 @@ function oceanwp_apply_nav_walker_context( $args, $context = 'default' ) {
 
 	return $args;
 }
+
+/**
+ * Video play button svg
+ *
+ * @return bool
+ */
+function oceanwp_accessible_video_svg( $icon ) {
+
+	$icons = [
+		'play' => '
+			<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+				<path d="M8 5v14l11-7z"></path>
+			</svg>
+		',
+
+		'pause' => '
+			<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+				<path d="M6 5h4v14H6zm8 0h4v14h-4z"></path>
+			</svg>
+		',
+	];
+
+	return $icons[ $icon ] ?? '';
+}
+
+/**
+ * Play button svg
+ *
+ * @return bool
+ */
+function oceanwp_header_video_controls( $settings ) {
+
+	$settings['l10n']['play'] =
+		'<span class="screen-reader-text">' .
+		esc_html__( 'Play background video', 'oceanwp' ) .
+		'</span>' .
+		oceanwp_accessible_video_svg( 'play' );
+
+	$settings['l10n']['pause'] =
+		'<span class="screen-reader-text">' .
+		esc_html__( 'Pause background video', 'oceanwp' ) .
+		'</span>' .
+		oceanwp_accessible_video_svg( 'pause' );
+
+	return $settings;
+}
+
+add_filter( 'header_video_settings', 'oceanwp_header_video_controls' );

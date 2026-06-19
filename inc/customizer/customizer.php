@@ -81,12 +81,6 @@ class OceanWP_Customizer_Init {
 				$section_args['priority'] = $section_options['priority'];
 			}
 
-			// if ( isset( $section_options['condition'] ) ) {
-			// 	$section_args['active_callback'] = function() use ($section_options) {
-			// 		return $section_options['condition'];
-			// 	};
-			// }
-
 			$wp_customize->add_section(
 				$section_key,
 				$section_args
@@ -167,11 +161,6 @@ class OceanWP_Customizer_Init {
 						$setting_args['default'] = $option_data['default'];
 					}
 				}
-
-				// $wp_customize->add_setting(
-				// 	$option_key,
-				// 	$setting_args
-				// );
 
 				$wp_customize->add_setting(
 					$option_key,
