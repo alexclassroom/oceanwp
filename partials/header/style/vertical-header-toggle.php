@@ -16,7 +16,7 @@ $vertical_header_attrs = apply_filters( 'oceanwp_attrs_vertical_header_style', '
 $anchorlink_text = esc_html( oceanwp_theme_strings( 'owp-string-vertical-header-anchor', false ) );
 
 // New accessibility and customizer settings.
-$a11y_mode_tags = get_theme_mod( 'ocean_accessibility_main_header_tags', ocean_accessibility_get_default_value() );
+$a11y_mode_tags = oceanwp_is_semantic_desktop_header_enabled();
 $toggle_text    = oceanwp_theme_strings( 'owp-string-vertical-header-toggle', false );
 
 // Core state attributes targeting the master header panel.

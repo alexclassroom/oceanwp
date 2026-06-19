@@ -21,17 +21,17 @@ $menu_args = array(
 	'custom_output'  => 'mobile_menu',
 );
 
+$mobile_style = oceanwp_mobile_menu_style();
+
 // If sidebar mobile menu style.
-if ( 'sidebar' === oceanwp_mobile_menu_style() ) {
+if ( 'sidebar' === $mobile_style ) {
 	$menu_args['menu_class'] = 'mobile-menu dropdown-menu';
 }
 
-$mobile_style = oceanwp_mobile_menu_style();
-
-if ( 'sidebar' !== $mobile_style ) {
-	$context = 'fullscreen' === $mobile_style ? 'mobile-fullscreen' : 'mobile-dropdown';
-
-	$menu_args = oceanwp_apply_nav_walker_context( $menu_args, $context );
+if ( 'dropdown' === $mobile_style ) {
+	$menu_args = oceanwp_apply_nav_walker_context( $menu_args, 'mobile-dropdown' );
+} elseif ( 'fullscreen' === $mobile_style ) {
+	$menu_args = oceanwp_apply_nav_walker_context( $menu_args, 'mobile-fullscreen' );
 }
 
 // Display menu if defined.
