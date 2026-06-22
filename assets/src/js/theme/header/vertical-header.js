@@ -82,6 +82,11 @@ class VerticalHeader {
       this.#onToggleMenuBtnClick
     );
 
+    this.#elements.toggleMenuBtn.addEventListener(
+      "keydown",
+      this.#onToggleMenuBtnKeydown
+    );
+
     document.addEventListener("keydown", this.#onDocumentKeydown);
   };
 
@@ -110,6 +115,15 @@ class VerticalHeader {
           slideUp(openMenuItem.querySelector("ul"), 250);
         });
     }
+  };
+
+  #onToggleMenuBtnKeydown = (event) => {
+    if (!this.#isActivationKey(event) || event.currentTarget.tagName === "BUTTON") {
+      return;
+    }
+
+    event.preventDefault();
+    event.currentTarget.click();
   };
 
   #onToggleMenuBtnClick = (event) => {
@@ -166,8 +180,7 @@ class VerticalHeader {
     const escKey =
       event.key === "Escape" || event.keyCode === 27;
 
-    const enterKey =
-      event.key === "Enter" || event.keyCode === 13;
+    const activationKey = this.#isActivationKey(event);
 
     const toggleButton = this.#elements.toggleMenuBtn;
 
@@ -193,7 +206,7 @@ class VerticalHeader {
     toggleButton.style.outline = "";
 
     if (
-      enterKey &&
+      activationKey &&
       document.activeElement?.classList.contains(
         "dropdown-toggle"
       )
@@ -266,6 +279,17 @@ class VerticalHeader {
       toggleButton.focus();
     }
   };
+
+  #isActivationKey = (event) => {
+    return (
+      event.key === "Enter" ||
+      event.key === " " ||
+      event.key === "Spacebar" ||
+      event.keyCode === 13 ||
+      event.keyCode === 32
+    );
+  };
+
 }
 
 ("use script");

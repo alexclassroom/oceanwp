@@ -51,6 +51,16 @@ function setupItem(item, settings) {
 
       toggleItem(item, submenu, settings);
     });
+
+    toggle.addEventListener("keydown", (event) => {
+      if (!isActivationKey(event) || isNativeButton(toggle)) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      toggle.click();
+    });
   }
 }
 
@@ -128,4 +138,18 @@ function ensureSubmenuId(submenu, item) {
   const itemId = item.id ? item.id.replace("menu-item-", "") : Math.random().toString(36).slice(2);
 
   submenu.id = `oceanwp-sub-menu-${itemId}`;
+}
+
+function isActivationKey(event) {
+  return (
+    event.key === "Enter" ||
+    event.key === " " ||
+    event.key === "Spacebar" ||
+    event.keyCode === 13 ||
+    event.keyCode === 32
+  );
+}
+
+function isNativeButton(element) {
+  return element.tagName === "BUTTON";
 }

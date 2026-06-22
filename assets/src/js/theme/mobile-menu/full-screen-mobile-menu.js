@@ -66,6 +66,7 @@ class FullScreenMobileMenu {
     window.addEventListener("resize", this.#onWindowResize);
 
     delegate(document.body, ".mobile-menu", "click", this.#onMenuButtonClick);
+    delegate(document.body, ".mobile-menu", "keydown", this.#onMenuButtonKeydown);
 
     document
       .querySelectorAll('#mobile-fullscreen ul > li > a[href^="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle]), #mobile-fullscreen ul > li > a[href*="/#"]:not([href="#"]):not([data-oceanwp-submenu-toggle])')
@@ -123,6 +124,16 @@ class FullScreenMobileMenu {
 };
 
 
+
+  #onMenuButtonKeydown = (event) => {
+    if (!this.#isActivationKey(event) || event.currentTarget.tagName === "BUTTON") {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.currentTarget.click();
+  };
 
   #onMenuButtonClick = (event) => {
     event.preventDefault();
@@ -245,7 +256,7 @@ class FullScreenMobileMenu {
     const tabKey = event.keyCode === 9;
     const shiftKey = event.shiftKey;
     const escKey = event.keyCode === 27;
-    const enterKey = event.keyCode === 13;
+    const activationKey = this.#isActivationKey(event);
 
     const closeIcon = this.#elements.menu.querySelector(".close");
 
@@ -266,11 +277,12 @@ class FullScreenMobileMenu {
     }
 
     if (
-      enterKey &&
+      activationKey &&
       document.activeElement.classList.contains("dropdown-toggle")
     ) {
       event.preventDefault();
       document.activeElement.click();
+      return;
     }
 
     if (!shiftKey && tabKey && navLastElement === document.activeElement) {
@@ -290,6 +302,17 @@ class FullScreenMobileMenu {
       event.preventDefault();
     }
   };
+
+  #isActivationKey = (event) => {
+    return (
+      event.key === "Enter" ||
+      event.key === " " ||
+      event.key === "Spacebar" ||
+      event.keyCode === 13 ||
+      event.keyCode === 32
+    );
+  };
+
 }
 
 ("use script");

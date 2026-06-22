@@ -82,6 +82,13 @@ class DropDownMobileMenu {
       this.#onToggleMenuButtonClick
     );
 
+    delegate(
+      document.body,
+      ".mobile-menu",
+      "keydown",
+      this.#onToggleMenuButtonKeydown
+    );
+
     this.#elements.navWrapper
       ?.querySelectorAll('li a[href*="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle])')
       .forEach((menuItemLink) => {
@@ -133,6 +140,16 @@ class DropDownMobileMenu {
           });
       }, 50);
     }
+  };
+
+  #onToggleMenuButtonKeydown = (event) => {
+    if (!this.#isActivationKey(event) || event.currentTarget.tagName === "BUTTON") {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.currentTarget.click();
   };
 
   #onToggleMenuButtonClick = (event) => {
@@ -219,7 +236,7 @@ class DropDownMobileMenu {
     const tabKey = event.keyCode === 9;
     const shiftKey = event.shiftKey;
     const escKey = event.keyCode === 27;
-    const enterKey = event.keyCode === 13;
+    const activationKey = this.#isActivationKey(event);
 
     const closeIcon = this.#elements.toggleMenuBtn;
 
@@ -240,11 +257,12 @@ class DropDownMobileMenu {
     }
 
     if (
-      enterKey &&
+      activationKey &&
       document.activeElement.classList.contains("dropdown-toggle")
     ) {
       event.preventDefault();
       document.activeElement.click();
+      return;
     }
 
     if (!shiftKey && tabKey && navLastElement === document.activeElement) {
@@ -264,6 +282,17 @@ class DropDownMobileMenu {
       event.preventDefault();
     }
   };
+
+  #isActivationKey = (event) => {
+    return (
+      event.key === "Enter" ||
+      event.key === " " ||
+      event.key === "Spacebar" ||
+      event.keyCode === 13 ||
+      event.keyCode === 32
+    );
+  };
+
 }
 
 ("use script");

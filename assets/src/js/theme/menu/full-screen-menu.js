@@ -57,6 +57,11 @@ class FullScreenMenu {
       this.#onToggleMenuBtnClick
     );
 
+    this.#elements.toggleMenuBtn.addEventListener(
+      "keydown",
+      this.#onToggleMenuBtnKeydown
+    );
+
     const hasPhpSubmenuControls =
       !!this.#elements.menu?.querySelector("[data-oceanwp-submenu-toggle]");
 
@@ -80,6 +85,15 @@ class FullScreenMenu {
       });
 
     document.addEventListener("keydown", this.#onDocumentKeydown);
+  };
+
+  #onToggleMenuBtnKeydown = (event) => {
+    if (!this.#isActivationKey(event) || event.currentTarget.tagName === "BUTTON") {
+      return;
+    }
+
+    event.preventDefault();
+    event.currentTarget.click();
   };
 
   #onToggleMenuBtnClick = (event) => {
@@ -199,7 +213,7 @@ class FullScreenMenu {
     const tabKey = event.key === "Tab" || event.keyCode === 9;
     const shiftKey = event.shiftKey;
     const escKey = event.key === "Escape" || event.keyCode === 27;
-    const enterKey = event.key === "Enter" || event.keyCode === 13;
+    const activationKey = this.#isActivationKey(event);
 
     const closeIcon = this.#elements.toggleMenuBtn;
 
@@ -235,9 +249,9 @@ class FullScreenMenu {
       return;
     }
 
-    // ENTER activates submenu toggle.
+    // ENTER and SPACE activate submenu toggle.
     if (
-      enterKey &&
+      activationKey &&
       document.activeElement?.matches(
         ".nav-arrow, .dropdown-toggle, .oceanwp-sub-menu-toggle, [data-oceanwp-submenu-toggle]"
       )
@@ -289,6 +303,17 @@ class FullScreenMenu {
       return;
     }
   };
+
+  #isActivationKey = (event) => {
+    return (
+      event.key === "Enter" ||
+      event.key === " " ||
+      event.key === "Spacebar" ||
+      event.keyCode === 13 ||
+      event.keyCode === 32
+    );
+  };
+
 }
 
 ("use script");
