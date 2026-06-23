@@ -152,20 +152,6 @@ class OceanWP_Customize_Header_CSS {
 		$vertical_header_hamburger_color 							= get_theme_mod( 'ocean_vertical_header_hamburger_color', '#000000' );
 
 		$header_image_overlay_color 								= get_theme_mod( 'ocean_header_image_overlay_color', 'rgba(0,0,0,0.5)' );
-		$header_video_overlay_color 								= get_theme_mod( 'ocean_header_video_background_overlay', 'rgba(0,0,0,0.3)' );
-
-		$media_button_background                                    = get_theme_mod( 'ocean_header_video_button_background_color' );
-		$media_button_background_hover                              = get_theme_mod( 'ocean_header_video_button_background_color_hover' );
-		$media_button_background_focus                              = get_theme_mod( 'ocean_header_video_button_background_color_focus' );
-
-		$media_button_icon_color                                    = get_theme_mod( 'ocean_header_video_button_icon_color' );
-		$media_button_icon_color_hover                              = get_theme_mod( 'ocean_header_video_button_icon_color_hover' );
-		$media_button_icon_color_focus                              = get_theme_mod( 'ocean_header_video_button_icon_color_focus' );
-
-		$media_button_border                                        = get_theme_mod( 'ocean_header_video_button_border_color' );
-		$media_button_border_hover                                  = get_theme_mod( 'ocean_header_video_button_border_color_hover' );
-		$media_button_border_focus                                  = get_theme_mod( 'ocean_header_video_button_border_color_focus' );
-
 
 		$logo_max_width												= get_theme_mod( 'ocean_logo_max_width' );
 		$logo_max_width_tablet										= get_theme_mod( 'ocean_logo_max_width_tablet' );
@@ -710,51 +696,9 @@ class OceanWP_Customize_Header_CSS {
 			$css .= '#site-header,.has-transparent-header .is-sticky #site-header,.has-vh-transparent .is-sticky #site-header.vertical-header,#searchform-header-replace{background-color:'. $header_background .';}';
 		}
 
-		if ( ! empty( $media_button_background ) ) {
-			$css .= '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button{background-color:' . $media_button_background . ';}';
-		}
-
-		if ( ! empty( $media_button_background_hover ) ) {
-			$css .= '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:hover{background-color:' . $media_button_background_hover . ';}';
-		}
-
-		if ( ! empty( $media_button_background_focus ) ) {
-			$css .= '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:focus{background-color:' . $media_button_background_focus . ';}';
-		}
-
-		if ( ! empty( $media_button_icon_color ) ) {
-			$css .= '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button{color:' . $media_button_icon_color . ';}';
-		}
-
-		if ( ! empty( $media_button_icon_color_hover ) ) {
-			$css .= '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:hover{color:' . $media_button_icon_color_hover . ';}';
-		}
-
-		if ( ! empty( $media_button_icon_color_focus ) ) {
-			$css .= '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:focus{color:' . $media_button_icon_color_focus . ';}';
-		}
-
-		if ( ! empty( $media_button_border ) ) {
-			$css .= '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button{border-color:' . $media_button_border . ';}';
-		}
-
-		if ( ! empty( $media_button_border_hover ) ) {
-			$css .= '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:hover{border-color:' . $media_button_border_hover . ';}';
-		}
-
-		if ( ! empty( $media_button_border_focus ) ) {
-			$css .= '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:focus{border-color:' . $media_button_border_focus . ';}';
-		}
-
-		if ( ! empty( $header_video_overlay_color ) && 'rgba(0,0,0,0.3)' != $header_video_overlay_color ) {
-			$css .= '#site-header.has-header-media .custom-header-media.has-video:before{background:'. $header_video_overlay_color .';}';
-			$css .= '#site-header.has-header-media .custom-header-media.has-video-image:before{background:'. $header_video_overlay_color .';}';
-		}
-
 		// Header media overlay color
 		if ( ! empty( $header_image_overlay_color ) && 'rgba(0,0,0,0.3)' != $header_image_overlay_color ) {
-			$css .= '#site-header.has-header-media .overlay-header-media.has-image:not(.has-video){background-color:'. $header_image_overlay_color .';}';
-			$css .= '#site-header.has-header-media .custom-header-media.has-image:not(.has-video):before{background:'. $header_image_overlay_color .';}';
+			$css .= '#site-header.has-header-media .overlay-header-media{background-color:'. $header_image_overlay_color .';}';
 		}
 
 		// Header border color
@@ -1246,9 +1190,9 @@ class OceanWP_Customize_Header_CSS {
 		$css = '';
 
 		// Get site background image
-		if ( ! empty( $header_image ) ) {
-			$css .= 'background-image:url(' . esc_url( $header_image ) . ');';
-		}
+		// if ( ! empty( $header_image ) ) {
+		// 	$css .= 'background-image:url(' . esc_url( $header_image ) . ');';
+		// }
 
 		// Get site background position
 		if ( ! empty( $header_image_position ) && 'initial' != $header_image_position ) {

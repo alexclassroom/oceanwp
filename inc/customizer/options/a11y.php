@@ -31,6 +31,16 @@ $options = [
 		'sanitize_callback' => 'oceanwp_sanitize_checkbox',
 	],
 
+	'ocean_accessibility_mobile_header_tags' => [
+		'type'              => 'ocean-switch',
+		'label'             => esc_html__( 'Enable Mobile Header Tags', 'oceanwp' ),
+		'section'           => 'ocean_accessibility',
+		'default'           => ocean_accessibility_get_default_value(),
+		'transport'         => 'refresh',
+		'priority'          => 10,
+		'sanitize_callback' => 'oceanwp_sanitize_checkbox',
+	],
+
     'ocean_spacer_for_a11y_search_section' => [
 		'type' => 'ocean-spacer',
 		'section' => 'ocean_accessibility',
@@ -40,6 +50,7 @@ $options = [
 		'bottom' => 1,
 	],
 
+	// Search Section
 	'ocean_accessibility_search_section' => [
 		'type' => 'section',
 		'title' => esc_html__( 'Search Forms', 'oceanwp' ),
@@ -163,7 +174,7 @@ $options = [
         ]
     ],
 
-	 'ocean_spacer_for_a11y_comment_form_section' => [
+	'ocean_spacer_for_a11y_comment_form_section' => [
 		'type' => 'ocean-spacer',
 		'section' => 'ocean_accessibility',
 		'transport' => 'postMessage',
@@ -172,6 +183,7 @@ $options = [
 		'bottom' => 1,
 	],
 
+	// Comment form Section
 	'ocean_accessibility_comment_form_section' => [
 		'type' => 'section',
 		'title' => esc_html__( 'Comment Form', 'oceanwp' ),
@@ -300,214 +312,328 @@ $options = [
         ]
     ],
 
-	'ocean_accessibility_mobile_header_tags' => [
-		'type'              => 'ocean-switch',
-		'label'             => esc_html__( 'Enable Mobile Header Tags', 'oceanwp' ),
-		'section'           => 'ocean_accessibility',
-		'default'           => ocean_accessibility_get_default_value(),
-		'transport'         => 'refresh',
-		'priority'          => 10,
-		'sanitize_callback' => 'oceanwp_sanitize_checkbox',
-	],
-
-	'ocean_display_header_video_controls' => [
-		'type'              => 'ocean-switch',
-		'label'             => esc_html__( 'Display Header Video Control Buttons', 'oceanwp' ),
-		'section'           => 'ocean_accessibility',
-		'default'           => ocean_accessibility_get_default_value(),
-		'transport'         => 'postMessage',
-		'priority'          => 10,
-		'hideLabel'         => false,
-		'sanitize_callback' => 'oceanwp_sanitize_checkbox',
-        'active_callback'    => 'oceanwp_cac_has_header_video',
-	],
-
-    'ocean_header_video_button_background_color' => [
-		'type' => 'ocean-color',
-		'label' => esc_html__( 'Button Background Color', 'oceanwp' ),
+	'ocean_spacer_for_a11y_header_media_section' => [
+		'type' => 'ocean-spacer',
 		'section' => 'ocean_accessibility',
 		'transport' => 'postMessage',
 		'priority' => 10,
-		'hideLabel' => false,
-		'showAlpha' => true,
-		'showPalette' => true,
-		'sanitize_callback' => 'wp_kses_post',
-        'active_callback' => 'oceanwp_cac_header_video_controls',
-		'setting_args' => [
-			'normal' => [
-				'id' => 'ocean_header_video_button_background_color',
-				'key' => 'normal',
-				'label' => esc_html__( 'Normal', 'oceanwp' ),
-				'selector' => [
-                    '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button' => 'background-color',
-                ],
-				'attr' => [
-					'transport' => 'postMessage',
-					'default'   => '',
-				],
-			],
-			'hover' => [
-				'id' => 'ocean_header_video_button_background_color_hover',
-				'key' => 'hover',
-				'label' => esc_html__( 'Hover', 'oceanwp' ),
-				'selector' => [
-					'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:hover' => 'background-color',
-				],
-				'attr' => [
-					'transport' => 'postMessage',
-					'default'   => '',
-				],
-			],
-           'focus' => [
-				'id' => 'ocean_header_video_button_background_color_focus',
-				'key' => 'focus',
-				'label' => esc_html__( 'Focus', 'oceanwp' ),
-				'selector' => [
-					'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:focus' => 'background-color'
-				],
-				'attr' => [
-					'transport' => 'postMessage',
-					'default'   => '',
-				],
-			],
-		]
-
+		'top' => 1,
+		'bottom' => 1,
 	],
 
-    'ocean_header_video_button_icon_color' => [
-		'type' => 'ocean-color',
-		'label' => esc_html__( 'Button Icon Color', 'oceanwp' ),
+	// Header media Section
+	'ocean_a11y_header_media_section' => [
+		'type' => 'section',
+		'title' => esc_html__( 'Header Media', 'oceanwp' ),
 		'section' => 'ocean_accessibility',
-		'transport' => 'refresh',
+		'after' => 'ocean_spacer_for_a11y_header_media_section',
+		'class' => 'section-a11y-header-media',
 		'priority' => 10,
-		'hideLabel' => false,
-		'showAlpha' => true,
-		'showPalette' => true,
-		'sanitize_callback' => 'wp_kses_post',
-        'active_callback' => 'oceanwp_cac_header_video_controls',
-		'setting_args' => [
-			'normal' => [
-				'id' => 'ocean_header_video_button_icon_color',
-				'key' => 'normal',
-				'label' => esc_html__( 'Normal', 'oceanwp' ),
-				'selector' => [
-                    '#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button' => 'color',
-				],
-				'attr' => [
-					'transport' => 'postMessage',
-					'default'   => '',
-				],
+		'options' => [
+			'ocean_accessible_header_video_layout' => [
+				'type'              => 'ocean-switch',
+				'label'             => esc_html__( 'Enable Accessible Header Video Layout', 'oceanwp' ),
+				'section'           => 'ocean_a11y_header_media_section',
+				'default'           => ocean_accessibility_get_default_value(),
+				'transport'         => 'refresh',
+				'priority'          => 10,
+				'sanitize_callback' => 'oceanwp_sanitize_checkbox',
 			],
-			'hover' => [
-				'id' => 'ocean_header_video_button_icon_color_hover',
-				'key' => 'hover',
-				'label' => esc_html__( 'Hover', 'oceanwp' ),
-				'selector' => [
-					'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:hover' => 'color',
-				],
-				'attr' => [
-					'transport' => 'postMessage',
-					'default'   => '',
-				],
+
+			'ocean_accessible_header_video_position' => [
+				'type' => 'ocean-select',
+				'label' => esc_html__( 'Header Video Position', 'oceanwp' ),
+				'section' => 'ocean_a11y_header_media_section',
+				'transport' => 'refresh',
+				'default' => 'above_top_bar',
+				'priority' => 10,
+				'hideLabel' => false,
+				'multiple' => false,
+				'sanitize_callback' => 'sanitize_key',
+				'active_callback' => 'oceanwp_cac_has_topbar',
+				'choices' => [
+					'above_top_bar' => esc_html__( 'Above Top Bar', 'oceanwp' ),
+					'above_header'  => esc_html__( 'Above Header', 'oceanwp' )
+				]
 			],
-           'focus' => [
-				'id' => 'ocean_header_video_button_icon_color_focus',
-				'key' => 'focus',
-				'label' => esc_html__( 'Focus', 'oceanwp' ),
-				'selector' => [
-					'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:focus' => 'color'
+
+			'ocean_accessible_header_video_visibility' => [
+				'type' => 'ocean-select',
+				'label' => esc_html__( 'Display Header Video On', 'oceanwp' ),
+				'section' => 'ocean_a11y_header_media_section',
+				'transport' => 'refresh',
+				'default' => 'homepage',
+				'priority' => 10,
+				'hideLabel' => false,
+				'multiple' => false,
+				'sanitize_callback' => 'sanitize_key',
+				'choices' => [
+					'homepage' => esc_html__( 'Homepage Only', 'oceanwp' ),
+					'sitewide'  => esc_html__( 'Entire Website', 'oceanwp' )
+				]
+			],
+
+			'ocean_accessible_header_video_fallback_mobile' => [
+				'type'              => 'ocean-switch',
+				'label'             => esc_html__( 'Use Header Image on Tablet/Mobile', 'oceanwp' ),
+				'section'           => 'ocean_a11y_header_media_section',
+				'default'           => ocean_accessibility_get_default_value(),
+				'transport'         => 'refresh',
+				'priority'          => 10,
+				'sanitize_callback' => 'oceanwp_sanitize_checkbox',
+			],
+
+			'ocean_accessible_header_media_height' => [
+				'label'     => esc_html__( 'Media Height', 'oceanwp' ),
+				'type'      => 'ocean-range-slider',
+				'section'   => 'ocean_a11y_header_media_section',
+				'transport' => 'postMessage',
+				'priority'  => 10,
+				'hideLabel'    => false,
+				'isUnit'       => true,
+				'isResponsive' => true,
+				'min'          => 10,
+				'max'          => 1000,
+				'step'         => 1,
+				'sanitize_callback' => 'oceanwp_sanitize_number_blank',
+				'setting_args' => [
+					'desktop' => [
+						'id' => 'ocean_accessible_header_media_height',
+						'label' => esc_html__( 'Desktop', 'oceanwp' ),
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => 600
+						],
+					],
+					'tablet' => [
+						'id' => 'ocean_accessible_header_media_height_tablet',
+						'label' => esc_html__( 'Tablet', 'oceanwp' ),
+						'attr' => [
+							'transport' => 'postMessage',
+						],
+					],
+					'mobile' => [
+						'id' => 'ocean_accessible_header_media_height_mobile',
+						'label' => esc_html__( 'Mobile', 'oceanwp' ),
+						'attr' => [
+							'transport' => 'postMessage',
+						],
+					],
+					'unit' => [
+						'id' => 'ocean_accessible_header_media_height_unit',
+						'label' => esc_html__( 'Unit', 'oceanwp' ),
+						'attr' => [
+							'transport' => 'postMessage',
+							'default' => 'px',
+						],
+					],
 				],
-				'attr' => [
-					'transport' => 'postMessage',
-					'default'   => '',
-				],
+				'preview' => 'queryWithType',
+				'css' => [
+					'.custom-header-media.ocean-accessible-header-media' => ['height']
+				]
+			],
+
+			'ocean_header_video_button_background_color' => [
+				'type' => 'ocean-color',
+				'label' => esc_html__( 'Button Background Color', 'oceanwp' ),
+				'section' => 'ocean_a11y_header_media_section',
+				'transport' => 'postMessage',
+				'priority' => 10,
+				'hideLabel' => false,
+				'showAlpha' => true,
+				'showPalette' => true,
+				'sanitize_callback' => 'wp_kses_post',
+				'active_callback' => 'oceanwp_cac_header_video_controls',
+				'setting_args' => [
+					'normal' => [
+						'id' => 'ocean_header_video_button_background_color',
+						'key' => 'normal',
+						'label' => esc_html__( 'Normal', 'oceanwp' ),
+						'selector' => [
+							'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button' => 'background-color',
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '',
+						],
+					],
+					'hover' => [
+						'id' => 'ocean_header_video_button_background_color_hover',
+						'key' => 'hover',
+						'label' => esc_html__( 'Hover', 'oceanwp' ),
+						'selector' => [
+							'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:hover' => 'background-color',
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '',
+						],
+					],
+					'focus' => [
+						'id' => 'ocean_header_video_button_background_color_focus',
+						'key' => 'focus',
+						'label' => esc_html__( 'Focus', 'oceanwp' ),
+						'selector' => [
+							'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:focus' => 'background-color'
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '',
+						],
+					],
+				]
+
+			],
+
+			'ocean_header_video_button_icon_color' => [
+				'type' => 'ocean-color',
+				'label' => esc_html__( 'Button Icon Color', 'oceanwp' ),
+				'section' => 'ocean_a11y_header_media_section',
+				'transport' => 'refresh',
+				'priority' => 10,
+				'hideLabel' => false,
+				'showAlpha' => true,
+				'showPalette' => true,
+				'sanitize_callback' => 'wp_kses_post',
+				'active_callback' => 'oceanwp_cac_header_video_controls',
+				'setting_args' => [
+					'normal' => [
+						'id' => 'ocean_header_video_button_icon_color',
+						'key' => 'normal',
+						'label' => esc_html__( 'Normal', 'oceanwp' ),
+						'selector' => [
+							'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button' => 'color',
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '',
+						],
+					],
+					'hover' => [
+						'id' => 'ocean_header_video_button_icon_color_hover',
+						'key' => 'hover',
+						'label' => esc_html__( 'Hover', 'oceanwp' ),
+						'selector' => [
+							'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:hover' => 'color',
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '',
+						],
+					],
+					'focus' => [
+						'id' => 'ocean_header_video_button_icon_color_focus',
+						'key' => 'focus',
+						'label' => esc_html__( 'Focus', 'oceanwp' ),
+						'selector' => [
+							'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:focus' => 'color'
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '',
+						],
+					],
+				]
+
+			],
+
+			'ocean_header_video_button_border_color' => [
+				'type' => 'ocean-color',
+				'label' => esc_html__( 'Button Border Color', 'oceanwp' ),
+				'section' => 'ocean_a11y_header_media_section',
+				'transport' => 'postMessage',
+				'priority' => 10,
+				'hideLabel' => false,
+				'showAlpha' => true,
+				'showPalette' => true,
+				'sanitize_callback' => 'wp_kses_post',
+				'active_callback' => 'oceanwp_cac_header_video_controls',
+				'setting_args' => [
+					'normal' => [
+						'id' => 'ocean_header_video_button_border_color',
+						'key' => 'normal',
+						'label' => esc_html__( 'Normal', 'oceanwp' ),
+						'selector' => [
+							'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button' => 'border-color',
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '',
+						],
+					],
+					'hover' => [
+						'id' => 'ocean_header_video_button_border_color_hover',
+						'key' => 'hover',
+						'label' => esc_html__( 'Hover', 'oceanwp' ),
+						'selector' => [
+							'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:hover' => 'border-color',
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '',
+						],
+					],
+					'focus' => [
+						'id' => 'ocean_header_video_button_border_color_focus',
+						'key' => 'focus',
+						'label' => esc_html__( 'Focus', 'oceanwp' ),
+						'selector' => [
+							'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:focus' => 'border-color'
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '',
+						],
+					],
+				]
+
 			],
 		]
-
 	],
 
-    'ocean_header_video_button_border_color' => [
-		'type' => 'ocean-color',
-		'label' => esc_html__( 'Button Border Color', 'oceanwp' ),
-		'section' => 'ocean_accessibility',
-		'transport' => 'postMessage',
-		'priority' => 10,
-		'hideLabel' => false,
-		'showAlpha' => true,
-		'showPalette' => true,
-		'sanitize_callback' => 'wp_kses_post',
-        'active_callback' => 'oceanwp_cac_header_video_controls',
-		'setting_args' => [
-			'normal' => [
-				'id' => 'ocean_header_video_button_border_color',
-				'key' => 'normal',
-				'label' => esc_html__( 'Normal', 'oceanwp' ),
-				'selector' => [
-					'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button' => 'border-color',
-				],
-				'attr' => [
-					'transport' => 'postMessage',
-					'default'   => '',
-				],
-			],
-			'hover' => [
-				'id' => 'ocean_header_video_button_border_color_hover',
-				'key' => 'hover',
-				'label' => esc_html__( 'Hover', 'oceanwp' ),
-				'selector' => [
-					'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:hover' => 'border-color',
-				],
-				'attr' => [
-					'transport' => 'postMessage',
-					'default'   => '',
-				],
-			],
-           'focus' => [
-				'id' => 'ocean_header_video_button_border_color_focus',
-				'key' => 'focus',
-				'label' => esc_html__( 'Focus', 'oceanwp' ),
-				'selector' => [
-					'#site-header .custom-header-media.has-video-controls .wp-custom-header-video-button:focus' => 'border-color'
-				],
-				'attr' => [
-					'transport' => 'postMessage',
-					'default'   => '',
-				],
-			],
-		]
+	// 'ocean_display_header_video_controls' => [
+	// 	'type'              => 'ocean-switch',
+	// 	'label'             => esc_html__( 'Display Header Video Control Buttons', 'oceanwp' ),
+	// 	'section'           => 'ocean_accessibility',
+	// 	'default'           => ocean_accessibility_get_default_value(),
+	// 	'transport'         => 'postMessage',
+	// 	'priority'          => 10,
+	// 	'hideLabel'         => false,
+	// 	'sanitize_callback' => 'oceanwp_sanitize_checkbox',
+    //     'active_callback'    => 'oceanwp_cac_has_header_video',
+	// ],
 
-	],
+    // 'ocean_header_video_background_overlay' => [
+	// 	'type' => 'ocean-color',
+	// 	'label' => esc_html__( 'Video Background Overlay', 'oceanwp' ),
+	// 	'section' => 'ocean_accessibility',
+	// 	'transport' => 'postMessage',
+	// 	'priority' => 10,
+	// 	'hideLabel' => false,
+	// 	'showAlpha' => true,
+	// 	'showPalette' => true,
+	// 	'sanitize_callback' => 'wp_kses_post',
+    //     'active_callback'    => 'oceanwp_cac_has_header_video',
+	// 	'setting_args' => [
+	// 		'normal' => [
+	// 			'id' => 'ocean_header_video_background_overlay',
+	// 			'key' => 'normal',
+	// 			'label' =>  esc_html__( 'Select Color', 'oceanwp' ),
+	// 			'selector' => [
+    //                 // '#site-header.has-header-media .overlay-header-media.has-video' => 'background-color',
+    //                 // '#site-header.has-header-media .overlay-header-media.has-video-image' => 'background-color'
 
-    'ocean_header_video_background_overlay' => [
-		'type' => 'ocean-color',
-		'label' => esc_html__( 'Video Background Overlay', 'oceanwp' ),
-		'section' => 'ocean_accessibility',
-		'transport' => 'postMessage',
-		'priority' => 10,
-		'hideLabel' => false,
-		'showAlpha' => true,
-		'showPalette' => true,
-		'sanitize_callback' => 'wp_kses_post',
-        'active_callback'    => 'oceanwp_cac_has_header_video',
-		'setting_args' => [
-			'normal' => [
-				'id' => 'ocean_header_video_background_overlay',
-				'key' => 'normal',
-				'label' =>  esc_html__( 'Select Color', 'oceanwp' ),
-				'selector' => [
-                    // '#site-header.has-header-media .overlay-header-media.has-video' => 'background-color',
-                    // '#site-header.has-header-media .overlay-header-media.has-video-image' => 'background-color'
-
-					'#site-header.has-header-media .custom-header-media.has-video:before' => 'background',
-                    '#site-header.has-header-media .custom-header-media.has-video-image:before' => 'background'
-                ],
-                'attr' => [
-                    'transport' => 'postMessage',
-                    'default'   => 'rgba(0,0,0,0.3)',
-                ]
-			],
-		]
-	],
+	// 				'#site-header.has-header-media .custom-header-media.has-video:before' => 'background',
+    //                 '#site-header.has-header-media .custom-header-media.has-video-image:before' => 'background'
+    //             ],
+    //             'attr' => [
+    //                 'transport' => 'postMessage',
+    //                 'default'   => 'rgba(0,0,0,0.3)',
+    //             ]
+	// 		],
+	// 	]
+	// ],
 
 	'ocean_spacer_for_main_header_social_menu_section' => [
 		'type' => 'ocean-spacer',

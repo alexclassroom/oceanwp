@@ -37,8 +37,7 @@ if ( true !== get_theme_mod( 'ocean_header_full_width', false ) ) {
 $has_video = function_exists( 'has_header_video' ) && has_header_video();
 $has_image = has_header_image();
 
-// Get accessibility settings.
-$video_controls = $has_video && oceanwp_is_accessibility_feature_enabled( 'ocean_display_header_video_controls' );
+$enabled_accessible_header_media = oceanwp_is_accessible_header_video_enabled();
 
 $header_media_state = '';
 
@@ -54,10 +53,6 @@ $media_classes = array();
 
 if ( $header_media_state ) {
 	$media_classes[] = $header_media_state;
-}
-
-if ( $video_controls ) {
-	$media_classes[] = 'has-video-controls';
 }
 
 $overlay_classes = array();
@@ -87,7 +82,7 @@ if ( 'transparent' === $header_style
 
 		<?php
 		// If header video.
-		if ( $has_video ) {
+		if ( $has_video && ! $enabled_accessible_header_media ) {
 			?>
 			<div class="custom-header-media <?php echo esc_attr( implode( ' ', $media_classes ) ); ?>">
 
@@ -146,7 +141,7 @@ if ( 'transparent' === $header_style
 
 		<?php
 		// If header media.
-		if ( $has_image ) {
+		if ( $has_image && ! $enabled_accessible_header_media ) {
 			?>
 			<div class="overlay-header-media <?php echo esc_attr( implode( ' ', $overlay_classes ) ); ?>"></div>
 			<?php
