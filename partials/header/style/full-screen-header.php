@@ -25,7 +25,7 @@ $classes = implode( ' ', $classes );
 $anchorlink_text = esc_html( oceanwp_theme_strings( 'owp-string-fullscreen-header-anchor', false ) );
 
 // New accessibility and customizer settings.
-$a11y_mode_tags = get_theme_mod( 'ocean_accessibility_main_header_tags', ocean_accessibility_get_default_value() );
+$a11y_mode_tags  = oceanwp_is_semantic_desktop_header_enabled();
 $menu_label_text = esc_html__( 'Main Menu', 'oceanwp' );
 
 // Construct accessible operational attributes for disclosure control components

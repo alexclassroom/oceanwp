@@ -127,6 +127,14 @@ if ( ! empty( $template ) && ! defined( 'OCEANWP_NAV_SHORTCODE_DONE' ) ) {
 		// Turn menu classes into space separated string.
 		$menu_classes = implode( ' ', $menu_classes );
 
+		$walker_context = 'default';
+
+		if ( 'vertical' === $header_style ) {
+			$walker_context = 'vertical-header';
+		} elseif ( 'full_screen' === $header_style ) {
+			$walker_context = 'full-screen-header';
+		}
+
 		// Menu arguments.
 		$menu_args = array(
 			'theme_location' => $menu_location,
@@ -135,10 +143,7 @@ if ( ! empty( $template ) && ! defined( 'OCEANWP_NAV_SHORTCODE_DONE' ) ) {
 			'fallback_cb'    => false,
 			'link_before'    => '<span class="text-wrap">',
 			'link_after'     => '</span>',
-			'walker'         => 'vertical' === $header_style
-								? oceanwp_get_nav_walker( 'vertical-header' )
-								: new OceanWP_Custom_Nav_Walker(),
-
+			'walker'         => oceanwp_get_nav_walker( $walker_context ),
 		);
 
 		// Check if custom menu.

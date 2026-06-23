@@ -1,4 +1,5 @@
 import { fadeIn, fadeOut, slideDown, slideUp } from "../../lib/utils";
+import initAccessibleSubmenus from "./accessible-submenus";
 
 class FullScreenMenu {
   #elements = {
@@ -30,6 +31,21 @@ class FullScreenMenu {
   };
 
   #start = () => {
+    const hasPhpSubmenuControls =
+      !!this.#elements.menu?.querySelector("[data-oceanwp-submenu-toggle]");
+
+    if (hasPhpSubmenuControls) {
+      initAccessibleSubmenus({
+        root: this.#elements.menu,
+        itemSelector: "li.menu-item-has-children",
+        openClass: "open-sub",
+        toggleSelector: "[data-oceanwp-submenu-toggle]",
+        duration: 250,
+      });
+
+      return;
+    }
+
     this.#elements.menu.querySelectorAll(".nav-arrow").forEach((plusBtn) => {
       plusBtn.setAttribute("tabindex", 0);
     });
@@ -41,24 +57,43 @@ class FullScreenMenu {
       this.#onToggleMenuBtnClick
     );
 
-    document
-      .querySelectorAll(
-        '#full-screen-menu #site-navigation ul > li.dropdown > a > .text-wrap > span.nav-arrow, #full-screen-menu #site-navigation ul > li.dropdown > a[href="#"]'
-      )
-      ?.forEach((menuItemLink) => {
-        menuItemLink.addEventListener("click", this.#onMenuLinkClick);
-        menuItemLink.addEventListener("tap", this.#onMenuLinkClick);
-      });
+    this.#elements.toggleMenuBtn.addEventListener(
+      "keydown",
+      this.#onToggleMenuBtnKeydown
+    );
+
+    const hasPhpSubmenuControls =
+      !!this.#elements.menu?.querySelector("[data-oceanwp-submenu-toggle]");
+
+    if (!hasPhpSubmenuControls) {
+      document
+        .querySelectorAll(
+          '#full-screen-menu #site-navigation ul > li.dropdown > a > .text-wrap > span.nav-arrow, #full-screen-menu #site-navigation ul > li.dropdown > a[href="#"]'
+        )
+        ?.forEach((menuItemLink) => {
+          menuItemLink.addEventListener("click", this.#onMenuLinkClick);
+          menuItemLink.addEventListener("tap", this.#onMenuLinkClick);
+        });
+    }
 
     document
       .querySelectorAll(
-        '#full-screen-menu #site-navigation a.menu-link[href*="#"]:not([href="#"])'
+        '#full-screen-menu #site-navigation a.menu-link[href*="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle])'
       )
       .forEach((menuItemLink) => {
         menuItemLink.addEventListener("click", this.#onMenuHashtagLinkClick);
       });
 
     document.addEventListener("keydown", this.#onDocumentKeydown);
+  };
+
+  #onToggleMenuBtnKeydown = (event) => {
+    if (!this.#isActivationKey(event) || event.currentTarget.tagName === "BUTTON") {
+      return;
+    }
+
+    event.preventDefault();
+    event.currentTarget.click();
   };
 
   #onToggleMenuBtnClick = (event) => {
@@ -178,7 +213,7 @@ class FullScreenMenu {
     const tabKey = event.key === "Tab" || event.keyCode === 9;
     const shiftKey = event.shiftKey;
     const escKey = event.key === "Escape" || event.keyCode === 27;
-    const enterKey = event.key === "Enter" || event.keyCode === 13;
+    const activationKey = this.#isActivationKey(event);
 
     const closeIcon = this.#elements.toggleMenuBtn;
 
@@ -214,10 +249,12 @@ class FullScreenMenu {
       return;
     }
 
-    // ENTER activates submenu toggle.
+    // ENTER and SPACE activate submenu toggle.
     if (
-      enterKey &&
-      document.activeElement?.classList.contains("nav-arrow")
+      activationKey &&
+      document.activeElement?.matches(
+        ".nav-arrow, .dropdown-toggle, .oceanwp-sub-menu-toggle, [data-oceanwp-submenu-toggle]"
+      )
     ) {
       event.preventDefault();
       document.activeElement.click();
@@ -266,6 +303,17 @@ class FullScreenMenu {
       return;
     }
   };
+
+  #isActivationKey = (event) => {
+    return (
+      event.key === "Enter" ||
+      event.key === " " ||
+      event.key === "Spacebar" ||
+      event.keyCode === 13 ||
+      event.keyCode === 32
+    );
+  };
+
 }
 
 ("use script");

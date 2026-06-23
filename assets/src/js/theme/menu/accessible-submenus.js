@@ -5,10 +5,9 @@ export default function initAccessibleSubmenus(config = {}) {
     root: null,
     itemSelector: "li.menu-item-has-children",
     submenuSelector: "ul.sub-menu",
-    toggleSelector: "button.dropdown-toggle, button.oceanwp-sub-menu-toggle",
+    toggleSelector: "[data-oceanwp-submenu-toggle]",
     openClass: "active",
     duration: 250,
-    targetMode: "icon",
     closeDescendants: true,
     ...config,
   };
@@ -33,31 +32,34 @@ function setupItem(item, settings) {
 
   ensureSubmenuId(submenu, item);
 
-  const button = getDirectChild(item, settings.toggleSelector);
-  const parentLink = getDirectChild(item, "a");
+  const toggle = getDirectChild(item, settings.toggleSelector);
 
-  if (button) {
-    button.setAttribute("type", "button");
-    button.setAttribute("aria-controls", submenu.id);
-    button.setAttribute("aria-expanded", isOpen(item, settings) ? "true" : "false");
+  if (toggle) {
+    if (toggle.tagName === "BUTTON") {
+      toggle.setAttribute("type", "button");
+    }
 
-    button.addEventListener("click", (event) => {
+    toggle.setAttribute("aria-controls", submenu.id);
+    toggle.setAttribute(
+      "aria-expanded",
+      isOpen(item, settings) ? "true" : "false"
+    );
+
+    toggle.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
 
       toggleItem(item, submenu, settings);
     });
-  }
 
-  if (settings.targetMode === "link" && parentLink) {
-    parentLink.setAttribute("aria-controls", submenu.id);
-    parentLink.setAttribute("aria-expanded", isOpen(item, settings) ? "true" : "false");
+    toggle.addEventListener("keydown", (event) => {
+      if (!isActivationKey(event) || isNativeButton(toggle)) {
+        return;
+      }
 
-    parentLink.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
-
-      toggleItem(item, submenu, settings);
+      toggle.click();
     });
   }
 }
@@ -111,16 +113,13 @@ function closeDescendants(item, settings) {
 }
 
 function setExpanded(item, value, settings) {
-  const button = getDirectChild(item, settings.toggleSelector);
-  const parentLink = getDirectChild(item, "a");
+  const toggles = Array.from(item.children).filter((child) =>
+    child.matches?.(settings.toggleSelector)
+  );
 
-  if (button) {
-    button.setAttribute("aria-expanded", value);
-  }
-
-  if (settings.targetMode === "link" && parentLink) {
-    parentLink.setAttribute("aria-expanded", value);
-  }
+  toggles.forEach((toggle) => {
+    toggle.setAttribute("aria-expanded", value);
+  });
 }
 
 function isOpen(item, settings) {
@@ -139,4 +138,18 @@ function ensureSubmenuId(submenu, item) {
   const itemId = item.id ? item.id.replace("menu-item-", "") : Math.random().toString(36).slice(2);
 
   submenu.id = `oceanwp-sub-menu-${itemId}`;
+}
+
+function isActivationKey(event) {
+  return (
+    event.key === "Enter" ||
+    event.key === " " ||
+    event.key === "Spacebar" ||
+    event.keyCode === 13 ||
+    event.keyCode === 32
+  );
+}
+
+function isNativeButton(element) {
+  return element.tagName === "BUTTON";
 }

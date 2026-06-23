@@ -5593,11 +5593,62 @@ function oceanwp_is_header_style_supported( $allowed_styles = [] ) {
  *
  * @return string
  */
-function oceanwp_mobile_menu_dropdown_target() {
-	$target = get_theme_mod( 'ocean_mobile_menu_sidr_dropdown_target', 'link' );
-	$target = $target ? $target : 'link';
+if ( ! function_exists( 'oceanwp_mobile_menu_dropdown_target' ) ) {
 
-	return apply_filters( 'oceanwp_mobile_menu_dropdown_target', $target );
+	function oceanwp_mobile_menu_dropdown_target() {
+		$target = get_theme_mod( 'ocean_mobile_menu_sidr_dropdown_target', 'link' );
+		$target = $target ? $target : 'link';
+
+		if ( ! in_array( $target, array( 'link', 'icon' ), true ) ) {
+			$target = 'link';
+		}
+
+		return apply_filters( 'oceanwp_mobile_menu_dropdown_target', $target );
+	}
+}
+
+if ( ! function_exists( 'oceanwp_vertical_header_dropdown_target' ) ) {
+
+	function oceanwp_vertical_header_dropdown_target() {
+		$target = get_theme_mod( 'ocean_vertical_header_dropdown_target', 'link' );
+		$target = $target ? $target : 'link';
+
+		if ( ! in_array( $target, array( 'link', 'icon' ), true ) ) {
+			$target = 'link';
+		}
+
+		return apply_filters( 'oceanwp_vertical_header_dropdown_target', $target );
+	}
+}
+
+if ( ! function_exists( 'oceanwp_is_enhanced_mobile_menu_context' ) ) {
+
+	function oceanwp_is_enhanced_mobile_menu_context( $context ) {
+		return in_array(
+			$context,
+			array(
+				'mobile-dropdown',
+				'mobile-fullscreen',
+			),
+			true
+		);
+	}
+}
+
+if ( ! function_exists( 'oceanwp_is_enhanced_submenu_context' ) ) {
+
+	function oceanwp_is_enhanced_submenu_context( $context ) {
+		return in_array(
+			$context,
+			array(
+				'mobile-dropdown',
+				'mobile-fullscreen',
+				'vertical-header',
+				'full-screen-header',
+			),
+			true
+		);
+	}
 }
 
 /**
@@ -5608,20 +5659,41 @@ function oceanwp_mobile_menu_dropdown_target() {
  * @return OceanWP_Custom_Nav_Walker
  */
 function oceanwp_get_nav_walker( $context = 'default' ) {
-	$semantic = false;
+	$context                  = $context ? $context : 'default';
+	$controls_enabled         = false;
+	$semantic                 = false;
+	$submenu_dropdown_target  = 'link';
 
-	if ( in_array( $context, array( 'mobile-dropdown', 'mobile-fullscreen' ), true ) ) {
-		$semantic = oceanwp_is_semantic_mobile_header_enabled();
+	if ( 'mobile-dropdown' === $context ) {
+		$controls_enabled        = true;
+		$semantic                = oceanwp_is_semantic_mobile_header_enabled();
+		$submenu_dropdown_target = oceanwp_mobile_menu_dropdown_target();
+	}
+
+	if ( 'mobile-fullscreen' === $context ) {
+		$controls_enabled        = true;
+		$semantic                = oceanwp_is_semantic_mobile_header_enabled();
+		$submenu_dropdown_target = 'auto';
 	}
 
 	if ( 'vertical-header' === $context ) {
-		$semantic = oceanwp_is_semantic_desktop_header_enabled();
+		$semantic                = oceanwp_is_semantic_desktop_header_enabled();
+		$controls_enabled        = $semantic;
+		$submenu_dropdown_target = oceanwp_vertical_header_dropdown_target();
+	}
+
+	if ( 'full-screen-header' === $context ) {
+		$semantic                = oceanwp_is_semantic_desktop_header_enabled();
+		$controls_enabled        = $semantic;
+		$submenu_dropdown_target = 'auto';
 	}
 
 	return new OceanWP_Custom_Nav_Walker(
 		array(
 			'context'                  => $context,
+			'submenu_controls_enabled' => $controls_enabled,
 			'semantic_submenu_toggles' => $semantic,
+			'submenu_dropdown_target'  => $submenu_dropdown_target,
 		)
 	);
 }

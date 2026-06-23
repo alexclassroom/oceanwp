@@ -95,7 +95,7 @@ label.mobile-fs-search-visible-label {
 #site-header.vertical-header .vertical-toggle:hover {
   background-color: transparent;
 }
-#site-header.vertical-header #site-navigation-wrap .oceanwp-has-accessible-toggle > .oceanwp-sub-menu-toggle .nav-arrow {
+#site-header.vertical-header #site-navigation-wrap .oceanwp-has-accessible-toggle > .dropdown-toggle .nav-arrow {
   display: flex;
 }
 
@@ -255,18 +255,14 @@ label.mobile-fs-search-visible-label {
 
 button.dropdown-toggle,
 .oceanwp-sub-menu-toggle {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  line-height: inherit;
-  margin: 0;
-  padding: 0;
-  text-align: inherit;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+  text-align: left;
+  background: rgba(0, 0, 0, 0);
+  width: 100%;
 }
 
 button.dropdown-toggle:focus,
@@ -286,18 +282,21 @@ button.dropdown-toggle:focus-visible,
   outline-offset: 2px;
 }
 
+[data-oceanwp-submenu-toggle]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 .oceanwp-sub-menu-toggle .nav-arrow {
   pointer-events: none;
 }
 
+.oceanwp-has-submenu-toggle,
 .oceanwp-has-accessible-toggle {
   position: relative;
 }
-
-.oceanwp-has-accessible-toggle {
-  position: relative;
-}
-.oceanwp-has-accessible-toggle > .oceanwp-sub-menu-toggle {
+.oceanwp-has-submenu-toggle > .oceanwp-sub-menu-toggle-icon,
+.oceanwp-has-accessible-toggle > .oceanwp-sub-menu-toggle-icon {
   position: absolute;
   top: 0;
   right: 0;
@@ -313,18 +312,29 @@ button.dropdown-toggle:focus-visible,
   cursor: pointer;
   z-index: 2;
 }
-.oceanwp-has-accessible-toggle > .oceanwp-sub-menu-toggle .nav-arrow {
+.oceanwp-has-submenu-toggle > .oceanwp-sub-menu-toggle-icon .nav-arrow,
+.oceanwp-has-accessible-toggle > .oceanwp-sub-menu-toggle-icon .nav-arrow {
   transition: transform 0.25s ease;
 }
-.oceanwp-has-accessible-toggle > .menu-link {
-  padding-right: 48px;
+.oceanwp-has-submenu-toggle > .oceanwp-sub-menu-toggle-icon + .sub-menu,
+.oceanwp-has-accessible-toggle > .oceanwp-sub-menu-toggle-icon + .sub-menu {
+  clear: both;
 }
-.oceanwp-has-accessible-toggle.active > .oceanwp-sub-menu-toggle .nav-arrow, .oceanwp-has-accessible-toggle.open-sub > .oceanwp-sub-menu-toggle .nav-arrow {
+
+/* Rotate top-level submenu arrows */
+.oceanwp-has-submenu-toggle.active > .oceanwp-sub-menu-toggle-icon .nav-arrow,
+.oceanwp-has-submenu-toggle.active > .menu-link.oceanwp-sub-menu-toggle-parent .nav-arrow, .oceanwp-has-submenu-toggle.open-sub > .oceanwp-sub-menu-toggle-icon .nav-arrow,
+.oceanwp-has-submenu-toggle.open-sub > .menu-link.oceanwp-sub-menu-toggle-parent .nav-arrow,
+.oceanwp-has-accessible-toggle.active > .oceanwp-sub-menu-toggle-icon .nav-arrow,
+.oceanwp-has-accessible-toggle.active > .menu-link.oceanwp-sub-menu-toggle-parent .nav-arrow,
+.oceanwp-has-accessible-toggle.open-sub > .oceanwp-sub-menu-toggle-icon .nav-arrow,
+.oceanwp-has-accessible-toggle.open-sub > .menu-link.oceanwp-sub-menu-toggle-parent .nav-arrow {
   transition: transform 0.5s ease;
   transform: rotate(180deg);
 }
 
-.sub-menu .oceanwp-has-accessible-toggle.active > .oceanwp-sub-menu-toggle .nav-arrow, .sub-menu .oceanwp-has-accessible-toggle.open-sub > .oceanwp-sub-menu-toggle .nav-arrow {
+/* Rotate nested submenu arrows */
+.sub-menu .oceanwp-has-accessible-toggle.active > .oceanwp-sub-menu-toggle-icon .nav-arrow, .sub-menu .oceanwp-has-accessible-toggle.open-sub > .oceanwp-sub-menu-toggle-icon .nav-arrow {
   transition: transform 0.25s ease;
   transform: rotate(90deg);
 }

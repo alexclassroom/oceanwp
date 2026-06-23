@@ -75,7 +75,7 @@ $left_menu_args = oceanwp_apply_nav_walker_context( $left_menu_args, 'mobile-ful
 $top_menu_args  = oceanwp_apply_nav_walker_context( $top_menu_args, 'mobile-fullscreen' );
 
 // New accessibility settings.
-$a11y_mode_tags = get_theme_mod( 'ocean_accessibility_mobile_header_tags', ocean_accessibility_get_default_value() );
+$a11y_mode_tags = oceanwp_is_semantic_mobile_header_enabled();
 
 // SEO link txt.
 $anchorlink_text = esc_html( oceanwp_theme_strings( 'owp-string-mobile-fullscreen-anchor', false ) );

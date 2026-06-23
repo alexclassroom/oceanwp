@@ -36,11 +36,16 @@ class FullScreenMobileMenu {
 
   #start = () => {
 
-    if (options.semanticMobileHeader) {
+    const hasPhpSubmenuControls =
+      !!this.#elements.menu?.querySelector(
+        "[data-oceanwp-submenu-toggle]"
+      );
+
+    if (hasPhpSubmenuControls) {
       initAccessibleSubmenus({
         root: this.#elements.menu,
         openClass: "open-sub",
-        targetMode: this.#getMobileDropdownTarget() === "link" ? "link" : "button",
+        toggleSelector: "[data-oceanwp-submenu-toggle]",
         duration: 250,
       });
 
@@ -61,9 +66,10 @@ class FullScreenMobileMenu {
     window.addEventListener("resize", this.#onWindowResize);
 
     delegate(document.body, ".mobile-menu", "click", this.#onMenuButtonClick);
+    delegate(document.body, ".mobile-menu", "keydown", this.#onMenuButtonKeydown);
 
     document
-      .querySelectorAll('#mobile-fullscreen ul > li > a[href^="#"]:not([href="#"]), #mobile-fullscreen ul > li > a[href*="/#"]:not([href="#"])')
+      .querySelectorAll('#mobile-fullscreen ul > li > a[href^="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle]), #mobile-fullscreen ul > li > a[href*="/#"]:not([href="#"]):not([data-oceanwp-submenu-toggle])')
       .forEach((anchorLink) => {
         anchorLink.addEventListener("click", this.#handleAnchorLinks);
       });
@@ -81,7 +87,7 @@ class FullScreenMobileMenu {
 
     document
       .querySelectorAll(
-        '#mobile-fullscreen .fs-dropdown-menu li a[href*="#"]:not([href="#"]), #mobile-fullscreen #mobile-nav li a[href*="#"]:not([href="#"]), #mobile-fullscreen .close'
+        '#mobile-fullscreen .fs-dropdown-menu li a[href*="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle]), #mobile-fullscreen #mobile-nav li a[href*="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle]), #mobile-fullscreen .close'
       )
       .forEach((menuItemLink) => {
         menuItemLink.addEventListener("click", this.#onCloseIconClick);
@@ -118,6 +124,16 @@ class FullScreenMobileMenu {
 };
 
 
+
+  #onMenuButtonKeydown = (event) => {
+    if (!this.#isActivationKey(event) || event.currentTarget.tagName === "BUTTON") {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.currentTarget.click();
+  };
 
   #onMenuButtonClick = (event) => {
     event.preventDefault();
@@ -240,7 +256,7 @@ class FullScreenMobileMenu {
     const tabKey = event.keyCode === 9;
     const shiftKey = event.shiftKey;
     const escKey = event.keyCode === 27;
-    const enterKey = event.keyCode === 13;
+    const activationKey = this.#isActivationKey(event);
 
     const closeIcon = this.#elements.menu.querySelector(".close");
 
@@ -261,11 +277,12 @@ class FullScreenMobileMenu {
     }
 
     if (
-      enterKey &&
+      activationKey &&
       document.activeElement.classList.contains("dropdown-toggle")
     ) {
       event.preventDefault();
       document.activeElement.click();
+      return;
     }
 
     if (!shiftKey && tabKey && navLastElement === document.activeElement) {
@@ -285,6 +302,17 @@ class FullScreenMobileMenu {
       event.preventDefault();
     }
   };
+
+  #isActivationKey = (event) => {
+    return (
+      event.key === "Enter" ||
+      event.key === " " ||
+      event.key === "Spacebar" ||
+      event.keyCode === 13 ||
+      event.keyCode === 32
+    );
+  };
+
 }
 
 ("use script");

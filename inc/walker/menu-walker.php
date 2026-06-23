@@ -30,12 +30,26 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 		 */
 		private $context = 'default';
 
+		private $submenu_controls_enabled = false;
+
 		/**
-		 * Whether semantic submenu toggle buttons should be output.
+		 * Whether semantic submenu toggle controls should be output.
 		 *
 		 * @var bool
 		 */
 		private $semantic_submenu_toggles = false;
+
+		private $submenu_dropdown_target = 'link';
+
+		/**
+		 * Mobile dropdown target.
+		 *
+		 * link = parent menu item toggles submenu.
+		 * icon = separate icon control toggles submenu.
+		 *
+		 * @var string
+		 */
+		//private $mobile_dropdown_target = 'link';
 
 		/**
 		 * Submenu IDs indexed by depth.
@@ -54,14 +68,23 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 				$args,
 				array(
 					'context'                  => 'default',
+					'submenu_controls_enabled' => false,
 					'semantic_submenu_toggles' => false,
+					'submenu_dropdown_target'  => 'icon',
 				)
 			);
 
 			$this->context                  = sanitize_html_class( $args['context'] );
+			$this->submenu_controls_enabled = (bool) $args['submenu_controls_enabled'];
 			$this->semantic_submenu_toggles = (bool) $args['semantic_submenu_toggles'];
+			$this->submenu_dropdown_target  = in_array( $args['submenu_dropdown_target'], array( 'link', 'icon', 'auto' ), true )
+				? $args['submenu_dropdown_target']
+				: 'link';
 		}
 
+		private function has_submenu_controls() {
+			return $this->submenu_controls_enabled;
+		}
 
 		/**
 		 * Starts the list before the elements are added.
@@ -79,8 +102,8 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 
 			$classes = array( 'sub-menu' );
 
-			// Megamenu columns
-			$col = ! empty( $this->megamenu_col ) ? ( 'col-' . $this->megamenu_col . '' ) : 'col-2';
+			// Megamenu columns.
+			$col = ! empty( $this->megamenu_col ) ? ( 'col-' . $this->megamenu_col ) : 'col-2';
 
 			if ( $depth === 0 && $this->megamenu != '' && 'full_screen' != oceanwp_header_style() && 'vertical' != oceanwp_header_style() ) {
 				$classes = array( 'megamenu', $col, 'sub-menu' );
@@ -90,7 +113,7 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 				'class' => implode( ' ', $classes ),
 			);
 
-			if ( $this->semantic_submenu_toggles && ! empty( $this->submenu_ids[ $depth ] ) ) {
+			if ( $this->has_submenu_controls() && ! empty( $this->submenu_ids[ $depth ] ) ) {
 				$atts['id'] = $this->submenu_ids[ $depth ];
 			}
 
@@ -168,12 +191,22 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 			$has_children = ! empty( $args->has_children );
 			$submenu_id   = '';
 
-			if ( $this->semantic_submenu_toggles && $has_children ) {
+			$use_submenu_control = (
+				$this->has_submenu_controls()
+				&& $has_children
+			);
+
+			if ( $use_submenu_control ) {
 				$submenu_id                   = 'oceanwp-sub-menu-' . absint( $item->ID );
 				$this->submenu_ids[ $depth ] = $submenu_id;
-				$classes[]                   = 'oceanwp-has-accessible-toggle';
-			}
 
+				$classes[] = 'oceanwp-has-submenu-toggle';
+				$classes[] = 'oceanwp-has-accessible-toggle'; // Keep current a11y CSS working.
+				$classes[] = 'oceanwp-dropdown-target-' . $this->submenu_dropdown_target;
+				$classes[] = $this->semantic_submenu_toggles
+					? 'oceanwp-submenu-trigger-button'
+					: 'oceanwp-submenu-trigger-link';
+			}
 
 			/**
 			 * Filters the CSS class(es) applied to a menu item's list item element.
@@ -231,13 +264,67 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 			 */
 			$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
 
-			$attributes = '';
-			foreach ( $atts as $attr => $value ) {
-				if ( ! empty( $value ) ) {
-					$value       = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
-					$attributes .= ' ' . $attr . '="' . $value . '"';
+			$item_url = isset( $atts['href'] ) ? trim( (string) $atts['href'] ) : '';
+
+			$has_real_url = (
+				'' !== $item_url
+				&& '#' !== $item_url
+			);
+
+			$effective_dropdown_target = $this->submenu_dropdown_target;
+
+			if ( 'auto' === $effective_dropdown_target ) {
+				$effective_dropdown_target = $has_real_url ? 'icon' : 'link';
+			}
+
+			$menu_item_tag = 'a';
+
+			$link_classes = array( 'menu-link' );
+
+			if ( ! empty( $atts['class'] ) ) {
+				$link_classes[] = $atts['class'];
+				unset( $atts['class'] );
+			}
+
+			$parent_link_is_toggle = (
+				$use_submenu_control
+				&& 'link' === $effective_dropdown_target
+			);
+
+			/*
+			* Mobile dropdown target = parent menu item.
+			*
+			* Legacy mode:
+			*   Parent <a class="menu-link"> toggles submenu.
+			*
+			* Semantic mode:
+			*   Parent <button class="menu-link"> toggles submenu.
+			*/
+			if ( $parent_link_is_toggle ) {
+				$link_classes[] = 'dropdown-toggle';
+				$link_classes[] = 'oceanwp-sub-menu-toggle-parent';
+				$link_classes[] = 'oceanwp-sub-menu-toggle-' . $this->context;
+
+				$atts['aria-expanded']               = 'false';
+				$atts['aria-controls']               = $submenu_id;
+				$atts['data-oceanwp-submenu-toggle'] = 'parent';
+
+				if ( $this->semantic_submenu_toggles ) {
+					$menu_item_tag = 'button';
+
+					unset( $atts['href'], $atts['target'], $atts['rel'], $atts['title'] );
+
+					$atts['type'] = 'button';
+				} else {
+					if ( empty( $atts['href'] ) ) {
+						$atts['href'] = '#';
+					}
 				}
 			}
+
+			$atts['class'] = implode( ' ', array_unique( array_filter( $link_classes ) ) );
+
+			$attributes = $this->build_html_atts( $atts );
 
 			/** This filter is documented in wp-includes/post-template.php */
 			$title = apply_filters( 'the_title', $item->title, $item->ID );
@@ -254,26 +341,36 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 			 */
 			$title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
 
-			// Output
+			// Output.
 			$item_output = $args->before;
 
-			$item_output .= '<a' . $attributes . ' class="menu-link">';
+			$item_output .= '<' . $menu_item_tag . $attributes . '>';
 
 			$item_output .= $args->link_before . $title . $args->link_after;
 
-			// Description
+			if ( $parent_link_is_toggle ) {
+				$item_output .= $this->get_submenu_toggle_icon( $depth );
+			}
+
+			// Description.
 			if ( $item->description && 0 != $depth ) {
 				$item_output .= '<span class="nav-content">' . $item->description . '</span>';
 			}
 
-			$item_output .= '</a>';
+			$item_output .= '</' . $menu_item_tag . '>';
 
-			if ( $this->semantic_submenu_toggles && ! empty( $args->has_children ) ) {
-				$submenu_id = 'oceanwp-sub-menu-' . absint( $item->ID );
-
-				$item_output .= $this->get_submenu_toggle_button( $item, $submenu_id, $depth, $args );
+			/*
+			* Mobile dropdown target = icon.
+			*
+			* Legacy mode:
+			*   Separate <a> toggles submenu.
+			*
+			* Semantic mode:
+			*   Separate <button> toggles submenu.
+			*/
+			if ( $use_submenu_control && 'icon' === $effective_dropdown_target ) {
+				$item_output .= $this->get_submenu_toggle_control( $item, $submenu_id, $depth, $args );
 			}
-
 
 			if ( ( ! empty( $item->template ) || ! empty( $item->mega_template ) ) && $this->megamenu != '' && 'vertical' != oceanwp_header_style() ) {
 				ob_start();
@@ -449,52 +546,75 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 		 */
 		public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
 
-			// Define vars
-			$id_field             = $this->db_fields['id'];
+			if ( ! is_object( $element ) ) {
+				return;
+			}
+
+			$id_field = $this->db_fields['id'];
+
+			if ( ! isset( $element->$id_field ) ) {
+				Walker_Nav_Menu::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
+				return;
+			}
+
+			if ( empty( $element->classes ) || ! is_array( $element->classes ) ) {
+				$element->classes = array();
+			}
+
 			$header_style         = oceanwp_header_style();
 			$full_screen_dropdown = '<span class="nav-arrow"></span>';
+			$has_children         = ! empty( $children_elements[ $element->$id_field ] );
 
-			$has_children = ! empty( $children_elements[ $element->$id_field ] );
+			$has_category_mega = (
+				isset( $element->category_post )
+				&& '' !== $element->category_post
+				&& isset( $element->object )
+				&& 'category' === $element->object
+				&& 'full_screen' !== $header_style
+				&& 'vertical' !== $header_style
+			);
 
-			if ( ! empty( $args[0] ) ) {
+			if ( isset( $args[0] ) && is_object( $args[0] ) ) {
 				$args[0]->has_children = $has_children;
 			}
 
-			if (
-				$has_children && 0 === $depth
-				|| (
-					isset( $element->category_post )
-					&& $element->category_post !== ''
-					&& $element->object === 'category'
-					&& 'full_screen' !== $header_style
-				)
-			) {
+			if ( ( $has_children && 0 === $depth ) || $has_category_mega ) {
 				$element->classes[] = 'dropdown';
 
-				if ( ! $this->semantic_submenu_toggles && true == get_theme_mod( 'ocean_menu_arrow_down', true ) ) {
-					( 'full_screen' == $header_style ) ? $element->title .= $full_screen_dropdown : $element->title .= oceanwp_icon( 'angle_down', false, 'nav-arrow' );
+				if (
+					true == get_theme_mod( 'ocean_menu_arrow_down', true )
+					&& ( ! $this->has_submenu_controls() || $has_category_mega )
+				) {
+					( 'full_screen' == $header_style )
+						? $element->title .= $full_screen_dropdown
+						: $element->title .= oceanwp_icon( 'angle_down', false, 'nav-arrow' );
 				}
 			}
 
 			if ( $has_children && $depth > 0 ) {
 				$element->classes[] = 'dropdown';
 
-				if ( ! $this->semantic_submenu_toggles && true == get_theme_mod( 'ocean_menu_arrow_side', true ) ) {
+				if (
+					true == get_theme_mod( 'ocean_menu_arrow_side', true )
+					&& ! $this->has_submenu_controls()
+				) {
 					if ( is_rtl() ) {
-						( 'full_screen' == $header_style ) ? $element->title .= $full_screen_dropdown : $element->title .= oceanwp_icon( 'angle_left', false, 'nav-arrow' );
+						( 'full_screen' == $header_style )
+							? $element->title .= $full_screen_dropdown
+							: $element->title .= oceanwp_icon( 'angle_left', false, 'nav-arrow' );
 					} else {
-						( 'full_screen' == $header_style ) ? $element->title .= $full_screen_dropdown : $element->title .= oceanwp_icon( 'angle_right', false, 'nav-arrow' );
+						( 'full_screen' == $header_style )
+							? $element->title .= $full_screen_dropdown
+							: $element->title .= oceanwp_icon( 'angle_right', false, 'nav-arrow' );
 					}
 				}
 			}
 
-			// Define walker
 			Walker_Nav_Menu::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
-
 		}
 
 		/**
-		 * Get submenu toggle button.
+		 * Get submenu toggle control.
 		 *
 		 * @param WP_Post  $item       Menu item.
 		 * @param string   $submenu_id Submenu ID.
@@ -503,49 +623,60 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 		 *
 		 * @return string
 		 */
-		private function get_submenu_toggle_button( $item, $submenu_id, $depth, $args ) {
+		private function get_submenu_toggle_control( $item, $submenu_id, $depth, $args ) {
 			$label = sprintf(
 				/* translators: %s: menu item title. */
 				esc_html__( 'Toggle submenu: %s', 'oceanwp' ),
 				wp_strip_all_tags( $item->title )
 			);
 
+			$tag = $this->semantic_submenu_toggles ? 'button' : 'a';
+
 			$classes = array(
 				'dropdown-toggle',
 				'oceanwp-sub-menu-toggle',
+				'oceanwp-sub-menu-toggle-icon',
 				'oceanwp-sub-menu-toggle-' . $this->context,
 			);
 
 			$classes = apply_filters(
-				'oceanwp_submenu_toggle_button_classes',
+				'oceanwp_submenu_toggle_control_classes',
 				$classes,
 				$item,
 				$depth,
 				$args,
-				$this->context
+				$this->context,
+				$tag
 			);
 
 			$atts = array(
-				'type'          => 'button',
-				'class'         => implode( ' ', array_map( 'sanitize_html_class', $classes ) ),
-				'aria-expanded' => 'false',
-				'aria-controls' => $submenu_id,
+				'class'                         => implode( ' ', array_map( 'sanitize_html_class', $classes ) ),
+				'aria-expanded'                 => 'false',
+				'aria-controls'                 => $submenu_id,
+				'data-oceanwp-submenu-toggle'   => 'icon',
 			);
 
+			if ( 'button' === $tag ) {
+				$atts['type'] = 'button';
+			} else {
+				$atts['href'] = '#' . $submenu_id;
+			}
+
 			$atts = apply_filters(
-				'oceanwp_submenu_toggle_button_atts',
+				'oceanwp_submenu_toggle_control_atts',
 				$atts,
 				$item,
 				$submenu_id,
 				$depth,
 				$args,
-				$this->context
+				$this->context,
+				$tag
 			);
 
-			$output  = '<button' . $this->build_html_atts( $atts ) . '>';
+			$output  = '<' . $tag . $this->build_html_atts( $atts ) . '>';
 			$output .= '<span class="screen-reader-text">' . esc_html( $label ) . '</span>';
 			$output .= $this->get_submenu_toggle_icon( $depth );
-			$output .= '</button>';
+			$output .= '</' . $tag . '>';
 
 			return $output;
 		}
@@ -558,9 +689,7 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 		 * @return string
 		 */
 		private function get_submenu_toggle_icon( $depth ) {
-			$header_style = oceanwp_header_style();
-
-			if ( 'full_screen' === $this->context ) {
+			if ( in_array( $this->context, array( 'mobile-fullscreen', 'full-screen-header' ), true ) ) {
 				return '<span class="nav-arrow" aria-hidden="true"></span>';
 			}
 
@@ -601,7 +730,5 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 
 			return $output;
 		}
-
-
 	}
 }

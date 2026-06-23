@@ -716,8 +716,7 @@ final class OCEANWP_Theme_Class {
 		$mobile_target = oceanwp_mobile_menu_dropdown_target();
 		$sidr_side     = get_theme_mod( 'ocean_mobile_menu_sidr_direction', 'left' );
 		$sidr_side     = $sidr_side ? $sidr_side : 'left';
-		$vh_target     = get_theme_mod( 'ocean_vertical_header_dropdown_target', 'link' );
-		$vh_target     = $vh_target ? $vh_target : 'link';
+		$vh_target     = oceanwp_vertical_header_dropdown_target();
 		$scroll_offset = get_theme_mod( 'ocean_scroll_effect_offset_value' );
 		$scroll_offset = $scroll_offset ? $scroll_offset : 0;
 
