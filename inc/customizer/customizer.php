@@ -38,7 +38,6 @@ class OceanWP_Customizer_Init {
 		require OCEANWP_INC_DIR . 'customizer/customizer-defaults.php';
 		require OCEANWP_INC_DIR . 'customizer/callback.php';
 		require OCEANWP_INC_DIR . 'customizer/sanitize.php';
-		require OCEANWP_INC_DIR . 'customizer/svg.php';
 		require OCEANWP_INC_DIR . 'customizer/css-output/css.php';
 	}
 

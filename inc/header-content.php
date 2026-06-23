@@ -48,7 +48,9 @@ if ( OCEANWP_WOOCOMMERCE_ACTIVE
 	add_action( 'ocean_before_mobile_icon_inner', 'oceanwp_mobile_cart_icon_not_medium_header', 10 );
 }
 
-add_action( 'wp', 'oceanwp_accessible_header_video_boot', 20 );
+if ( oceanwp_is_accessible_header_video_enabled() ) {
+	add_action( 'wp', 'oceanwp_accessible_header_video_boot', 20 );
+}
 
 if ( ! function_exists( 'oceanwp_mobile_cart_icon' ) ) {
 
@@ -222,7 +224,7 @@ function oceanwp_accessible_header_media_render() {
 	}
 
 	if ( $image_enabled ) {
-		echo '<div class="custom-header-media ocean-accessible-image">';
+		echo '<div class="custom-header-media ocean-accessible-header-media ocean-accessible-image">';
 			the_custom_header_markup();
 		echo '</div>';
 	}
@@ -234,10 +236,6 @@ function oceanwp_accessible_header_media_render() {
  * @since 4.2.0
  */
 function oceanwp_accessible_header_video_boot() {
-
-	if ( ! oceanwp_is_accessible_header_video_enabled() ) {
-		return;
-	}
 
 	$video_enabled = function_exists( 'has_header_video' ) && has_header_video();
 	$image_enabled = function_exists( 'has_header_image' ) && has_header_image();

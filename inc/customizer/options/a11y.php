@@ -406,7 +406,7 @@ $options = [
 						],
 					],
 					'tablet' => [
-						'id' => 'ocean_accessible_header_media_height',
+						'id' => 'ocean_accessible_header_media_height_tablet',
 						'label' => esc_html__( 'Tablet', 'oceanwp' ),
 						'attr' => [
 							'transport' => 'postMessage',

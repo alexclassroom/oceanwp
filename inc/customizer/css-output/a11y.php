@@ -72,6 +72,7 @@ class OceanWP_Customize_A11Y_CSS {
 		$header_media_height_mobile			     = get_theme_mod( 'ocean_accessible_header_media_height_mobile', '' );
 		$header_media_height_unit			     = get_theme_mod( 'ocean_accessible_header_media_height_unit', 'px' );
 
+		$header_image_overlay_color 			 = get_theme_mod( 'ocean_header_image_overlay_color', 'rgba(0,0,0,0.5)' );
 		$header_image_position 		             = get_theme_mod( 'ocean_header_image_position' );
 		$header_image_size 			             = get_theme_mod( 'ocean_header_image_size' );
 			
@@ -187,20 +188,24 @@ class OceanWP_Customize_A11Y_CSS {
 		}
 
 		if ( ! empty( $header_media_height ) ) {
-			$css .= '.custom-header-media.ocean-accessible-header-media{height:'. $header_media_height . $header_media_height_unit . ';}';
+			$css .= '.custom-header-media.ocean-accessible-header-media, .custom-header-media.ocean-accessible-image{height:'. $header_media_height . $header_media_height_unit . ';}';
 		}
 
 		if ( ! empty( $header_media_height_tablet ) ) {
-			$css .= '@media (max-width: 768px){.custom-header-media.ocean-accessible-header-media{font-size:'. $header_media_height_tablet . $header_media_height_unit . ';}}';
+			$css .= '@media (max-width: 768px){.custom-header-media.ocean-accessible-header-media, .custom-header-media.ocean-accessible-image{height:'. $header_media_height_tablet . $header_media_height_unit . ';}}';
 		}
 
 		if ( ! empty( $header_media_height_mobile ) ) {
-			$css .= '@media (max-width: 480px){.custom-header-media.ocean-accessible-header-media{font-size:'. $header_media_height_mobile . $header_media_height_unit . ';}}';
+			$css .= '@media (max-width: 480px){.custom-header-media.ocean-accessible-header-media, .custom-header-media.ocean-accessible-image{height:'. $header_media_height_mobile . $header_media_height_unit . ';}}';
 		}
 
 
 		if ( ! empty( $header_image_position ) && 'initial' !== $header_image_position ) {
 			$css .= '.custom-header-media.ocean-accessible-image img{object-position:' . esc_attr( $header_image_position ) . ';}';
+		}
+
+		if ( ! empty( $header_image_overlay_color ) && 'rgba(0,0,0,0.3)' != $header_image_overlay_color ) {
+			$css .= '.custom-header-media.ocean-accessible-header-media::before{background-color:'. $header_image_overlay_color .';}';
 		}
 
 		if ( ! empty( $header_image_size ) && 'initial' !== $header_image_size ) {
