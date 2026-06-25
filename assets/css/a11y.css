@@ -34,6 +34,7 @@ button.sidr-class-toggle-sidr-close .owp-icon {
 }
 .sidr-class-mobile-searchform button[type=submit] {
   border: 0;
+  margin-top: 0;
 }
 
 label.mobile-fs-search-visible-label {

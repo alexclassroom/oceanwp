@@ -199,13 +199,12 @@ class OceanWP_Customize_A11Y_CSS {
 			$css .= '@media (max-width: 480px){.custom-header-media.ocean-accessible-header-media, .custom-header-media.ocean-accessible-image{height:'. $header_media_height_mobile . $header_media_height_unit . ';}}';
 		}
 
+		if ( ! empty( $header_image_overlay_color ) && 'rgba(0,0,0,0.3)' != $header_image_overlay_color ) {
+			$css .= '.custom-header-media.ocean-accessible-header-media::before{background-color:'. $header_image_overlay_color .';}';
+		}
 
 		if ( ! empty( $header_image_position ) && 'initial' !== $header_image_position ) {
 			$css .= '.custom-header-media.ocean-accessible-image img{object-position:' . esc_attr( $header_image_position ) . ';}';
-		}
-
-		if ( ! empty( $header_image_overlay_color ) && 'rgba(0,0,0,0.3)' != $header_image_overlay_color ) {
-			$css .= '.custom-header-media.ocean-accessible-header-media::before{background-color:'. $header_image_overlay_color .';}';
 		}
 
 		if ( ! empty( $header_image_size ) && 'initial' !== $header_image_size ) {
