@@ -701,8 +701,7 @@ $options = [
 				],
 				'preview' => 'queryWithType',
 				'css' => [
-					'.header-social-menu-external-mark' => ['width'],
-					'.header-social-menu-external-mark' => ['height']
+					'.header-social-menu-external-mark' => [ 'width', 'height' ],
 				]
 			],
 
@@ -731,8 +730,7 @@ $options = [
 				],
 				'preview' => 'queryWithType',
 				'css' => [
-					'.header-social-menu-external-mark' => ['padding-left'],
-					'.header-social-menu-external-mark' => ['padding-right']
+					'.header-social-menu-external-mark' => [ 'inset-inline-end' ],
 				]
 			],
 
@@ -761,8 +759,7 @@ $options = [
 				],
 				'preview' => 'queryWithType',
 				'css' => [
-					'.header-social-menu-external-mark' => ['padding-top'],
-					'.header-social-menu-external-mark' => ['padding-bottom']
+					'.header-social-menu-external-mark' => [ 'inset-block-start' ],
 				]
 			],
 
@@ -819,5 +816,189 @@ $options = [
 			],
 
 		]
+	],
+
+	'ocean_spacer_for_top_bar_social_menu_section' => [
+		'type' => 'ocean-spacer',
+		'section' => 'ocean_accessibility',
+		'transport' => 'postMessage',
+		'priority' => 10,
+		'top' => 1,
+		'bottom' => 1,
+	],
+
+	'ocean_top_bar_social_menu_section' => [
+		'type' => 'section',
+		'title' => esc_html__( 'Top Bar Social Menu', 'oceanwp' ),
+		'section' => 'ocean_accessibility',
+		'after' => 'ocean_spacer_for_top_bar_social_menu_section',
+		'class' => 'section-a11y-top-bar-social-menu',
+		'priority' => 10,
+		'options' => [
+			'ocean_display_top_bar_social_external_icon' => [
+				'type'              => 'ocean-switch',
+				'label'             => esc_html__( 'Display Top Bar Social External Icon', 'oceanwp' ),
+				'section'           => 'ocean_top_bar_social_menu_section',
+				'default'           => false,
+				'transport'         => 'refresh',
+				'priority'          => 10,
+				'sanitize_callback' => 'oceanwp_sanitize_checkbox',
+			],
+
+			'ocean_top_bar_social_external_icon_size' => [
+				'label'     => esc_html__( 'Responsive Icon Size (em)', 'oceanwp' ),
+				'type'      => 'ocean-range-slider',
+				'section'   => 'ocean_top_bar_social_menu_section',
+				'transport' => 'postMessage',
+				'priority'  => 10,
+				'hideLabel'    => false,
+				'isUnit'       => false,
+				'isResponsive' => true,
+				'min'          => 0.5,
+				'max'          => 1,
+				'step'         => 0.05,
+				'sanitize_callback' => 'oceanwp_sanitize_number_blank',
+				'setting_args' => [
+					'desktop' => [
+						'id' => 'ocean_top_bar_social_external_icon_size',
+						'label' => esc_html__( 'Desktop', 'oceanwp' ),
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => 0.72
+						],
+					],
+					'tablet' => [
+						'id' => 'ocean_top_bar_social_external_icon_size_tablet',
+						'label' => esc_html__( 'Tablet', 'oceanwp' ),
+						'attr' => [
+							'transport' => 'postMessage',
+						],
+					],
+					'mobile' => [
+						'id' => 'ocean_top_bar_social_external_icon_size_mobile',
+						'label' => esc_html__( 'Mobile', 'oceanwp' ),
+						'attr' => [
+							'transport' => 'postMessage',
+						],
+					]
+				],
+				'preview' => 'queryWithType',
+				'css' => [
+					'.top-bar-social-menu-external-mark' => [ 'width', 'height' ],
+				]
+			],
+
+			'ocean_top_bar_social_external_icon_x_offset' => [
+				'label'     => esc_html__( 'Horizontal offset (em)', 'oceanwp' ),
+				'type'      => 'ocean-range-slider',
+				'section'   => 'ocean_top_bar_social_menu_section',
+				'transport' => 'postMessage',
+				'priority'  => 10,
+				'hideLabel'    => false,
+				'isUnit'       => false,
+				'isResponsive' => false,
+				'min'          => -0.6,
+				'max'          => 0.6,
+				'step'         => 0.05,
+				'sanitize_callback' => 'oceanwp_sanitize_number_blank',
+				'setting_args' => [
+					'desktop' => [
+						'id' => 'ocean_top_bar_social_external_icon_x_offset',
+						'label' => esc_html__( 'Desktop', 'oceanwp' ),
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => -0.15
+						],
+					]
+				],
+				'preview' => 'queryWithType',
+				'css' => [
+					'.top-bar-social-menu-external-mark' => [ 'inset-inline-end' ],
+				]
+			],
+
+			'ocean_top_bar_social_external_icon_y_offset' => [
+				'label'     => esc_html__( 'Vertical offset (em)', 'oceanwp' ),
+				'type'      => 'ocean-range-slider',
+				'section'   => 'ocean_top_bar_social_menu_section',
+				'transport' => 'postMessage',
+				'priority'  => 10,
+				'hideLabel'    => false,
+				'isUnit'       => false,
+				'isResponsive' => false,
+				'min'          => -0.6,
+				'max'          => 0.6,
+				'step'         => 0.05,
+				'sanitize_callback' => 'oceanwp_sanitize_number_blank',
+				'setting_args' => [
+					'desktop' => [
+						'id' => 'ocean_top_bar_social_external_icon_y_offset',
+						'label' => esc_html__( 'Desktop', 'oceanwp' ),
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => -0.25
+						],
+					]
+				],
+				'preview' => 'queryWithType',
+				'css' => [
+					'.top-bar-social-menu-external-mark' => [ 'inset-block-start' ],
+				]
+			],
+
+			'ocean_top_bar_social_external_icon_color' => [
+				'type' => 'ocean-color',
+				'label' => esc_html__( 'Icon Color', 'oceanwp' ),
+				'section' => 'ocean_top_bar_social_menu_section',
+				'transport' => 'postMessage',
+				'priority' => 10,
+				'hideLabel' => false,
+				'showAlpha' => true,
+				'showPalette' => true,
+				'sanitize_callback' => 'wp_kses_post',
+				'setting_args' => [
+					'normal' => [
+						'id' => 'ocean_top_bar_social_external_icon_color',
+						'key' => 'normal',
+						'label' =>  esc_html__( 'Select Color', 'oceanwp' ),
+						'selector' => [
+							'.top-bar-social-menu-external-mark' => 'color',
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '#ffffff',
+						]
+					],
+				]
+			],
+
+			'ocean_top_bar_social_external_icon_background_color' => [
+				'type' => 'ocean-color',
+				'label' => esc_html__( 'Background Color', 'oceanwp' ),
+				'section' => 'ocean_top_bar_social_menu_section',
+				'transport' => 'postMessage',
+				'priority' => 10,
+				'hideLabel' => false,
+				'showAlpha' => true,
+				'showPalette' => true,
+				'sanitize_callback' => 'wp_kses_post',
+				'setting_args' => [
+					'normal' => [
+						'id' => 'ocean_top_bar_social_external_icon_background_color',
+						'key' => 'normal',
+						'label' =>  esc_html__( 'Select Color', 'oceanwp' ),
+						'selector' => [
+							'.top-bar-social-menu-external-mark' => 'background-color',
+						],
+						'attr' => [
+							'transport' => 'postMessage',
+							'default'   => '#000000',
+						]
+					],
+				]
+			],
+
+		]
 	]
+
 ];

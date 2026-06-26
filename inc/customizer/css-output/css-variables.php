@@ -735,9 +735,6 @@ class OceanWP_CSS_Variables {
 					'type'     => 'color',
 				),
 
-
-
-
 				/**
 				 * A11y CSS
 				 */
@@ -822,7 +819,7 @@ class OceanWP_CSS_Variables {
 					'media'         => 'mobile',
 				),
 
-				// Header social external icon
+				// Header social external icon.
 				array(
 					'var'      => '--owp-social-external-mark-color',
 					'setting'  => 'ocean_header_social_external_icon_color',
@@ -838,45 +835,45 @@ class OceanWP_CSS_Variables {
 				),
 
 				array(
-					'var'           => '--owp-social-external-mark-size',
-					'setting'       => 'ocean_custom_header_search_form_label_size',
-					'fallback'      => 0.72,
-					'unit_fallback' => 'em',
-					'type'          => 'size',
+					'var'      => '--owp-social-external-mark-size',
+					'setting'  => 'ocean_header_social_external_icon_size',
+					'fallback' => '0.72',
+					'type'     => 'size',
+					'unit'     => 'em',
 				),
 
 				array(
-					'var'           => '--owp-social-external-mark-size',
-					'setting'       => 'ocean_custom_header_search_form_label_size_tablet',
-					'fallback'      => 'inherit',
-					'unit_fallback' => 'em',
-					'type'          => 'size',
-					'media'         => 'tablet',
+					'var'      => '--owp-social-external-mark-size',
+					'setting'  => 'ocean_header_social_external_icon_size_tablet',
+					'fallback' => '',
+					'type'     => 'size',
+					'unit'     => 'em',
+					'media'    => 'tablet',
 				),
 
 				array(
-					'var'           => '--owp-social-external-mark-size',
-					'setting'       => 'ocean_custom_header_search_form_label_size_mobile',
-					'fallback'      => 'inherit',
-					'unit_fallback' => 'em',
-					'type'          => 'size',
-					'media'         => 'mobile',
+					'var'      => '--owp-social-external-mark-size',
+					'setting'  => 'ocean_header_social_external_icon_size_mobile',
+					'fallback' => '',
+					'type'     => 'size',
+					'unit'     => 'em',
+					'media'    => 'mobile',
 				),
 
 				array(
-					'var'           => '--owp-social-external-mark-offset-x',
-					'setting'       => 'ocean_header_social_external_icon_x_offset',
-					'fallback'      => -0.15,
-					'unit_fallback' => 'em',
-					'type'          => 'size',
+					'var'      => '--owp-social-external-mark-offset-x',
+					'setting'  => 'ocean_header_social_external_icon_x_offset',
+					'fallback' => '-0.15',
+					'type'     => 'size',
+					'unit'     => 'em',
 				),
 
 				array(
-					'var'           => '--owp-social-external-mark-offset-y',
-					'setting'       => 'ocean_header_social_external_icon_y_offset',
-					'fallback'      => -0.25,
-					'unit_fallback' => 'em',
-					'type'          => 'size',
+					'var'      => '--owp-social-external-mark-offset-y',
+					'setting'  => 'ocean_header_social_external_icon_y_offset',
+					'fallback' => '-0.25',
+					'type'     => 'size',
+					'unit'     => 'em',
 				),
 
 				// Header media
