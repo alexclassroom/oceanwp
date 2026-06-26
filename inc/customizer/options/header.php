@@ -3457,7 +3457,7 @@ $options = [
 						'key' => 'normal',
 						'label' => esc_html__( 'Normal', 'oceanwp' ),
 						'selector' => [
-							'#site-header #site-navigation-wrap .dropdown-menu > li > a, #site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle, .oceanwp-mobile-menu-icon a,#searchform-header-replace-close' => 'color',
+							'#site-header #site-navigation-wrap .dropdown-menu > li > a, #site-header #site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle, #site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle, .oceanwp-mobile-menu-icon a,#searchform-header-replace-close' => 'color',
 							'#site-header #site-navigation-wrap .dropdown-menu > li > a .owp-icon use,.oceanwp-mobile-menu-icon a .owp-icon use,#searchform-header-replace-close .owp-icon use' => 'stroke'
 						],
 						'attr' => [
@@ -3470,7 +3470,7 @@ $options = [
 						'key' => 'hover',
 						'label' => esc_html__( 'Hover', 'oceanwp' ),
 						'selector' => [
-							'#site-header #site-navigation-wrap .dropdown-menu > li > a:hover,#site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover,.oceanwp-mobile-menu-icon a:hover,#searchform-header-replace-close:hover' => 'color',
+							'#site-header #site-navigation-wrap .dropdown-menu > li > a:hover,#site-header #site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle:hover, #site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover,.oceanwp-mobile-menu-icon a:hover,#searchform-header-replace-close:hover' => 'color',
 							'#site-header #site-navigation-wrap .dropdown-menu > li > a:hover .owp-icon use,.oceanwp-mobile-menu-icon a:hover .owp-icon use,#searchform-header-replace-close:hover .owp-icon use' => 'stroke'
 						],
 						'attr' => [
@@ -3497,7 +3497,7 @@ $options = [
 						'key' => 'normal',
 						'label' => esc_html__( 'Normal', 'oceanwp' ),
 						'selector' => [
-							'#site-header #site-navigation-wrap .dropdown-menu > li > a, #site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle' => 'background-color'
+							'#site-header #site-navigation-wrap .dropdown-menu > li > a,#site-header #site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle, #site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle' => 'background-color'
 						],
 						'attr' => [
 							'transport' => 'postMessage',
@@ -3508,7 +3508,7 @@ $options = [
 						'key' => 'hover',
 						'label' => esc_html__( 'Hover', 'oceanwp' ),
 						'selector' => [
-							'#site-header #site-navigation-wrap .dropdown-menu > li > a:hover, #site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover,#site-navigation-wrap .dropdown-menu > li.sfHover > a' => 'background-color'
+							'#site-header #site-navigation-wrap .dropdown-menu > li > a:hover,#site-header #site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle:hover, #site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover,#site-navigation-wrap .dropdown-menu > li.sfHover > a' => 'background-color'
 						],
 						'attr' => [
 							'transport' => 'postMessage',
@@ -3533,7 +3533,7 @@ $options = [
 						'key' => 'normal',
 						'label' => esc_html__( 'Select Color', 'oceanwp' ),
 						'selector' => [
-							'#site-header #site-navigation-wrap .dropdown-menu > .current-menu-item > a,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > a:hover,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a:hover' => 'color'
+							'#site-header #site-navigation-wrap .dropdown-menu > .current-menu-item > a,#site-header #site-navigation-wrap .dropdown-menu > .current-menu-item > button.dropdown-toggle,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > a:hover,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a:hover' => 'color'
 						],
 						'attr' => [
 							'transport' => 'postMessage',
@@ -3559,7 +3559,7 @@ $options = [
 						'key' => 'normal',
 						'label' => esc_html__( 'Select Color', 'oceanwp' ),
 						'selector' => [
-							'#site-header #site-navigation-wrap .dropdown-menu > .current-menu-item > a,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > a:hover,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a:hover' => 'background-color'
+							'#site-header #site-navigation-wrap .dropdown-menu > .current-menu-item > a,#site-header #site-navigation-wrap .dropdown-menu > .current-menu-item > button.dropdown-toggle,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > a:hover,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a:hover' => 'background-color'
 						],
 						'attr' => [
 							'transport' => 'postMessage',

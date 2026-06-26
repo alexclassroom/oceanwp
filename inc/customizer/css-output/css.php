@@ -42,4 +42,4 @@ if ( OCEANWP_LEARNDASH_ACTIVE ) {
 }
 
 // If Accessibility CSS is activated.
-require OCEANWP_INC_DIR . 'customizer/css-output/a11y.php';
+// require OCEANWP_INC_DIR . 'customizer/css-output/a11y.php';

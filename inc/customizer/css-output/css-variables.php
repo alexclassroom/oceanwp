@@ -291,9 +291,14 @@ class OceanWP_CSS_Variables {
 			case 'color':
 				/*
 				 * Supports:
-				 * #fff, #ffffff, rgb(), rgba(), hsl(), hsla(), transparent, currentColor.
+				 * #RGB, #RGBA, #RRGGBB, #RRGGBBAA,
+				 * rgb(), rgba(), hsl(), hsla(),
+	 			 * transparent, currentColor.
 				 */
-				if ( preg_match( '/^(#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})|rgb[a]?\([0-9.,%\s]+\)|hsl[a]?\([0-9.,%\s]+\)|transparent|currentColor)$/', $value ) ) {
+				if ( preg_match(
+					'/^(#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})|rgb[a]?\([0-9.,%\s]+\)|hsl[a]?\([0-9.,%\s]+\)|transparent|currentColor)$/',
+					$value
+				) ) {
 					return $value;
 				}
 				return '';
@@ -729,6 +734,262 @@ class OceanWP_CSS_Variables {
 					'fallback' => '#13aff0',
 					'type'     => 'color',
 				),
+
+
+
+
+				/**
+				 * A11y CSS
+				 */
+				// Search form label
+				array(
+					'var'      => '--owp-search-form-label-color',
+					'setting'  => 'ocean_custom_header_search_form_label_color',
+					'fallback' => '#000000',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'           => '--owp-search-form-label-font-size',
+					'setting'       => 'ocean_custom_header_search_form_label_size',
+					'unit_setting'  => 'ocean_custom_header_search_form_label_size_unit',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+				),
+
+				array(
+					'var'           => '--owp-search-form-label-font-size',
+					'setting'       => 'ocean_custom_header_search_form_label_size_tablet',
+					'unit_setting'  => 'ocean_custom_header_search_form_label_size_unit',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+					'media'         => 'tablet',
+				),
+
+				array(
+					'var'           => '--owp-search-form-label-font-size',
+					'setting'       => 'ocean_custom_header_search_form_label_size_mobile',
+					'unit_setting'  => 'ocean_custom_header_search_form_label_size_unit',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+					'media'         => 'mobile',
+				),
+
+				// Comment form label
+				array(
+					'var'      => '--owp-comment-form-label-color',
+					'setting'  => 'ocean_comment_form_label_color',
+					'fallback' => '#000000',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-comment-form-label-required-mark-color',
+					'setting'  => 'ocean_comment_form_label_required_mark_color',
+					'fallback' => '#000000',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'           => '--owp-comment-form-label-font-size',
+					'setting'       => 'ocean_comment_form_label_size',
+					'unit_setting'  => 'ocean_comment_form_label_size_unit',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+				),
+
+				array(
+					'var'           => '--owp-comment-form-label-font-size',
+					'setting'       => 'ocean_comment_form_label_size',
+					'unit_setting'  => 'ocean_comment_form_label_size_unit',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+					'media'         => 'tablet',
+				),
+
+				array(
+					'var'           => '--owp-comment-form-label-font-size',
+					'setting'       => 'ocean_comment_form_label_size_mobile',
+					'unit_setting'  => 'ocean_comment_form_label_size_unit',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+					'media'         => 'mobile',
+				),
+
+				// Header social external icon
+				array(
+					'var'      => '--owp-social-external-mark-color',
+					'setting'  => 'ocean_header_social_external_icon_color',
+					'fallback' => '#ffffff',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-social-external-mark-bg',
+					'setting'  => 'ocean_header_social_external_icon_background_color',
+					'fallback' => '#000000',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'           => '--owp-social-external-mark-size',
+					'setting'       => 'ocean_custom_header_search_form_label_size',
+					'fallback'      => 0.72,
+					'unit_fallback' => 'em',
+					'type'          => 'size',
+				),
+
+				array(
+					'var'           => '--owp-social-external-mark-size',
+					'setting'       => 'ocean_custom_header_search_form_label_size_tablet',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'em',
+					'type'          => 'size',
+					'media'         => 'tablet',
+				),
+
+				array(
+					'var'           => '--owp-social-external-mark-size',
+					'setting'       => 'ocean_custom_header_search_form_label_size_mobile',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'em',
+					'type'          => 'size',
+					'media'         => 'mobile',
+				),
+
+				array(
+					'var'           => '--owp-social-external-mark-offset-x',
+					'setting'       => 'ocean_header_social_external_icon_x_offset',
+					'fallback'      => -0.15,
+					'unit_fallback' => 'em',
+					'type'          => 'size',
+				),
+
+				array(
+					'var'           => '--owp-social-external-mark-offset-y',
+					'setting'       => 'ocean_header_social_external_icon_y_offset',
+					'fallback'      => -0.25,
+					'unit_fallback' => 'em',
+					'type'          => 'size',
+				),
+
+				// Header media
+				array(
+					'var'      => '--owp-header-media-button-bg-color',
+					'setting'  => 'ocean_header_video_button_background_color',
+					'fallback' => 'rgba(0, 0, 0, 0.5)',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-header-media-button-bg-color-hover',
+					'setting'  => 'ocean_header_video_button_background_color_hover',
+					'fallback' => 'rgba(0, 0, 0, 0.75)',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-header-media-button-bg-color-focus',
+					'setting'  => 'ocean_header_video_button_background_color_focus',
+					'fallback' => 'rgba(0, 0, 0, 0.75)',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-header-media-button-icon-color',
+					'setting'  => 'ocean_header_video_button_icon_color',
+					'fallback' => 'rgba(255, 255, 255, 0.8)',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-header-media-button-icon-color-hover',
+					'setting'  => 'ocean_header_video_button_icon_color_hover',
+					'fallback' => '#ffffff',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-header-media-button-icon-color-focus',
+					'setting'  => 'ocean_header_video_button_icon_color_focus',
+					'fallback' => '#ffffff',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-header-media-button-border-color',
+					'setting'  => 'ocean_header_video_button_border_color',
+					'fallback' => 'rgba(255, 255, 255, 0.6)',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-header-media-button-border-color-hover',
+					'setting'  => 'ocean_header_video_button_border_color_hover',
+					'fallback' => 'rgba(255, 255, 255, 0.9)',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-header-media-button-border-color-focus',
+					'setting'  => 'ocean_header_video_button_border_color_focus',
+					'fallback' => 'rgba(255, 255, 255, 0.9)',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-header-media-overlay-color',
+					'setting'  => 'ocean_header_image_overlay_color',
+					'fallback' => 'rgba(0, 0, 0, 0.3)',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'           => '--owp-header-media-height',
+					'setting'       => 'ocean_accessible_header_media_height',
+					'unit_setting'  => 'ocean_accessible_header_media_height_unit',
+					'fallback'      => 600,
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+				),
+
+				array(
+					'var'           => '--owp-header-media-height',
+					'setting'       => 'ocean_accessible_header_media_height_tablet',
+					'unit_setting'  => 'ocean_accessible_header_media_height_unit',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+					'media'         => 'mobile',
+				),
+
+				array(
+					'var'           => '--owp-header-media-height',
+					'setting'       => 'ocean_accessible_header_media_height_mobile',
+					'unit_setting'  => 'ocean_accessible_header_media_height_unit',
+					'fallback'      => 'inherit',
+					'unit_fallback' => 'px',
+					'type'          => 'size',
+					'media'         => 'mobile',
+				),
+
+				array(
+					'var'      => '--owp-header-media-image-position',
+					'setting'  => 'ocean_header_image_position',
+					'fallback' => 'initial',
+				),
+
+				array(
+					'var'      => '--owp-header-media-image-size',
+					'setting'  => 'ocean_header_image_size',
+					'fallback' => 'initial',
+				)
 			)
 		);
 	}

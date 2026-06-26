@@ -199,7 +199,7 @@ function oceanwp_accessible_header_media_render() {
 	$video_enabled = function_exists( 'has_header_video' ) && has_header_video();
 	$image_enabled = function_exists( 'has_header_image' ) && has_header_image();
 
-	$mobile_fallback = oceanwp_is_accessibility_feature_enabled( 'ocean_accessible_header_video_fallback_mobile' );
+	$mobile_fallback = oceanwp_is_accessibility_feature_enabled( 'ocean_accessible_header_video_fallback_mobile', ocean_accessibility_get_header_media_default_value() );
 
 	$media_classes = [];
 

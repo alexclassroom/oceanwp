@@ -767,39 +767,39 @@ class OceanWP_Customize_Header_CSS {
 
 		// Menu items padding
 		if ( ! empty( $menu_items_padding ) && '15' != $menu_items_padding ) {
-			$css .= '#site-navigation-wrap .dropdown-menu > li > a,#site-navigation-wrap .dropdown-menu > li > button.site-search-toggle{padding: 0 '. $menu_items_padding .'px;}';
+			$css .= '#site-navigation-wrap .dropdown-menu > li > a,#site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle,#site-navigation-wrap .dropdown-menu > li > button.site-search-toggle{padding: 0 '. $menu_items_padding .'px;}';
 		}
 
 		// Menu link color
 		if ( ! empty( $menu_link_color ) && '#555555' != $menu_link_color ) {
-			$css .= '#site-navigation-wrap .dropdown-menu > li > a,#site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle,.oceanwp-mobile-menu-icon a,.oceanwp-mobile-menu-icon>button,#searchform-header-replace-close{color:'. $menu_link_color .';}';
-			$css .= '#site-navigation-wrap .dropdown-menu > li > a .owp-icon use,#site-header, #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle .owp-icon use,.oceanwp-mobile-menu-icon a .owp-icon use,#searchform-header-replace-close .owp-icon use{stroke:'. $menu_link_color .';}';
+			$css .= '#site-navigation-wrap .dropdown-menu > li > a,#site-header #site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle,#site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle,.oceanwp-mobile-menu-icon a,.oceanwp-mobile-menu-icon>button,#searchform-header-replace-close{color:'. $menu_link_color .';}';
+			$css .= '#site-navigation-wrap .dropdown-menu > li > a .owp-icon use,#site-header #site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle .owp-icon use,#site-header, #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle .owp-icon use,.oceanwp-mobile-menu-icon a .owp-icon use,#searchform-header-replace-close .owp-icon use{stroke:'. $menu_link_color .';}';
 		}
 
 		// Menu link color hover
 		if ( ! empty( $menu_link_color_hover ) && '#13aff0' != $menu_link_color_hover ) {
-			$css .= '#site-navigation-wrap .dropdown-menu > li > a:hover,#site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover,.oceanwp-mobile-menu-icon a:hover,.oceanwp-mobile-menu-icon>button:hover,#searchform-header-replace-close:hover{color:'. $menu_link_color_hover .';}';
-			$css .= '#site-navigation-wrap .dropdown-menu > li > a:hover .owp-icon use,#site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover .owp-icon use,.oceanwp-mobile-menu-icon>button:hover .owp-icon use,.oceanwp-mobile-menu-icon a:hover .owp-icon use,#searchform-header-replace-close:hover .owp-icon use{stroke:'. $menu_link_color_hover .';}';
+			$css .= '#site-navigation-wrap .dropdown-menu > li > a:hover,#site-header #site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle:hover,#site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover,.oceanwp-mobile-menu-icon a:hover,.oceanwp-mobile-menu-icon>button:hover,#searchform-header-replace-close:hover{color:'. $menu_link_color_hover .';}';
+			$css .= '#site-navigation-wrap .dropdown-menu > li > a:hover .owp-icon use,#site-header #site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle:hover .owp-icon use,#site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover .owp-icon use,.oceanwp-mobile-menu-icon>button:hover .owp-icon use,.oceanwp-mobile-menu-icon a:hover .owp-icon use,#searchform-header-replace-close:hover .owp-icon use{stroke:'. $menu_link_color_hover .';}';
 		}
 
 		// Menu link active color
 		if ( ! empty( $menu_link_color_active ) && '#555555' != $menu_link_color_active ) {
-			$css .= '#site-navigation-wrap .dropdown-menu > .current-menu-item > a,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > a:hover,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a:hover{color:'. $menu_link_color_active .';}';
+			$css .= '#site-navigation-wrap .dropdown-menu > .current-menu-item > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > button.dropdown-toggle,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > a:hover,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a:hover{color:'. $menu_link_color_active .';}';
 		}
 
 		// Menu link background color
 		if ( ! empty( $menu_link_background ) ) {
-			$css .= '#site-navigation-wrap .dropdown-menu > li > a,#site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle{background-color:'. $menu_link_background .';}';
+			$css .= '#site-navigation-wrap .dropdown-menu > li > a,#site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle,#site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle{background-color:'. $menu_link_background .';}';
 		}
 
 		// Menu link hover background color
 		if ( ! empty( $menu_link_hover_background ) ) {
-			$css .= '#site-navigation-wrap .dropdown-menu > li > a:hover,#site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover,#site-navigation-wrap .dropdown-menu > li.sfHover > a{background-color:'. $menu_link_hover_background .';}';
+			$css .= '#site-navigation-wrap .dropdown-menu > li > a:hover,#site-navigation-wrap .dropdown-menu > li > button.dropdown-toggle:hover,#site-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover,#site-navigation-wrap .dropdown-menu > li.sfHover > a{background-color:'. $menu_link_hover_background .';}';
 		}
 
 		// Menu link active background color
 		if ( ! empty( $menu_link_active_background ) ) {
-			$css .= '#site-navigation-wrap .dropdown-menu > .current-menu-item > a,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > a:hover,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a:hover{background-color:'. $menu_link_active_background .';}';
+			$css .= '#site-navigation-wrap .dropdown-menu > .current-menu-item > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > button.dropdown-toggle,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a,#site-navigation-wrap .dropdown-menu > .current-menu-item > a:hover,#site-navigation-wrap .dropdown-menu > .current-menu-ancestor > a:hover{background-color:'. $menu_link_active_background .';}';
 		}
 
 		// Dropdown menu width
@@ -1190,9 +1190,9 @@ class OceanWP_Customize_Header_CSS {
 		$css = '';
 
 		// Get site background image
-		// if ( ! empty( $header_image ) ) {
-		// 	$css .= 'background-image:url(' . esc_url( $header_image ) . ');';
-		// }
+		if ( ! empty( $header_image ) && ! $has_video ) {
+			$css .= 'background-image:url(' . esc_url( $header_image ) . ');';
+		}
 
 		// Get site background position
 		if ( ! empty( $header_image_position ) && 'initial' != $header_image_position ) {

@@ -281,7 +281,7 @@ $options = [
 				]
 			],
 
-			'ocean_comment_form_label_ie_color' => [
+			'ocean_comment_form_label_required_mark_color' => [
 				'type' => 'ocean-color',
 				'label' => esc_html__( 'Label Required Mark Color', 'oceanwp' ),
 				'section' => 'ocean_accessibility_comment_form_section',
@@ -294,7 +294,7 @@ $options = [
 				'active_callback'    => 'ocean_cac_display_comment_form_label',
 				'setting_args' => [
 					'normal' => [
-						'id' => 'ocean_comment_form_label_ie_color',
+						'id' => 'ocean_comment_form_label_required_mark_color',
 						'key' => 'normal',
 						'label' =>  esc_html__( 'Select Color', 'oceanwp' ),
 						'selector' => [
@@ -334,7 +334,7 @@ $options = [
 				'type'              => 'ocean-switch',
 				'label'             => esc_html__( 'Enable Accessible Header Video Layout', 'oceanwp' ),
 				'section'           => 'ocean_a11y_header_media_section',
-				'default'           => ocean_accessibility_get_default_value(),
+				'default'           => ocean_accessibility_get_header_media_default_value(),
 				'transport'         => 'refresh',
 				'priority'          => 10,
 				'sanitize_callback' => 'oceanwp_sanitize_checkbox',
@@ -377,7 +377,7 @@ $options = [
 				'type'              => 'ocean-switch',
 				'label'             => esc_html__( 'Use Header Image on Tablet/Mobile', 'oceanwp' ),
 				'section'           => 'ocean_a11y_header_media_section',
-				'default'           => ocean_accessibility_get_default_value(),
+				'default'           => ocean_accessibility_get_header_media_default_value(),
 				'transport'         => 'refresh',
 				'priority'          => 10,
 				'sanitize_callback' => 'oceanwp_sanitize_checkbox',

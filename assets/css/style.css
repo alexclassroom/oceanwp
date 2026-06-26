@@ -7791,9 +7791,9 @@ ul.page-numbers li .owp-icon {
 span.required {
   position: relative;
   top: -4px;
-  font-size: 10px;
+  font-size: 14px;
   margin-left: 3px;
-  color: #F00;
+  color: #b50000;
 }
 
 .comment-body p {

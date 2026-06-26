@@ -4495,7 +4495,17 @@ if ( ! function_exists( 'oceanwp_sidr_menu_source' ) ) {
 
 		// If has mobile menu
 		if ( has_nav_menu( 'mobile_menu' ) ) {
+
 			$items['mobile-nav'] = '#mobile-nav';
+
+		// Sidebar menu fallback.
+		} elseif ( 'sidebar' === oceanwp_mobile_menu_style() ) {
+
+			$items['mobile-nav'] = '#mobile-nav';
+
+			if ( has_nav_menu( 'topbar_menu' ) ) {
+				$items['top-nav'] = '#top-bar-nav';
+			}
 		}
 
 		// Add main navigation
@@ -5145,6 +5155,10 @@ function oceanwp_mobile_search_form_html() {
 		$mobile_search_content .= ob_get_clean();
 	} elseif ( 'overlay' === $search_style ) {
 		$mobile_search_content = '';
+		$label_class = 'search-text';
+		if ( $display_label ) {
+			$label_class .= ' mobile-overlay-search-visible-label';
+		}
 		ob_start();
 		?>
 		<div class="container clr">
@@ -5156,18 +5170,26 @@ function oceanwp_mobile_search_form_html() {
 					</<?php echo $close_tag; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?>>
 				<?php endif; ?>
 
-				<?php if ( $display_label ) : ?>
-					<label for="<?php echo esc_attr( $ocean_msf_id ); ?>" class="mobile-overlay-search-visible-label">
+				<?php if ( ! $display_label ) : ?>
+					<span class="screen-reader-text">
 						<?php echo esc_html( $label_text ); ?>
-					</label>
-				<?php else : ?>
-					<span class="screen-reader-text"><?php echo esc_html( $label_text ); ?></span>
+					</span>
 				<?php endif; ?>
 
-				<span class="search-text">
+				<?php
+				$label_tag = $display_label ? 'label' : 'span';
+				?>
+
+				<<?php echo esc_html( $label_tag ); ?>
+					class="<?php echo esc_attr( $label_class ); ?>"
+					<?php
+					if ( $display_label ) {
+						echo ' for="' . esc_attr( $ocean_msf_id ) . '"';
+					}
+					?>>
 					<?php echo esc_html( $ov_placeholder ); ?>
 					<span aria-hidden="true" focusable="false"><i></i><i></i><i></i></span>
-				</span>
+				</<?php echo esc_html( $label_tag ); ?>>
 
 				<input class="mobile-search-overlay-input" id="<?php echo esc_attr( $ocean_msf_id ); ?>" type="search" name="s" autocomplete="off" value="" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output already escaped. ?> aria-describedby="<?php echo esc_attr( $desc_id ); ?>">
 				
@@ -5489,6 +5511,31 @@ if ( ! function_exists( 'ocean_accessibility_get_default_value' ) ) {
 	}
 }
 
+if ( ! function_exists( 'ocean_accessibility_get_header_media_default_value' ) ) {
+
+	/**
+	 * Accessibility default value
+	 *
+	 * Existing installs: false
+	 * New installs: true
+	 *
+	 * @return bool
+	 */
+	function ocean_accessibility_get_header_media_default_value() {
+
+		$default = ocean_accessibility_get_default_value();
+		$video_enabled = function_exists( 'has_header_video' ) && has_header_video();
+		$image_enabled = function_exists( 'has_header_image' ) && has_header_image();
+
+		$default = $default && ( $video_enabled || $image_enabled );
+
+		return (bool) apply_filters(
+			'ocean_accessibility_get_header_media_default_value',
+			$default
+		);
+	}
+}
+
 if ( ! function_exists( 'oceanwp_is_accessibility_feature_enabled' ) ) {
 
 	/**
@@ -5553,7 +5600,7 @@ function oceanwp_is_semantic_desktop_header_enabled() {
  * @return bool
  */
 function oceanwp_is_accessible_header_video_enabled() {
-	$enabled = oceanwp_is_accessibility_feature_enabled( 'ocean_accessible_header_video_layout' );
+	$enabled = oceanwp_is_accessibility_feature_enabled( 'ocean_accessible_header_video_layout', ocean_accessibility_get_header_media_default_value() );
 
 	return (bool) apply_filters(
 		'oceanwp_is_accessible_header_video_enabled',
