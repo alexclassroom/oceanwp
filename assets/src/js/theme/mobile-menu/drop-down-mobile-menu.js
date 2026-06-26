@@ -37,6 +37,14 @@ class DropDownMobileMenu {
     return options.mobileDropdownTarget || options.sidrDropdownTarget || "link";
   };
 
+  #getToggleMenuButtonFromEvent = (event) => {
+    return (
+      event.delegateTarget ||
+      event.target?.closest?.(".mobile-menu") ||
+      event.currentTarget?.closest?.(".mobile-menu") ||
+      this.#elements.toggleMenuBtn
+    );
+  };
 
   #start = () => {
     this.#isMenuOpen = false;
@@ -143,27 +151,34 @@ class DropDownMobileMenu {
   };
 
   #onToggleMenuButtonKeydown = (event) => {
-    if (!this.#isActivationKey(event) || event.currentTarget.tagName === "BUTTON") {
+    const toggleMenuBtn = this.#getToggleMenuButtonFromEvent(event);
+
+    if (!toggleMenuBtn || event.repeat || !this.#isActivationKey(event)) {
       return;
     }
 
     event.preventDefault();
     event.stopPropagation();
-    event.currentTarget.click();
+    toggleMenuBtn.click();
   };
 
   #onToggleMenuButtonClick = (event) => {
+    const toggleMenuBtn = this.#getToggleMenuButtonFromEvent(event);
+
+    if (!toggleMenuBtn) {
+      return;
+    }
+
     event.preventDefault();
     event.stopPropagation();
 
     !!this.#elements.navWrapper && slideToggle(this.#elements.navWrapper, 400);
-    this.#elements.toggleMenuBtn?.classList.toggle("opened");
+    toggleMenuBtn.classList.toggle("opened");
     this.#elements.hamburgerBtn?.classList.toggle("is-active");
 
-    const isOpen =
-      this.#elements.toggleMenuBtn?.classList.contains("opened");
+    const isOpen = toggleMenuBtn.classList.contains("opened");
 
-    this.#elements.toggleMenuBtn?.setAttribute(
+    toggleMenuBtn.setAttribute(
       "aria-expanded",
       isOpen ? "true" : "false"
     );
@@ -173,7 +188,7 @@ class DropDownMobileMenu {
       isOpen ? "true" : "false"
     );
 
-    this.#elements.toggleMenuBtn?.focus();
+    toggleMenuBtn.focus();
   };
 
   onMenuCloseClick = (event) => {

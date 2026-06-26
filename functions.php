@@ -530,7 +530,7 @@ final class OCEANWP_Theme_Class {
 			wp_enqueue_style( 'ow-perfect-scrollbar' );
 		}
 
-		if ( true === get_theme_mod( 'ocean_accessibility_mode', ocean_accessibility_get_default_value() ) ) {
+		if ( true === oceanwp_is_accessibility_feature_enabled( 'ocean_accessibility_mode' ) ) {
 			wp_enqueue_style( 'oceanwp-a11y-style', $dir . 'a11y.min.css', false, $theme_version );
 		}
 	}

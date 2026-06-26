@@ -34,6 +34,15 @@ class FullScreenMobileMenu {
     return options.mobileDropdownTarget || options.sidrDropdownTarget || "link";
   };
 
+  #getToggleMenuButtonFromEvent = (event) => {
+    return (
+      event.delegateTarget ||
+      event.target?.closest?.(".mobile-menu") ||
+      event.currentTarget?.closest?.(".mobile-menu") ||
+      this.#elements.toggleMenuBtn
+    );
+  };
+
   #start = () => {
 
     const hasPhpSubmenuControls =
@@ -126,26 +135,34 @@ class FullScreenMobileMenu {
 
 
   #onMenuButtonKeydown = (event) => {
-    if (!this.#isActivationKey(event) || event.currentTarget.tagName === "BUTTON") {
+    const toggleMenuBtn = this.#getToggleMenuButtonFromEvent(event);
+
+    if (!toggleMenuBtn || event.repeat || !this.#isActivationKey(event)) {
       return;
     }
 
     event.preventDefault();
     event.stopPropagation();
-    event.currentTarget.click();
+    toggleMenuBtn.click();
   };
 
   #onMenuButtonClick = (event) => {
+    const toggleMenuBtn = this.#getToggleMenuButtonFromEvent(event);
+
+    if (!toggleMenuBtn) {
+      return;
+    }
+
     event.preventDefault();
     event.stopPropagation();
 
-    this.#activeTrigger = event.currentTarget;
+    this.#activeTrigger = toggleMenuBtn;
 
-    this.#elements.toggleMenuBtn.classList.add("exit");
+    toggleMenuBtn.classList.add("exit");
     this.#elements.menu.classList.add("active");
     this.#elements.hamburgerBtn?.classList.add("is-active");
 
-    this.#elements.toggleMenuBtn?.setAttribute("aria-expanded", "true");
+    toggleMenuBtn.setAttribute("aria-expanded", "true");
     this.#elements.hamburgerBtn?.setAttribute("aria-expanded", "true");
 
     fadeIn(this.#elements.menu);

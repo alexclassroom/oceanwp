@@ -20,8 +20,8 @@ $search_post_type = get_theme_mod( 'ocean_menu_search_source', 'any' );
 $ocean_sf_id = oceanwp_unique_id( 'ocean-search-header-replace-' );
 
 // New accessibility settings.
-$a11y_mode_tags    = get_theme_mod( 'ocean_accessibility_header_search_tags', ocean_accessibility_get_default_value() );
-$display_label     = get_theme_mod( 'ocean_display_header_search_form_label', ocean_accessibility_get_default_value() );
+$a11y_mode_tags    = oceanwp_is_accessibility_feature_enabled( 'ocean_accessibility_header_search_tags' );
+$display_label     = oceanwp_is_accessibility_feature_enabled( 'ocean_display_header_search_form_label' );
 $custom_label_text = get_theme_mod( 'ocean_custom_header_search_form_label', __( 'Search this website', 'oceanwp' ) );
 
 // Aria labels, screen reader & placeholder text.

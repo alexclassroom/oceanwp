@@ -23,7 +23,7 @@ class OceanWP_Customize_A11Y_CSS {
 
 	public function add_inline_css() {
 
-		if ( true !== get_theme_mod( 'ocean_accessibility_mode', ocean_accessibility_get_default_value() ) ) {
+		if ( true !== oceanwp_is_accessibility_feature_enabled( 'ocean_accessibility_mode' ) ) {
 			return;
 		}
 
@@ -47,7 +47,6 @@ class OceanWP_Customize_A11Y_CSS {
 		$comment_form_label_size_unit			 = get_theme_mod( 'ocean_comment_form_label_size_unit', 'px' );
 		$comment_form_label_color                = get_theme_mod( 'ocean_comment_form_label_color', '' );
         $comment_form_label_ie_color             = get_theme_mod( 'ocean_comment_form_label_ie_color', '' );
-
 
 		$header_social_external_icon_size		 = get_theme_mod( 'ocean_header_social_external_icon_size', 0.72 );
 		$header_social_external_icon_size_tablet = get_theme_mod( 'ocean_header_social_external_icon_size_tablet', '' );
@@ -141,7 +140,6 @@ class OceanWP_Customize_A11Y_CSS {
 			$css .= '.header-social-menu-external-mark{--ocean-social-external-mark-offset-y:'. $header_social_external_icon_y_offset . 'em;}';
 		}
 
-
 		if ( ! empty( $header_social_external_icon_color ) ) {
 			$css .= '.header-social-menu-external-mark{--ocean-social-external-mark-color:' . $header_social_external_icon_color . ';}';
 		}
@@ -149,7 +147,6 @@ class OceanWP_Customize_A11Y_CSS {
 		if ( ! empty( $header_social_external_icon_color_hover ) ) {
 			$css .= '.header-social-menu-external-mark{--ocean-social-external-mark-bg:' . $header_social_external_icon_color_hover . ';}';
 		}
-
 		
 		if ( ! empty( $media_button_background ) ) {
 			$css .= '.custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button{background-color:' . $media_button_background . ';}';

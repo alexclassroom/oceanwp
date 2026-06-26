@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $search_post_type = get_theme_mod( 'ocean_menu_search_source', 'any' );
 
 // New accessibility and customizer settings.
-$display_label     = get_theme_mod( 'ocean_display_header_search_form_label', ocean_accessibility_get_default_value() );
+$display_label     = oceanwp_is_accessibility_feature_enabled( 'ocean_display_header_search_form_label' );
 $custom_label_text = get_theme_mod( 'ocean_custom_header_search_form_label', __( 'Search this website', 'oceanwp' ) );
 
 // Fallback to layout default theme string if custom input text is empty.
@@ -45,11 +45,8 @@ if ( ! $display_label ) {
 
 		<input id="verh-input" type="search" name="s" autocomplete="off" value="" placeholder="<?php echo esc_attr( $input_aria_text ); ?>" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>/>
 
-		<button type="submit" class="search-submit">
+		<button type="submit" class="search-submit" aria-label="<?php echo esc_attr( oceanwp_theme_strings( 'owp-string-mobile-submit-search', false ) ); ?>">
 			<?php oceanwp_icon( 'search' ); ?>
-			<span class="screen-reader-text">
-				<?php echo esc_html( oceanwp_theme_strings( 'owp-string-mobile-submit-search', false ) ); ?>
-			</span>
 		</button>
 
 		<div class="search-bg"></div>

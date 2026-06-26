@@ -42,7 +42,7 @@ $comment_position = apply_filters( 'ocean_comment_form_position', get_theme_mod(
 $comment_position = $comment_position ? $comment_position : 'after';
 
 // New accessibility and customizer settings.
-$display_comment_label = get_theme_mod( 'ocean_display_comment_form_label', ocean_accessibility_get_default_value() );
+$display_comment_label = oceanwp_is_accessibility_feature_enabled( 'ocean_display_comment_form_label' );
 
 // Setup conditional Textarea formatting parameters.
 $textarea_label_class = $display_comment_label ? 'comment-form-visible-label' : 'screen-reader-text';

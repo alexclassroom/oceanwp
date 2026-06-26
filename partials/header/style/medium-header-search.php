@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Post type.
 $search_post_type = get_theme_mod( 'ocean_menu_search_source', 'any' );
 
-$display_label     = get_theme_mod( 'ocean_display_header_search_form_label', ocean_accessibility_get_default_value() );
+$display_label     = oceanwp_is_accessibility_feature_enabled( 'ocean_display_header_search_form_label' );
 $custom_label_text = get_theme_mod( 'ocean_custom_header_search_form_label', __( 'Search this website', 'oceanwp' ) );
 
 // Fallback to layout default theme string if custom input text is empty.

@@ -21,7 +21,7 @@ if ( display_header_text() && ! OCEAN_EXTRA_ACTIVE && ! class_exists( 'Ocean_Ext
 }
 
 // New accessibility toggle framework checklist
-$a11y_mode_enabled = get_theme_mod( 'ocean_accessibility_main_header_tags', ocean_accessibility_get_default_value() );
+$a11y_mode_enabled = oceanwp_is_semantic_desktop_header_enabled();
 $tagline_tag       = $a11y_mode_enabled ? 'p' : 'h2';
 ?>
 

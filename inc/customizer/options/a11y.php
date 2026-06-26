@@ -283,7 +283,7 @@ $options = [
 
 			'ocean_comment_form_label_ie_color' => [
 				'type' => 'ocean-color',
-				'label' => esc_html__( 'Label Color', 'oceanwp' ),
+				'label' => esc_html__( 'Label Required Mark Color', 'oceanwp' ),
 				'section' => 'ocean_accessibility_comment_form_section',
 				'transport' => 'postMessage',
 				'priority' => 10,
@@ -692,7 +692,7 @@ $options = [
 						],
 					],
 					'mobile' => [
-						'id' => 'ocean_a11y_header_social_external_icon_size_mobile',
+						'id' => 'ocean_header_social_external_icon_size_mobile',
 						'label' => esc_html__( 'Mobile', 'oceanwp' ),
 						'attr' => [
 							'transport' => 'postMessage',

@@ -17,7 +17,7 @@ $search_post_type = get_theme_mod( 'ocean_menu_search_source', 'any' );
 $ocean_msf_id = oceanwp_unique_id( 'ocean-mobile-search-' );
 
 // New accessibility settings.
-$display_label     = get_theme_mod( 'ocean_display_header_search_form_label', ocean_accessibility_get_default_value() );
+$display_label     = oceanwp_is_accessibility_feature_enabled( 'ocean_display_header_search_form_label' );
 $custom_label_text = get_theme_mod( 'ocean_custom_header_search_form_label', __( 'Search this website', 'oceanwp' ) );
 
 // Aria labels, screen reader & placeholder text strings.
@@ -32,14 +32,14 @@ $label_text = ! empty( $custom_label_text ) ? $custom_label_text : $form_aria_la
 // Search form conditional aria attributes construction.
 $form_aria_label_attr       = '';
 $form_input_aria_label_attr = '';
+$desc_id                    = ''; 
 
 if ( ! $display_label ) {
 	$form_aria_label_attr       = sprintf( 'aria-label="%s"', esc_attr( $label_text ) );
 	$form_input_aria_label_attr = sprintf( 'aria-label="%s"', esc_attr( $input_aria_label ) );
+} else {
+	$desc_id = sprintf( 'aria-describedby="%s"', esc_attr( $ocean_msf_id ) );
 }
-
-// Setup the ESC description element identification key.
-$desc_id = $ocean_msf_id . '-desc';
 ?>
 
 <div id="mobile-menu-search" class="clr">
@@ -55,7 +55,7 @@ $desc_id = $ocean_msf_id . '-desc';
 			</span>
 		<?php endif; ?>
 
-		<input type="search" id="<?php echo esc_attr( $ocean_msf_id ); ?>" class="field" name="s" autocomplete="off" value="" placeholder="<?php echo esc_attr( $form_placeholder ); ?>" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-describedby="<?php echo esc_attr( $desc_id ); ?>" />
+		<input type="search" id="<?php echo esc_attr( $ocean_msf_id ); ?>" class="field" name="s" autocomplete="off" value="" placeholder="<?php echo esc_attr( $form_placeholder ); ?>" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php echo $desc_id; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
 		
 		<button aria-label="<?php echo esc_attr( $submit_aria_label ); ?>" type="submit" class="searchform-submit">
 			<?php oceanwp_icon( 'search' ); ?>

@@ -34,7 +34,7 @@ $text = $text ? $text : esc_html__( 'Close Menu', 'oceanwp' );
 $anchorlink_text = esc_html( oceanwp_theme_strings( 'owp-string-sidr-close-anchor', false ) );
 
 // New accessibility settings.
-$a11y_mode_tags = get_theme_mod( 'ocean_accessibility_mobile_header_tags', ocean_accessibility_get_default_value() );
+$a11y_mode_tags = oceanwp_is_semantic_mobile_header_enabled();
 
 // Close label.
 $close_label = oceanwp_theme_strings( 'owp-string-close-mobile-menu', false );

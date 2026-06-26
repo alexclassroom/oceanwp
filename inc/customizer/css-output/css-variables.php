@@ -26,7 +26,7 @@ class OceanWP_CSS_Variables {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_filter( 'ocean_head_css', array( $this, 'generate_css' ), 1 );
+		add_filter( 'ocean_head_css', array( $this, 'generate_css' ) );
 	}
 
 	/**

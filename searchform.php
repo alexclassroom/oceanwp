@@ -16,8 +16,8 @@ $search_post_type = get_theme_mod( 'ocean_menu_search_source', 'any' );
 // Generate unique form ID.
 $ocean_sf_id = oceanwp_unique_id( 'ocean-search-form-' );
 
-$display_label = get_theme_mod('ocean_display_header_search_form_label', ocean_accessibility_get_default_value());
-$custom_label_text = get_theme_mod('ocean_custom_header_search_form_label', __( 'Search this website', 'oceanwp' ));
+$display_label     = oceanwp_is_accessibility_feature_enabled( 'ocean_display_header_search_form_label' );
+$custom_label_text = get_theme_mod( 'ocean_custom_header_search_form_label', __( 'Search this website', 'oceanwp' ) );
 
 $form_aria_label  = oceanwp_theme_strings('owp-string-search-form-label', false);
 $input_aria_label = oceanwp_theme_strings('owp-string-search-field', false);
