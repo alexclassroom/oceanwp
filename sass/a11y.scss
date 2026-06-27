@@ -620,7 +620,7 @@ button.dropdown-toggle:focus-visible,
         top: 0;
         right: 0;
         width: 48px;
-        height: 48px;
+        height: auto;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -677,6 +677,39 @@ button.dropdown-toggle:focus-visible,
 
     li {
 
+        > button.menu-link {
+            display: block;
+            color: $color-1;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 12px 0;
+            text-align: center;
+            border: 0;
+
+            &:hover {
+                color: $color-4;
+            }
+
+            // &:focus {
+            //     outline: 1px dashed rgba($color: #fff, $alpha: 0.3);
+            // }
+
+            .nav-arrow {
+                position: absolute;
+                top: 25%;
+                right: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                margin: 0;
+                background: rgba(0, 0, 0, 0);
+                border: 0;
+                cursor: pointer;
+                z-index: 2;
+            }
+        }
+
         button.dropdown-toggle {
             padding-left: 0;
         }
@@ -730,6 +763,38 @@ button.dropdown-toggle:focus-visible,
                 > .oceanwp-sub-menu-toggle-icon .nav-arrow {
                     transform: none;
                 }
+            }
+        }
+    }
+}
+
+#full-screen-menu {
+
+    li {
+
+        > button.menu-link {
+            font-size: 24px;
+            line-height: 1.2;
+
+            .nav-arrow {
+                width: 48px;
+                height: auto;
+            }
+        }
+    }
+}
+
+#mobile-fullscreen {
+
+    li {
+
+        > button.menu-link {
+            font-size: 15px;
+            line-height: 1.2;
+            width: 100%;
+
+            &::before {
+                display: none;
             }
         }
     }
