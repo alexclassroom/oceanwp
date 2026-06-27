@@ -59,6 +59,33 @@ class OceanWP_CSS_Variables {
 			}
 		}
 
+		// Tablet inherits desktop.
+		foreach ( $desktop_vars as $name => $value ) {
+			if (
+				! isset( $tablet_vars[ $name ] ) ||
+				'' === $tablet_vars[ $name ] ||
+				'inherit' === $tablet_vars[ $name ]
+			) {
+				$tablet_vars[ $name ] = $value;
+			}
+		}
+
+		// Mobile inherits tablet (which already inherited desktop).
+		foreach ( $desktop_vars as $name => $value ) {
+
+			$tablet_value = isset( $tablet_vars[ $name ] )
+				? $tablet_vars[ $name ]
+				: $value;
+
+			if (
+				! isset( $mobile_vars[ $name ] ) ||
+				'' === $mobile_vars[ $name ] ||
+				'inherit' === $mobile_vars[ $name ]
+			) {
+				$mobile_vars[ $name ] = $tablet_value;
+			}
+		}
+
 		$css = '';
 
 		if ( ! empty( $desktop_vars ) ) {
@@ -234,6 +261,16 @@ class OceanWP_CSS_Variables {
 			return '';
 		}
 
+		if ( in_array( $value, array(
+			'inherit',
+			'initial',
+			'unset',
+			'revert',
+			'auto',
+		), true ) ) {
+			return $value;
+		}
+
 		/*
 		 * Already has a CSS unit or CSS function.
 		 */
@@ -316,6 +353,13 @@ class OceanWP_CSS_Variables {
 				return '';
 
 			case 'size':
+				$value = trim( $value );
+
+				// Keywords should never receive a unit.
+				if ( in_array( $value, array( 'inherit', 'initial', 'unset', 'revert', 'auto' ), true ) ) {
+					return $value;
+				}
+
 				/*
 				 * Supports:
 				 * 14px, 1.2em, 100%, clamp(), calc(), min(), max().
@@ -963,7 +1007,7 @@ class OceanWP_CSS_Variables {
 					'fallback'      => 'inherit',
 					'unit_fallback' => 'px',
 					'type'          => 'size',
-					'media'         => 'mobile',
+					'media'         => 'tablet',
 				),
 
 				array(
@@ -986,7 +1030,64 @@ class OceanWP_CSS_Variables {
 					'var'      => '--owp-header-media-image-size',
 					'setting'  => 'ocean_header_image_size',
 					'fallback' => 'initial',
-				)
+				),
+
+				// Top bar social external icon.
+				array(
+					'var'      => '--owp-topbar-social-external-mark-color',
+					'setting'  => 'ocean_top_bar_social_external_icon_color',
+					'fallback' => '#ffffff',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-topbar-social-external-mark-bg',
+					'setting'  => 'ocean_top_bar_social_external_icon_background_color',
+					'fallback' => '#000000',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-topbar-social-external-mark-size',
+					'setting'  => 'ocean_top_bar_social_external_icon_size',
+					'fallback' => '0.72',
+					'type'     => 'size',
+					'unit'     => 'em',
+				),
+
+				array(
+					'var'      => '--owp-topbar-social-external-mark-size',
+					'setting'  => 'ocean_top_bar_social_external_icon_size_tablet',
+					'fallback' => '',
+					'type'     => 'size',
+					'unit'     => 'em',
+					'media'    => 'tablet',
+				),
+
+				array(
+					'var'      => '--owp-topbar-social-external-mark-size',
+					'setting'  => 'ocean_top_bar_social_external_icon_size_mobile',
+					'fallback' => '',
+					'type'     => 'size',
+					'unit'     => 'em',
+					'media'    => 'mobile',
+				),
+
+				array(
+					'var'      => '--owp-topbar-social-external-mark-offset-x',
+					'setting'  => 'ocean_top_bar_social_external_icon_x_offset',
+					'fallback' => '-0.15',
+					'type'     => 'size',
+					'unit'     => 'em',
+				),
+
+				array(
+					'var'      => '--owp-topbar-social-external-mark-offset-y',
+					'setting'  => 'ocean_top_bar_social_external_icon_y_offset',
+					'fallback' => '-0.25',
+					'type'     => 'size',
+					'unit'     => 'em',
+				),
 			)
 		);
 	}

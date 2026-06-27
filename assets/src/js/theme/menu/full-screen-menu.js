@@ -155,13 +155,17 @@ class FullScreenMenu {
       htmlWidthAfterOverflowHidden +
       "px";
 
-    setTimeout(() => {
-      const firstFocusable =
-        this.#elements.menu.querySelector(
-          'a, button, input, [tabindex="0"]'
-        );
+    // setTimeout(() => {
+    //   const firstFocusable =
+    //     this.#elements.menu.querySelector(
+    //       'a, button, input, [tabindex="0"]'
+    //     );
 
-      firstFocusable?.focus();
+    //   firstFocusable?.focus();
+    // }, 100);
+
+    setTimeout(() => {
+      this.#elements.toggleMenuBtn?.focus();
     }, 100);
   };
 

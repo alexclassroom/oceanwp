@@ -21,15 +21,10 @@
   position: relative;
 }
 .oceanwp-social-menu .header-social-menu-external-mark {
-  --owp-social-external-mark-size: 0.72em;
-  --owp-social-external-mark-offset-x: -0.15em;
-  --owp-social-external-mark-offset-y: -0.25em;
-  --owp-social-external-mark-color: #ffffff;
-  --owp-social-external-mark-bg: #000000;
   --owp-social-external-mark-padding: calc(var(--owp-social-external-mark-size) * 0.25);
   position: absolute;
   inset-block-start: var(--owp-social-external-mark-offset-y);
-  inset-inline-end: var(--ocean-social-external-mark-offset-x);
+  inset-inline-end: var(--owp-social-external-mark-offset-x);
   width: var(--owp-social-external-mark-size);
   height: var(--owp-social-external-mark-size);
   padding: var(--owp-social-external-mark-padding);
@@ -38,6 +33,28 @@
   color: var(--owp-social-external-mark-color);
   fill: currentColor;
   background-color: var(--owp-social-external-mark-bg);
+  border-radius: 50%;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#top-bar-social ul li a {
+  position: relative;
+}
+#top-bar-social .top-bar-social-menu-external-mark {
+  --owp-topbar-social-external-mark-padding: calc(var(--owp-topbar-social-external-mark-size) * 0.25);
+  position: absolute;
+  inset-block-start: var(--owp-topbar-social-external-mark-offset-y);
+  inset-inline-end: var(--owp-topbar-social-external-mark-offset-x);
+  width: var(--owp-topbar-social-external-mark-size);
+  height: var(--owp-topbar-social-external-mark-size);
+  padding: var(--owp-topbar-social-external-mark-padding);
+  display: block;
+  box-sizing: content-box;
+  color: var(--owp-topbar-social-external-mark-color);
+  fill: currentColor;
+  background-color: var(--owp-topbar-social-external-mark-bg);
   border-radius: 50%;
   line-height: 1;
   pointer-events: none;
@@ -109,7 +126,7 @@
   border-color: var(--owp-header-media-button-border-color-hover, rgba(255, 255, 255, 0.9));
 }
 .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:focus, .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid currentColor;
   outline-offset: 2px;
   background-color: var(--owp-header-media-button-bg-color-focus, rgba(0, 0, 0, 0.75));
   color: var(--owp-header-media-button-icon-color-focus, #ffffff);
@@ -150,13 +167,16 @@ button.sidr-class-toggle-sidr-close .owp-icon {
   margin-right: 8px;
 }
 
-.sidr-class-mobile-searchform label {
-  position: absolute;
-  top: -30px;
+form.sidr-class-mobile-searchform {
+  margin-top: 15px;
 }
-.sidr-class-mobile-searchform button[type=submit] {
+form.sidr-class-mobile-searchform button[type=submit] {
   border: 0;
   margin-top: 0;
+}
+form.sidr-class-mobile-searchform button[type=submit]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 label.mobile-fs-search-visible-label {
@@ -203,6 +223,10 @@ label.mobile-fs-search-visible-label {
 #site-header.full_screen-header .menu-bar:hover {
   background-color: transparent;
 }
+#site-header.full_screen-header .menu-bar:focus, #site-header.full_screen-header .menu-bar:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
 
 #mobile-fullscreen button.close {
   position: absolute;
@@ -213,6 +237,10 @@ label.mobile-fs-search-visible-label {
 }
 #mobile-fullscreen button.close:hover {
   background-color: transparent;
+}
+#mobile-fullscreen button.close:focus, #mobile-fullscreen button.close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 #mobile-fullscreen button.close .close-icon-wrap {
   display: inline-block;
@@ -293,8 +321,9 @@ label.mobile-fs-search-visible-label {
 #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover {
   color: #13aff0;
 }
-#site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:focus {
-  outline: 1px dashed #13aff0;
+#site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:focus, #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .oceanwp-mobile-menu-icon > button {
@@ -314,8 +343,9 @@ label.mobile-fs-search-visible-label {
   color: #13aff0;
   background-color: transparent;
 }
-.oceanwp-mobile-menu-icon > button:focus {
-  outline: 1px dashed #e3e3e3;
+.oceanwp-mobile-menu-icon > button:focus, .oceanwp-mobile-menu-icon > button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 .oceanwp-mobile-menu-icon > button.mobile-menu .oceanwp-text,
 .oceanwp-mobile-menu-icon > button.mobile-menu .oceanwp-close-text {
@@ -353,9 +383,15 @@ label.mobile-fs-search-visible-label {
   outline-offset: 2px;
 }
 
-#mobile-dropdown #mobile-menu-search label {
-  position: absolute;
-  top: -30px;
+#mobile-dropdown #mobile-menu-search {
+  padding-top: 10px;
+}
+#mobile-dropdown #mobile-menu-search button[type=submit] {
+  margin-top: 0;
+}
+#mobile-dropdown #mobile-menu-search button[type=submit]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 button.dropdown-toggle,

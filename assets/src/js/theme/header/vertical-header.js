@@ -9,6 +9,21 @@ class VerticalHeader {
     ),
   };
   #menuItemsPlusIcon;
+  #disabledHeaderFocusables = new Map();
+  #resizeAnimationFrame = null;
+  #focusableSelector = [
+    "a[href]",
+    "area[href]",
+    "button:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    "iframe",
+    "object",
+    "embed",
+    "[contenteditable]",
+    "[tabindex]:not([tabindex='-1'])",
+  ].join(",");
 
   constructor() {
     if (!this.#elements.header) {
@@ -67,6 +82,8 @@ class VerticalHeader {
       suppressScrollX: false,
       suppressScrollY: false,
     });
+
+    this.#syncCollapsedState();
   };
 
   #setupEventListeners = () => {
@@ -77,17 +94,20 @@ class VerticalHeader {
       });
     }
 
-    this.#elements.toggleMenuBtn.addEventListener(
-      "click",
-      this.#onToggleMenuBtnClick
-    );
+    if (this.#elements.toggleMenuBtn) {
+      this.#elements.toggleMenuBtn.addEventListener(
+        "click",
+        this.#onToggleMenuBtnClick
+      );
 
-    this.#elements.toggleMenuBtn.addEventListener(
-      "keydown",
-      this.#onToggleMenuBtnKeydown
-    );
+      this.#elements.toggleMenuBtn.addEventListener(
+        "keydown",
+        this.#onToggleMenuBtnKeydown
+      );
+    }
 
     document.addEventListener("keydown", this.#onDocumentKeydown);
+    window.addEventListener("resize", this.#onWindowResize);
   };
 
   #onMenuItemPlusIconClick = (event) => {
@@ -118,7 +138,11 @@ class VerticalHeader {
   };
 
   #onToggleMenuBtnKeydown = (event) => {
-    if (!this.#isActivationKey(event) || event.currentTarget.tagName === "BUTTON") {
+    if (
+      !this.#isActivationKey(event) ||
+      event.repeat ||
+      event.currentTarget.tagName === "BUTTON"
+    ) {
       return;
     }
 
@@ -136,19 +160,18 @@ class VerticalHeader {
       this.#elements.body.classList.add("vh-opened");
 
       this.#elements.toggleMenuBtn
-        .querySelector(".hamburger")
-        .classList.add("is-active");
+        ?.querySelector(".hamburger")
+        ?.classList.add("is-active");
 
-      this.#elements.toggleMenuBtn.setAttribute(
+      this.#elements.toggleMenuBtn?.setAttribute(
         "aria-expanded",
         "true"
       );
 
+      this.#syncCollapsedState();
+
       setTimeout(() => {
-        const firstFocusable =
-          this.#elements.header?.querySelector(
-            'a, button, input, [tabindex="0"]'
-          );
+        const firstFocusable = this.#getTrapFocusableElements()[0];
 
         firstFocusable?.focus();
       }, 50);
@@ -156,20 +179,21 @@ class VerticalHeader {
       this.#elements.body.classList.remove("vh-opened");
 
       this.#elements.toggleMenuBtn
-        .querySelector(".hamburger")
-        .classList.remove("is-active");
+        ?.querySelector(".hamburger")
+        ?.classList.remove("is-active");
 
-      this.#elements.toggleMenuBtn.setAttribute(
+      this.#elements.toggleMenuBtn?.setAttribute(
         "aria-expanded",
         "false"
       );
 
-      this.#elements.toggleMenuBtn.focus();
+      this.#syncCollapsedState();
+      this.#elements.toggleMenuBtn?.focus();
     }
   };
 
   /**
-   * Trap keyboard navigation
+   * Trap keyboard navigation while the vertical header drawer is open.
    */
   #onDocumentKeydown = (event) => {
     const tabKey =
@@ -184,32 +208,17 @@ class VerticalHeader {
 
     const toggleButton = this.#elements.toggleMenuBtn;
 
-    const focusableInside = [
-      ...this.#elements.header.querySelectorAll(
-        "a, button, [role='button'], input"
-      ),
-    ].filter(
-      (element) =>
-        element.offsetWidth > 0 ||
-        element.offsetHeight > 0 ||
-        element.getClientRects().length
-    );
-
-    if (!focusableInside.length || !toggleButton) {
+    if (!toggleButton) {
       return;
     }
 
-    const firstMenuElement = focusableInside[0];
-    const lastMenuElement =
-      focusableInside[focusableInside.length - 1];
-
-    toggleButton.style.outline = "";
-
     if (
       activationKey &&
+      !event.repeat &&
       document.activeElement?.classList.contains(
         "dropdown-toggle"
-      )
+      ) &&
+      document.activeElement?.tagName !== "BUTTON"
     ) {
       event.preventDefault();
       document.activeElement.click();
@@ -232,7 +241,19 @@ class VerticalHeader {
       return;
     }
 
-    // Shift+Tab from toggle button → last menu item
+    const focusableInside = this.#getTrapFocusableElements();
+
+    if (!focusableInside.length) {
+      event.preventDefault();
+      toggleButton.focus();
+      return;
+    }
+
+    const firstMenuElement = focusableInside[0];
+    const lastMenuElement =
+      focusableInside[focusableInside.length - 1];
+
+    // Shift+Tab from toggle button -> last menu/header item.
     if (
       shiftKey &&
       document.activeElement === toggleButton
@@ -242,7 +263,7 @@ class VerticalHeader {
       return;
     }
 
-    // Tab from toggle button → first menu item
+    // Tab from toggle button -> first menu/header item.
     if (
       !shiftKey &&
       document.activeElement === toggleButton
@@ -252,32 +273,150 @@ class VerticalHeader {
       return;
     }
 
-    // Tab from last menu item → toggle button
+    // Tab from last menu/header item -> toggle button.
     if (
       !shiftKey &&
       document.activeElement === lastMenuElement
     ) {
       event.preventDefault();
-
-      toggleButton.style.outline =
-        "1px dashed rgba(255, 255, 255, 0.6)";
-
       toggleButton.focus();
       return;
     }
 
-    // Shift+Tab from first menu item → toggle button
+    // Shift+Tab from first menu/header item -> toggle button.
     if (
       shiftKey &&
       document.activeElement === firstMenuElement
     ) {
       event.preventDefault();
-
-      toggleButton.style.outline =
-        "1px dashed rgba(255, 255, 255, 0.6)";
-
       toggleButton.focus();
     }
+  };
+
+  #onWindowResize = () => {
+    if (this.#resizeAnimationFrame) {
+      window.cancelAnimationFrame(this.#resizeAnimationFrame);
+    }
+
+    this.#resizeAnimationFrame = window.requestAnimationFrame(() => {
+      this.#syncCollapsedState();
+    });
+  };
+
+  #syncCollapsedState = () => {
+    if (!this.#elements.toggleMenuBtn) {
+      return;
+    }
+
+    const isOpen = this.#elements.body.classList.contains("vh-opened");
+    const isCollapsed = this.#isHeaderCollapsed();
+
+    this.#elements.toggleMenuBtn.setAttribute(
+      "aria-expanded",
+      isOpen ? "true" : "false"
+    );
+
+    if (isCollapsed) {
+      this.#disableHeaderFocusables();
+      return;
+    }
+
+    this.#restoreHeaderFocusables();
+  };
+
+  #isHeaderCollapsed = () => {
+    return this.#isToggleVisible() &&
+      !this.#elements.body.classList.contains("vh-opened");
+  };
+
+  #disableHeaderFocusables = () => {
+    const toggleButton = this.#elements.toggleMenuBtn;
+
+    this.#getManagedFocusableElements().forEach((element) => {
+      if (element === toggleButton || toggleButton?.contains(element)) {
+        return;
+      }
+
+      if (!this.#disabledHeaderFocusables.has(element)) {
+        this.#disabledHeaderFocusables.set(element, {
+          tabindex: element.getAttribute("tabindex"),
+          ariaHidden: element.getAttribute("aria-hidden"),
+        });
+      }
+
+      if (document.activeElement === element) {
+        toggleButton?.focus();
+      }
+
+      element.setAttribute("tabindex", "-1");
+      element.setAttribute("aria-hidden", "true");
+    });
+  };
+
+  #restoreHeaderFocusables = () => {
+    this.#disabledHeaderFocusables.forEach((attributes, element) => {
+      if (attributes.tabindex === null) {
+        element.removeAttribute("tabindex");
+      } else {
+        element.setAttribute("tabindex", attributes.tabindex);
+      }
+
+      if (attributes.ariaHidden === null) {
+        element.removeAttribute("aria-hidden");
+      } else {
+        element.setAttribute("aria-hidden", attributes.ariaHidden);
+      }
+    });
+
+    this.#disabledHeaderFocusables.clear();
+  };
+
+  #getManagedFocusableElements = () => {
+    return Array.from(
+      this.#elements.header.querySelectorAll(this.#focusableSelector)
+    );
+  };
+
+  #getTrapFocusableElements = () => {
+    const toggleButton = this.#elements.toggleMenuBtn;
+
+    return this.#getManagedFocusableElements().filter((element) => {
+      if (element === toggleButton || toggleButton?.contains(element)) {
+        return false;
+      }
+
+      return this.#isElementVisible(element);
+    });
+  };
+
+  #isToggleVisible = () => {
+    const toggleButton = this.#elements.toggleMenuBtn;
+
+    if (!toggleButton) {
+      return false;
+    }
+
+    const style = window.getComputedStyle(toggleButton);
+
+    return style.display !== "none" &&
+      style.visibility !== "hidden" &&
+      !!(
+        toggleButton.offsetWidth ||
+        toggleButton.offsetHeight ||
+        toggleButton.getClientRects().length
+      );
+  };
+
+  #isElementVisible = (element) => {
+    const style = window.getComputedStyle(element);
+
+    return style.display !== "none" &&
+      style.visibility !== "hidden" &&
+      !!(
+        element.offsetWidth ||
+        element.offsetHeight ||
+        element.getClientRects().length
+      );
   };
 
   #isActivationKey = (event) => {
@@ -289,7 +428,6 @@ class VerticalHeader {
       event.keyCode === 32
     );
   };
-
 }
 
 ("use script");

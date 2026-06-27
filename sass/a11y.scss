@@ -31,11 +31,7 @@
     }
 
     .header-social-menu-external-mark {
-        --owp-social-external-mark-size: 0.72em;
-        --owp-social-external-mark-offset-x: -0.15em;
-        --owp-social-external-mark-offset-y: -0.25em;
-        --owp-social-external-mark-color: #ffffff;
-        --owp-social-external-mark-bg: #000000;
+
         --owp-social-external-mark-padding: calc(var(--owp-social-external-mark-size) * 0.25);
 
         position: absolute;
@@ -52,6 +48,38 @@
         color: var(--owp-social-external-mark-color);
         fill: currentColor;
         background-color: var(--owp-social-external-mark-bg);
+        border-radius: 50%;
+
+        line-height: 1;
+        pointer-events: none;
+        z-index: 1;
+    }
+}
+
+#top-bar-social {
+
+    ul li a {
+        position: relative;
+    }
+    
+    .top-bar-social-menu-external-mark {
+
+        --owp-topbar-social-external-mark-padding: calc(var(--owp-topbar-social-external-mark-size) * 0.25);
+
+        position: absolute;
+        inset-block-start: var(--owp-topbar-social-external-mark-offset-y);
+        inset-inline-end: var(--owp-topbar-social-external-mark-offset-x);
+
+        width: var(--owp-topbar-social-external-mark-size);
+        height: var(--owp-topbar-social-external-mark-size);
+        padding: var(--owp-topbar-social-external-mark-padding);
+
+        display: block;
+        box-sizing: content-box;
+
+        color: var(--owp-topbar-social-external-mark-color);
+        fill: currentColor;
+        background-color: var(--owp-topbar-social-external-mark-bg);
         border-radius: 50%;
 
         line-height: 1;
@@ -134,7 +162,7 @@
 
         &:focus,
         &:focus-visible {
-            outline: 2px solid #fff;
+            outline: 2px solid currentColor;
 			outline-offset: 2px;
             background-color: var(--owp-header-media-button-bg-color-focus, rgba(0, 0, 0, 0.75));
             color: var(--owp-header-media-button-icon-color-focus, #ffffff);
@@ -188,16 +216,17 @@ button.sidr-class-toggle-sidr-close {
     }
 }
 
-.sidr-class-mobile-searchform {
-
-    label {
-        position: absolute;
-        top: -30px;
-    }
+form.sidr-class-mobile-searchform {
+    margin-top: 15px;
 
     button[type="submit"] {
         border: 0;
         margin-top: 0;
+
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+        }
     }
 }
 
@@ -274,6 +303,13 @@ label.mobile-fs-search-visible-label {
         &:hover {
             background-color: transparent;
         }
+
+        &:focus,
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+        }
+
     }
 }
 
@@ -287,6 +323,12 @@ label.mobile-fs-search-visible-label {
 
         &:hover {
             background-color: transparent;
+        }
+
+        &:focus,
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
         }
 
         .close-icon-wrap {
@@ -385,8 +427,10 @@ label.mobile-fs-search-visible-label {
                     color: $color-5;
                 }
 
-                &:focus {
-                    outline: 1px dashed $color-5;
+                &:focus,
+                &:focus-visible {
+                    outline: 2px solid currentColor;
+                    outline-offset: 2px;
                 }
             
             }
@@ -415,8 +459,10 @@ label.mobile-fs-search-visible-label {
             background-color: transparent;
         }
 
-        &:focus {
-            outline: 1px dashed #e3e3e3;
+        &:focus,
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
         }
 
         &.mobile-menu {
@@ -469,10 +515,17 @@ label.mobile-fs-search-visible-label {
 
 #mobile-dropdown {
     #mobile-menu-search {
-        label {
-            position: absolute;
-            top: -30px;
+        padding-top: 10px;
+
+        button[type="submit"] {
+            margin-top: 0;
+
+            &:focus-visible {
+                outline: 2px solid currentColor;
+                outline-offset: 2px;
+            }
         }
+       
     }
 }
 

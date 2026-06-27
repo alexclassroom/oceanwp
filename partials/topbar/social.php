@@ -100,7 +100,7 @@ $external_icon_markup = '';
 
 if ( $display_external_mark && 'blank' === $link_target ) {
 	// Outputs a visual indicator icon hidden safely from assistive text narrators.
-	$external_icon_markup = '<svg class="top-bar-social-external-mark oceanwp-social-external-mark" aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="1em" height="1em">
+	$external_icon_markup = '<svg class="top-bar-social-menu-external-mark oceanwp-social-external-mark" aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="1em" height="1em">
 		<path d="M5 3h8v8h-2V6.41l-6.29 6.3-1.42-1.42L9.59 5H5V3z" fill="currentColor"></path>
 	</svg>';
 }

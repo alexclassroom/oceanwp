@@ -2305,7 +2305,7 @@ a.pure-button-selected {
   background-color: #fff;
   font-size: 12px;
   border-bottom: 1px solid #f1f1f1;
-  z-index: 10001;
+  z-index: 101;
 }
 
 #top-bar {

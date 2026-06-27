@@ -1178,6 +1178,10 @@ class OceanWP_Customize_Header_CSS {
 	*/
 	public function header_image_css( $output ) {
 
+		if ( oceanwp_is_accessible_header_video_enabled() ) {
+			return $output;
+		}
+
 		// Global vars
 		$header_image 				= get_header_image();
 		$has_video                  = function_exists( 'has_header_video' ) && has_header_video();
