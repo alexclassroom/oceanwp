@@ -136,7 +136,9 @@
                 width: 30px;
                 padding: 0;
                 text-align: center;
-                top: 50%;
+                top: auto;
+                bottom: 5px;
+                margin-top: 0px;
                 background-color: transparent !important;
                 color: #555;
                 border: 0;

@@ -588,9 +588,12 @@ label.mobile-fs-search-visible-label {
     #mobile-menu-search {
         padding-top: 10px;
 
-        button[type="submit"] {
-            margin-top: 0;
+        .oceanwp-mobile-menu-search-visible-label {
+            display: block;
+            margin-bottom: 6px;
+        }
 
+        button[type="submit"] {
             &:focus,
             &:focus-visible {
                 outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
