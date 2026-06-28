@@ -282,14 +282,32 @@ class DropDownMobileMenu {
 
     if (!shiftKey && tabKey && navLastElement === document.activeElement) {
       event.preventDefault();
-      closeIcon.style.outline = "1px dashed rgba(255, 255, 255, 0.6)";
       closeIcon.focus();
+    }
+
+    if (
+      !shiftKey &&
+      tabKey &&
+      document.activeElement === closeIcon
+    ) {
+      event.preventDefault();
+      navFirstElement.focus();
+      return;
     }
 
     if (shiftKey && tabKey && navFirstElement === document.activeElement) {
       event.preventDefault();
-      closeIcon.style.outline = "1px dashed rgba(255, 255, 255, 0.6)";
       closeIcon.focus();
+    }
+
+    if (
+      shiftKey &&
+      tabKey &&
+      document.activeElement === closeIcon
+    ) {
+      event.preventDefault();
+      navLastElement.focus();
+      return;
     }
 
     // If there are no elements in the menu, don't move the focus

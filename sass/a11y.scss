@@ -4,13 +4,82 @@
 // Mixins
 @import "mixins";
 
+body :where(
+    .theme-button,
+    .button,
+    button,
+    input[type="submit"],
+    .wpforms-page-button,
+    .wp-element-button,
+    .wp-block-button__link
+) {
+
+    &:focus,
+    &:focus-visible {
+        outline: var(--owp-focus-outline-width, 2px) solid var(--owp-focus-outline-color, currentColor);
+        outline-offset: var(--owp-focus-outline-offset, -5px);
+        box-shadow: none;
+    }
+}
+
+form :where(
+    input:not([type]),
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="url"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="week"],
+    input[type="number"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="color"],
+    select,
+    textarea
+) {
+    &:focus,
+    &:focus-within {
+        border: 2px solid var(--owp-input-border-color);
+        box-shadow: 0 0 0 4px color-mix(
+            in srgb,
+            var(--owp-focus-outline-color) 18%,
+            transparent
+        );
+    }
+}
+
+
+.sidebar-container.widget-area {
+    a {
+        color: var(--owp-widget-link-color);
+        text-decoration: var(--owp-widget-link-text-decoration) var(--owp-widget-link-underline-offset, 0.1em);
+        text-underline-offset: var(--owp-widget-link-underline-offset, 0.2em);
+
+        &:hover {
+            color: var(--owp-widget-link-color-hover);
+            text-decoration: none;
+        }
+
+        &:focus,
+        &:focus-visible {
+            outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+            outline-offset: var(--owp-focus-outline-offset);
+        }
+    }
+}
+
 
 .header-search-visible-label,
 .medium-header-search-visible-label,
 .vertical-header-search-visible-label,
 .mobile-fs-search-visible-label,
 #icon-searchform-overlay form .mobile-overlay-search-visible-label,
-.oceanwp-mobile-menu-search-visible-label {
+.oceanwp-mobile-menu-search-visible-label,
+.mobile-dropdown-search-visible-label {
     color: var(--owp-search-form-label-color, inherit);
     font-size: var(--owp-search-form-label-font-size, inherit);
 }
@@ -149,8 +218,7 @@
 			color: inherit;
 		}
 
-		&:hover,
-		&:focus {
+		&:hover {
 			outline: none;
 		}
 
@@ -162,8 +230,8 @@
 
         &:focus,
         &:focus-visible {
-            outline: 2px solid currentColor;
-			outline-offset: 2px;
+            outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+            outline-offset: var(--owp-focus-outline-offset);
             background-color: var(--owp-header-media-button-bg-color-focus, rgba(0, 0, 0, 0.75));
             color: var(--owp-header-media-button-icon-color-focus, #ffffff);
             border-color: var(--owp-header-media-button-border-color-focus, rgba(255, 255, 255, 0.9));
@@ -223,9 +291,10 @@ form.sidr-class-mobile-searchform {
         border: 0;
         margin-top: 0;
 
+        &:focus,
         &:focus-visible {
-            outline: 2px solid currentColor;
-            outline-offset: 2px;
+            outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+            outline-offset: var(--owp-focus-outline-offset);
         }
     }
 }
@@ -306,8 +375,8 @@ label.mobile-fs-search-visible-label {
 
         &:focus,
         &:focus-visible {
-            outline: 2px solid currentColor;
-            outline-offset: 2px;
+            outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+            outline-offset: var(--owp-focus-outline-offset);
         }
 
     }
@@ -327,8 +396,8 @@ label.mobile-fs-search-visible-label {
 
         &:focus,
         &:focus-visible {
-            outline: 2px solid currentColor;
-            outline-offset: 2px;
+            outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+            outline-offset: var(--owp-focus-outline-offset);
         }
 
         .close-icon-wrap {
@@ -429,8 +498,8 @@ label.mobile-fs-search-visible-label {
 
                 &:focus,
                 &:focus-visible {
-                    outline: 2px solid currentColor;
-                    outline-offset: 2px;
+                    outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+                    outline-offset: var(--owp-focus-outline-offset);
                 }
             
             }
@@ -461,8 +530,8 @@ label.mobile-fs-search-visible-label {
 
         &:focus,
         &:focus-visible {
-            outline: 2px solid currentColor;
-            outline-offset: 2px;
+            outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+            outline-offset: var(--owp-focus-outline-offset);
         }
 
         &.mobile-menu {
@@ -489,9 +558,10 @@ label.mobile-fs-search-visible-label {
         line-height: 40px;
 		border: 0;
 
+        &:focus,
         &:focus-visible {
-            outline: 2px solid currentColor;
-            outline-offset: 2px;
+            outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+            outline-offset: var(--owp-focus-outline-offset);
         }
     }
 }
@@ -507,9 +577,10 @@ label.mobile-fs-search-visible-label {
     background: transparent;
     border: 0;
 
+    &:focus,
     &:focus-visible {
-        outline: 2px solid currentColor;
-        outline-offset: 2px;
+        outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+        outline-offset: var(--owp-focus-outline-offset);
     }
 }
 
@@ -520,9 +591,10 @@ label.mobile-fs-search-visible-label {
         button[type="submit"] {
             margin-top: 0;
 
+            &:focus,
             &:focus-visible {
-                outline: 2px solid currentColor;
-                outline-offset: 2px;
+                outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+                outline-offset: var(--owp-focus-outline-offset);
             }
         }
        
@@ -541,10 +613,14 @@ button.dropdown-toggle,
     width: 100%;
 }
 
-button.dropdown-toggle:focus,
-.oceanwp-sub-menu-toggle:focus {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
+button.dropdown-toggle,
+.oceanwp-sub-menu-toggle {
+
+    &:focus,
+    &:focus-visible {
+        outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+        outline-offset: var(--owp-focus-outline-offset);
+    }
 }
 
 button.dropdown-toggle:focus:not(:focus-visible),
@@ -552,64 +628,18 @@ button.dropdown-toggle:focus:not(:focus-visible),
     outline: none;
 }
 
-button.dropdown-toggle:focus-visible,
-.oceanwp-sub-menu-toggle:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
-}
+[data-oceanwp-submenu-toggle] {
 
-[data-oceanwp-submenu-toggle]:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
+    &:focus,
+    &:focus-visible {
+        outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+        outline-offset: var(--owp-focus-outline-offset);
+    }
 }
 
 .oceanwp-sub-menu-toggle .nav-arrow {
     pointer-events: none;
 }
-
-// .oceanwp-has-accessible-toggle {
-//     position: relative;
-// }
-
-// .oceanwp-has-accessible-toggle {
-// 	position: relative;
-
-// 	> .oceanwp-sub-menu-toggle {
-// 		position: absolute;
-// 		top: 0;
-// 		right: 0;
-// 		width: 48px;
-// 		height: 48px;
-// 		display: flex;
-// 		align-items: center;
-// 		justify-content: center;
-// 		padding: 0;
-// 		margin: 0;
-// 		background: transparent;
-// 		border: 0;
-// 		cursor: pointer;
-// 		z-index: 2;
-
-// 		.nav-arrow {
-// 			transition: transform .25s ease;
-// 		}
-// 	}
-
-// 	> .menu-link {
-// 		padding-right: 48px;
-// 	}
-
-// 	&.active,
-// 	&.open-sub {
-
-// 		> .oceanwp-sub-menu-toggle {
-// 			.nav-arrow {
-//                 transition: transform .50s ease;
-// 				transform: rotate(180deg);
-// 			}
-// 		}
-// 	}
-// }
 
 .oceanwp-has-submenu-toggle,
 .oceanwp-has-accessible-toggle {
@@ -689,10 +719,6 @@ button.dropdown-toggle:focus-visible,
             &:hover {
                 color: $color-4;
             }
-
-            // &:focus {
-            //     outline: 1px dashed rgba($color: #fff, $alpha: 0.3);
-            // }
 
             .nav-arrow {
                 position: absolute;

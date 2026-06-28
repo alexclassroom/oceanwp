@@ -1,9 +1,79 @@
+body :where(.theme-button,
+.button,
+button,
+input[type=submit],
+.wpforms-page-button,
+.wp-element-button,
+.wp-block-button__link):focus, body :where(.theme-button,
+.button,
+button,
+input[type=submit],
+.wpforms-page-button,
+.wp-element-button,
+.wp-block-button__link):focus-visible {
+  outline: var(--owp-focus-outline-width, 2px) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset, -5px);
+  box-shadow: none;
+}
+
+form :where(input:not([type]),
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=date],
+input[type=month],
+input[type=time],
+input[type=datetime],
+input[type=datetime-local],
+input[type=week],
+input[type=number],
+input[type=search],
+input[type=tel],
+input[type=color],
+select,
+textarea):focus, form :where(input:not([type]),
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=date],
+input[type=month],
+input[type=time],
+input[type=datetime],
+input[type=datetime-local],
+input[type=week],
+input[type=number],
+input[type=search],
+input[type=tel],
+input[type=color],
+select,
+textarea):focus-within {
+  border: 2px solid var(--owp-input-border-color);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--owp-focus-outline-color) 18%, transparent);
+}
+
+.sidebar-container.widget-area a {
+  color: var(--owp-widget-link-color);
+  text-decoration: var(--owp-widget-link-text-decoration) var(--owp-widget-link-underline-offset, 0.1em);
+  text-underline-offset: var(--owp-widget-link-underline-offset, 0.2em);
+}
+.sidebar-container.widget-area a:hover {
+  color: var(--owp-widget-link-color-hover);
+  text-decoration: none;
+}
+.sidebar-container.widget-area a:focus, .sidebar-container.widget-area a:focus-visible {
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
+}
+
 .header-search-visible-label,
 .medium-header-search-visible-label,
 .vertical-header-search-visible-label,
 .mobile-fs-search-visible-label,
 #icon-searchform-overlay form .mobile-overlay-search-visible-label,
-.oceanwp-mobile-menu-search-visible-label {
+.oceanwp-mobile-menu-search-visible-label,
+.mobile-dropdown-search-visible-label {
   color: var(--owp-search-form-label-color, inherit);
   font-size: var(--owp-search-form-label-font-size, inherit);
 }
@@ -117,7 +187,7 @@
   fill: currentColor;
   color: inherit;
 }
-.custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:hover, .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:focus {
+.custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:hover {
   outline: none;
 }
 .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:hover {
@@ -126,8 +196,8 @@
   border-color: var(--owp-header-media-button-border-color-hover, rgba(255, 255, 255, 0.9));
 }
 .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:focus, .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
   background-color: var(--owp-header-media-button-bg-color-focus, rgba(0, 0, 0, 0.75));
   color: var(--owp-header-media-button-icon-color-focus, #ffffff);
   border-color: var(--owp-header-media-button-border-color-focus, rgba(255, 255, 255, 0.9));
@@ -174,9 +244,9 @@ form.sidr-class-mobile-searchform button[type=submit] {
   border: 0;
   margin-top: 0;
 }
-form.sidr-class-mobile-searchform button[type=submit]:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+form.sidr-class-mobile-searchform button[type=submit]:focus, form.sidr-class-mobile-searchform button[type=submit]:focus-visible {
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 
 label.mobile-fs-search-visible-label {
@@ -224,8 +294,8 @@ label.mobile-fs-search-visible-label {
   background-color: transparent;
 }
 #site-header.full_screen-header .menu-bar:focus, #site-header.full_screen-header .menu-bar:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 
 #mobile-fullscreen button.close {
@@ -239,8 +309,8 @@ label.mobile-fs-search-visible-label {
   background-color: transparent;
 }
 #mobile-fullscreen button.close:focus, #mobile-fullscreen button.close:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 #mobile-fullscreen button.close .close-icon-wrap {
   display: inline-block;
@@ -322,8 +392,8 @@ label.mobile-fs-search-visible-label {
   color: #13aff0;
 }
 #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:focus, #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 
 .oceanwp-mobile-menu-icon > button {
@@ -344,8 +414,8 @@ label.mobile-fs-search-visible-label {
   background-color: transparent;
 }
 .oceanwp-mobile-menu-icon > button:focus, .oceanwp-mobile-menu-icon > button:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 .oceanwp-mobile-menu-icon > button.mobile-menu .oceanwp-text,
 .oceanwp-mobile-menu-icon > button.mobile-menu .oceanwp-close-text {
@@ -363,10 +433,11 @@ label.mobile-fs-search-visible-label {
   line-height: 40px;
   border: 0;
 }
-#searchform-overlay .search-overlay-close:focus-visible,
+#searchform-overlay .search-overlay-close:focus, #searchform-overlay .search-overlay-close:focus-visible,
+#icon-searchform-overlay .search-overlay-close:focus,
 #icon-searchform-overlay .search-overlay-close:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 
 #searchform-header-replace .header-search-visible-label {
@@ -378,9 +449,9 @@ label.mobile-fs-search-visible-label {
   background: transparent;
   border: 0;
 }
-#searchform-header-replace-close:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+#searchform-header-replace-close:focus, #searchform-header-replace-close:focus-visible {
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 
 #mobile-dropdown #mobile-menu-search {
@@ -389,9 +460,9 @@ label.mobile-fs-search-visible-label {
 #mobile-dropdown #mobile-menu-search button[type=submit] {
   margin-top: 0;
 }
-#mobile-dropdown #mobile-menu-search button[type=submit]:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+#mobile-dropdown #mobile-menu-search button[type=submit]:focus, #mobile-dropdown #mobile-menu-search button[type=submit]:focus-visible {
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 
 button.dropdown-toggle,
@@ -406,10 +477,11 @@ button.dropdown-toggle,
   width: 100%;
 }
 
-button.dropdown-toggle:focus,
-.oceanwp-sub-menu-toggle:focus {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+button.dropdown-toggle:focus, button.dropdown-toggle:focus-visible,
+.oceanwp-sub-menu-toggle:focus,
+.oceanwp-sub-menu-toggle:focus-visible {
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 
 button.dropdown-toggle:focus:not(:focus-visible),
@@ -417,15 +489,9 @@ button.dropdown-toggle:focus:not(:focus-visible),
   outline: none;
 }
 
-button.dropdown-toggle:focus-visible,
-.oceanwp-sub-menu-toggle:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
-[data-oceanwp-submenu-toggle]:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+[data-oceanwp-submenu-toggle]:focus, [data-oceanwp-submenu-toggle]:focus-visible {
+  outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  outline-offset: var(--owp-focus-outline-offset);
 }
 
 .oceanwp-sub-menu-toggle .nav-arrow {

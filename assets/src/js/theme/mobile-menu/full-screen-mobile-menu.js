@@ -173,7 +173,14 @@ class FullScreenMobileMenu {
     this.#elements.html.style.marginRight =
       htmlWidthAfterOverflowHidden - htmlWidthBeforeOverflowHidden + "px";
 
-    this.#elements.menu.querySelector(".close")?.focus();
+    // this.#elements.menu.querySelector(".close")?.focus();
+    setTimeout(() => {
+      const firstFocusable = this.#elements.menu.querySelector(
+        'a, button:not(.close), input, [tabindex="0"]'
+      );
+
+      firstFocusable?.focus();
+    }, 100);
   };
 
   #onCloseIconClick = (event) => {
@@ -277,9 +284,16 @@ class FullScreenMobileMenu {
 
     const closeIcon = this.#elements.menu.querySelector(".close");
 
-    const navElements = this.#elements.menu
-      .querySelector("nav")
-      .querySelectorAll("a, button, [role='button'], input");
+    const navElements = [
+      ...this.#elements.menu.querySelectorAll(
+        "nav a, nav button, nav input, nav [tabindex='0']"
+      ),
+    ].filter(
+      (element) =>
+        element.offsetWidth > 0 ||
+        element.offsetHeight > 0 ||
+        element.getClientRects().length
+    );
 
     const navFirstElement = navElements[0];
     const navLastElement = navElements[navElements.length - 1];
@@ -302,16 +316,43 @@ class FullScreenMobileMenu {
       return;
     }
 
-    if (!shiftKey && tabKey && navLastElement === document.activeElement) {
+    if (
+      shiftKey &&
+      tabKey &&
+      document.activeElement === closeIcon
+    ) {
       event.preventDefault();
-      closeIcon.style.outline = "1px dashed rgba(255, 255, 255, 0.6)";
-      closeIcon.focus();
+
+      navLastElement.focus();
+      return;
     }
 
     if (shiftKey && tabKey && navFirstElement === document.activeElement) {
       event.preventDefault();
-      closeIcon.style.outline = "1px dashed rgba(255, 255, 255, 0.6)";
       closeIcon.focus();
+      return;
+    }
+
+    if (
+      !shiftKey &&
+      tabKey &&
+      document.activeElement === closeIcon
+    ) {
+      event.preventDefault();
+
+      navFirstElement.focus();
+      return;
+    }
+
+    if (
+      !shiftKey &&
+      tabKey &&
+      document.activeElement === navLastElement
+    ) {
+      event.preventDefault();
+
+      closeIcon.focus();
+      return;
     }
 
     // If there are no elements in the menu, don't move the focus

@@ -31,30 +31,29 @@ if ( ! function_exists( 'oceanwp_get_customizer_defaults_map' ) ) {
 			'oceanwp_customizer_defaults_map',
 			array(
 
-				/*
-				 * Global/link examples.
-				 */
+				'ocean_primary_color' => array(
+					'old' => '#13aff0',
+					'new' => '#007a99',
+				),
+
 				'ocean_links_color' => array(
 					'old' => '#333333',
-					'new' => '#333333',
+					'new' => '#007a99',
 				),
 
 				'ocean_links_color_hover' => array(
 					'old' => '#13aff0',
-					'new' => '#13aff0',
+					'new' => '#005f78',
 				),
 
-				/*
-				 * Theme buttons.
-				 */
 				'ocean_theme_button_bg' => array(
 					'old' => '#13aff0',
-					'new' => '#13aff0',
+					'new' => '#007a99',
 				),
 
 				'ocean_theme_button_hover_bg' => array(
 					'old' => '#0b7cac',
-					'new' => '#0b7cac',
+					'new' => '#005f78',
 				),
 
 				'ocean_theme_button_color' => array(
