@@ -271,12 +271,21 @@ class DropDownMobileMenu {
       this.onMenuCloseClick();
     }
 
-    if (
-      activationKey &&
-      document.activeElement.classList.contains("dropdown-toggle")
-    ) {
+    const activeElement = document.activeElement;
+
+    const isLegacyDropdownToggle =
+      activeElement?.classList.contains("dropdown-toggle") ||
+      (
+        this.#getMobileDropdownTarget() === "link" &&
+        activeElement?.matches?.(
+          "#mobile-dropdown li.menu-item-has-children > a:not([data-oceanwp-submenu-toggle])"
+        )
+      );
+
+    if (activationKey && isLegacyDropdownToggle) {
       event.preventDefault();
-      document.activeElement.click();
+      event.stopPropagation();
+      activeElement.click();
       return;
     }
 

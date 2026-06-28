@@ -78,7 +78,8 @@ class FullScreenMobileMenu {
     delegate(document.body, ".mobile-menu", "keydown", this.#onMenuButtonKeydown);
 
     document
-      .querySelectorAll('#mobile-fullscreen ul > li > a[href^="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle]), #mobile-fullscreen ul > li > a[href*="/#"]:not([href="#"]):not([data-oceanwp-submenu-toggle])')
+      .querySelectorAll(
+        '#mobile-fullscreen ul > li:not(.menu-item-has-children) > a[href^="#"]:not([href="#"]):not([data-oceanwp-submenu-toggle]), #mobile-fullscreen ul > li:not(.menu-item-has-children) > a[href*="/#"]:not([href="#"]):not([data-oceanwp-submenu-toggle])')
       .forEach((anchorLink) => {
         anchorLink.addEventListener("click", this.#handleAnchorLinks);
       });
@@ -86,7 +87,7 @@ class FullScreenMobileMenu {
     if (!options.semanticMobileHeader) {
       document
         .querySelectorAll(
-          '#mobile-fullscreen nav ul > li.menu-item-has-children > a > span.dropdown-toggle, #mobile-fullscreen nav ul > li.menu-item-has-children > a[href="#"]'
+          '#mobile-fullscreen nav ul > li.menu-item-has-children > a:not([data-oceanwp-submenu-toggle]), #mobile-fullscreen nav ul > li.menu-item-has-children > a > span.dropdown-toggle'
         )
         .forEach((menuItemLink) => {
           menuItemLink.addEventListener("click", this.#onDropownToggleIcon);
@@ -307,12 +308,18 @@ class FullScreenMobileMenu {
       this.closeMainMenu();
     }
 
-    if (
-      activationKey &&
-      document.activeElement.classList.contains("dropdown-toggle")
-    ) {
+    const activeElement = document.activeElement;
+
+    const isLegacyFullscreenDropdownToggle =
+      activeElement?.classList?.contains("dropdown-toggle") ||
+      activeElement?.matches?.(
+        '#mobile-fullscreen nav ul > li.menu-item-has-children > a:not([data-oceanwp-submenu-toggle])'
+      );
+
+    if (activationKey && isLegacyFullscreenDropdownToggle) {
       event.preventDefault();
-      document.activeElement.click();
+      event.stopPropagation();
+      activeElement.click();
       return;
     }
 
