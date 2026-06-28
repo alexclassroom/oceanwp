@@ -22,40 +22,35 @@ $custom_label_text = get_theme_mod( 'ocean_custom_header_search_form_label', __(
 
 // Aria labels, screen reader & placeholder text strings.
 $form_aria_label   = oceanwp_theme_strings( 'owp-string-search-form-label', false );
-$input_aria_label  = oceanwp_theme_strings( 'owp-string-search-field', false );
 $form_placeholder  = oceanwp_theme_strings( 'owp-string-mobile-search-text', false );
 $submit_aria_label = oceanwp_theme_strings( 'owp-string-mobile-submit-search', false );
+$form_input        = oceanwp_theme_strings( 'owp-string-search-field', false );
 
 // Fallback to default theme string if custom text is empty.
 $label_text = ! empty( $custom_label_text ) ? $custom_label_text : $form_aria_label;
 
 // Search form conditional aria attributes construction.
-$form_aria_label_attr       = '';
-$form_input_aria_label_attr = '';
-$desc_id                    = ''; 
+$form_aria_label_attr       = sprintf( 'aria-label="%s"', esc_attr( $label_text ) );
+$form_input_aria_label_attr = sprintf( 'aria-label="%s"', esc_attr( $form_input ) );
 
-if ( ! $display_label ) {
-	$form_aria_label_attr       = sprintf( 'aria-label="%s"', esc_attr( $label_text ) );
-	$form_input_aria_label_attr = sprintf( 'aria-label="%s"', esc_attr( $input_aria_label ) );
+// Label class.
+$label_class = '';
+
+if ( $display_label ) {
+	$label_class = 'oceanwp-mobile-menu-search-visible-label';
 } else {
-	$desc_id = sprintf( 'aria-describedby="%s"', esc_attr( $ocean_msf_id ) );
+	$label_class = 'screen-reader-text';
 }
 ?>
 
 <div id="mobile-menu-search" class="clr">
 	<form <?php echo $form_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="mobile-searchform" role="search">
 		
-		<?php if ( $display_label ) : ?>
-			<label for="<?php echo esc_attr( $ocean_msf_id ); ?>" class="oceanwp-mobile-menu-search-visible-label">
-				<?php echo esc_html( $label_text ); ?>
-			</label>
-		<?php else : ?>
-			<span class="screen-reader-text">
-				<?php echo esc_html( $label_text ); ?>
-			</span>
-		<?php endif; ?>
+		<span class="<?php echo esc_attr( $label_class ); ?>">
+			<?php echo esc_html( $label_text ); ?>
+		</span>
 
-		<input type="search" id="<?php echo esc_attr( $ocean_msf_id ); ?>" class="field" name="s" autocomplete="off" value="" placeholder="<?php echo esc_attr( $form_placeholder ); ?>" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php echo $desc_id; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
+		<input type="search" id="<?php echo esc_attr( $ocean_msf_id ); ?>" class="field" name="s" autocomplete="off" value="" placeholder="<?php echo esc_attr( $form_placeholder ); ?>" <?php echo $form_input_aria_label_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
 		
 		<button aria-label="<?php echo esc_attr( $submit_aria_label ); ?>" type="submit" class="searchform-submit">
 			<?php oceanwp_icon( 'search' ); ?>
