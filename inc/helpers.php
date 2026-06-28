@@ -5555,6 +5555,27 @@ if ( ! function_exists( 'oceanwp_is_accessibility_feature_enabled' ) ) {
 			$default = ocean_accessibility_get_default_value();
 		}
 
+		/*
+		 * Master accessibility switch.
+		 *
+		 * When Accessibility Mode is disabled, all individual accessibility
+		 * features must behave as disabled too. This keeps existing installs
+		 * on legacy markup/CSS/JS unless the master mode is enabled.
+		 */
+		if ( 'ocean_accessibility_mode' !== $theme_mod ) {
+			$master_default = ocean_accessibility_get_default_value();
+			$master_enabled = get_theme_mod( 'ocean_accessibility_mode', $master_default );
+
+			if ( ! $master_enabled ) {
+				return (bool) apply_filters(
+					'oceanwp_is_accessibility_feature_enabled',
+					false,
+					$theme_mod,
+					$default
+				);
+			}
+		}
+
 		$enabled = get_theme_mod( $theme_mod, $default );
 
 		return (bool) apply_filters(
@@ -5709,15 +5730,15 @@ function oceanwp_get_nav_walker( $context = 'default' ) {
 	$submenu_dropdown_target  = 'link';
 
 	if ( 'mobile-dropdown' === $context ) {
-		$controls_enabled        = true;
 		$semantic                = oceanwp_is_semantic_mobile_header_enabled();
+		$controls_enabled        = $semantic;
 		$submenu_dropdown_target = oceanwp_mobile_menu_dropdown_target();
 	}
 
 	if ( 'mobile-fullscreen' === $context ) {
-		$controls_enabled        = true;
 		$semantic                = oceanwp_is_semantic_mobile_header_enabled();
-		$submenu_dropdown_target = 'auto';
+		$controls_enabled        = $semantic;
+		$submenu_dropdown_target = 'link';
 	}
 
 	if ( 'vertical-header' === $context ) {

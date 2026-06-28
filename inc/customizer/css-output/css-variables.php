@@ -37,6 +37,11 @@ class OceanWP_CSS_Variables {
 	 */
 	public function generate_css( $output ) {
 
+		if ( function_exists( 'oceanwp_is_accessibility_feature_enabled' )
+			&& ! oceanwp_is_accessibility_feature_enabled( 'ocean_accessibility_mode' ) ) {
+			return $output;
+		}
+
 		$desktop_vars = array();
 		$tablet_vars  = array();
 		$mobile_vars  = array();
