@@ -244,7 +244,7 @@ function oceanwp_accessible_header_video_boot() {
 		return;
 	}
 
-	if ( ! oceanwp_is_header_style_supported( [ 'minimal', 'top', 'full_screen', 'center', 'medium' ] ) ) {
+	if ( ! oceanwp_is_header_style_supported( [ 'minimal', 'top', 'center', 'medium' ] ) ) {
 		return;
 	}
 
