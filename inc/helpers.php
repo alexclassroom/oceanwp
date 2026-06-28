@@ -5772,6 +5772,18 @@ function oceanwp_get_nav_walker( $context = 'default' ) {
  * @return array
  */
 function oceanwp_apply_nav_walker_context( $args, $context = 'default' ) {
+	$context = $context ? $context : 'default';
+
+	/*
+	 * Do not apply mobile menu context unless semantic mobile header markup
+	 * is enabled. Preserves legacy markup. Avoids legacy Full Screen or
+	 * Dropdown mobile menus displaying duplicate submenu icons or toggles.
+	 */
+	if ( oceanwp_is_enhanced_mobile_menu_context( $context )
+		&& ! oceanwp_is_semantic_mobile_header_enabled() ) {
+		return $args;
+	}
+
 	$args['walker'] = oceanwp_get_nav_walker( $context );
 
 	return $args;
