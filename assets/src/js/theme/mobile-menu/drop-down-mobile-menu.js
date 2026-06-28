@@ -269,6 +269,7 @@ class DropDownMobileMenu {
     if (escKey) {
       event.preventDefault();
       this.onMenuCloseClick();
+      return;
     }
 
     const activeElement = document.activeElement;
@@ -292,6 +293,7 @@ class DropDownMobileMenu {
     if (!shiftKey && tabKey && navLastElement === document.activeElement) {
       event.preventDefault();
       closeIcon.focus();
+      return;
     }
 
     if (
@@ -307,6 +309,7 @@ class DropDownMobileMenu {
     if (shiftKey && tabKey && navFirstElement === document.activeElement) {
       event.preventDefault();
       closeIcon.focus();
+      return;
     }
 
     if (
