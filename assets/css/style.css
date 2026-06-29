@@ -1677,9 +1677,9 @@ a, a:hover {
 }
 .single-post:not(.elementor-page) .entry-content a:not(.wp-block-button__link):not(.wp-block-file__button):hover,
 .page:not(.elementor-page):not(.woocommerce-page) .entry a:not(.wp-block-button__link):not(.wp-block-file__button):hover {
-  text-decoration: underline;
-  -webkit-text-decoration-style: dotted;
-          text-decoration-style: dotted;
+  text-decoration: none;
+  -webkit-text-decoration-style: none;
+          text-decoration-style: none;
   text-decoration-skip-ink: none;
   transition: all 0.3s ease;
 }
@@ -1734,7 +1734,7 @@ h6 {
   font-family: "Font Awesome 5 Free";
   font-size: 18px;
   font-weight: 600;
-  color: #13aff0;
+  color: var(--owp-primary-color, #13aff0);
   padding-right: 6px;
 }
 
@@ -1766,12 +1766,12 @@ samp {
 pre {
   margin: 20px 0;
   padding: 20px;
-  color: #2080ad;
-  background-color: #fafafa;
+  color: #175b7b;
+  background-color: #f9f9f9;
 }
 
 code {
-  color: #2080ad;
+  color: #175b7b;
 }
 
 .wp-block-quote {
@@ -1779,7 +1779,7 @@ code {
   padding-left: 20px;
   border-left-width: 3px;
   border-style: solid;
-  border-left-color: #13aff0;
+  border-left-color: var(--owp-primary-color, #13aff0);
 }
 
 blockquote {
@@ -1788,7 +1788,7 @@ blockquote {
   padding-left: 20px;
   border-left-width: 3px;
   border-style: solid;
-  border-left-color: #13aff0;
+  border-left-color: var(--owp-primary-color, #13aff0);
 }
 blockquote cite {
   position: relative;
@@ -6035,7 +6035,7 @@ body.breadcrumbs-position-default .page-header-title {
   line-height: 32px;
   margin-top: -16px;
   font-size: 13px;
-  color: #c6c6c6;
+  color: #6f6f6f;
   font-weight: normal;
   white-space: nowrap;
   overflow: hidden;

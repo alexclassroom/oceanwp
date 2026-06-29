@@ -48,6 +48,11 @@ body .wp-block-button__link:hover,
 body .wp-block-button__link:focus {
   background-color: var(--owp-button-bg-color-hover, #0b7cac);
   color: var(--owp-button-text-color-hover, #ffffff);
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 body :where(a[href],
@@ -211,6 +216,11 @@ textarea):focus-within {
 .sidebar-container.widget-area a:hover {
   color: var(--owp-widget-link-color-hover, var(--owp-link-color-hover, #13aff0));
   text-decoration: none;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 .sidebar-container.widget-area a:focus-visible {
   outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
@@ -340,11 +350,21 @@ textarea):focus-within {
 }
 .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:hover {
   outline: none;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:hover {
   background-color: var(--owp-header-media-button-bg-color-hover, rgba(0, 0, 0, 0.75));
   color: var(--owp-header-media-button-icon-color-hover, #ffffff);
   border-color: var(--owp-header-media-button-border-color-hover, rgba(255, 255, 255, 0.9));
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button:focus-visible {
   outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
@@ -352,6 +372,11 @@ textarea):focus-within {
   background-color: var(--owp-header-media-button-bg-color-focus, rgba(0, 0, 0, 0.75));
   color: var(--owp-header-media-button-icon-color-focus, #ffffff);
   border-color: var(--owp-header-media-button-border-color-focus, rgba(255, 255, 255, 0.9));
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 body.admin-bar .custom-header-media.ocean-accessible-header-media .wp-custom-header-video-button {
@@ -798,4 +823,9 @@ button.dropdown-toggle:focus-visible,
 .comment-respond .logged-in-as a:focus-visible {
   color: var(--owp-link-color-hover, #13aff0);
   text-decoration: none;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
