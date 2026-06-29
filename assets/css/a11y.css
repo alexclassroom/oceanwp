@@ -457,8 +457,9 @@ label.mobile-fs-search-visible-label {
 #mobile-dropdown #mobile-menu-search {
   padding-top: 10px;
 }
-#mobile-dropdown #mobile-menu-search button[type=submit] {
-  margin-top: 0;
+#mobile-dropdown #mobile-menu-search .oceanwp-mobile-menu-search-visible-label {
+  display: block;
+  margin-bottom: 6px;
 }
 #mobile-dropdown #mobile-menu-search button[type=submit]:focus, #mobile-dropdown #mobile-menu-search button[type=submit]:focus-visible {
   outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
