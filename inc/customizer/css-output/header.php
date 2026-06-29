@@ -550,7 +550,7 @@ class OceanWP_Customize_Header_CSS {
 			// Vertical header left/right padding
 			if ( isset( $vertical_header_inner_right_padding ) && 30 != $vertical_header_inner_right_padding && '' != $vertical_header_inner_right_padding
 				|| isset( $vertical_header_inner_left_padding ) && 30 != $vertical_header_inner_left_padding && '' != $vertical_header_inner_left_padding ) {
-				$css .= '#site-header.vertical-header #site-header-inner>*:not(#site-navigation-wrap), #site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > a{padding:'. oceanwp_spacing_css( '', $vertical_header_inner_right_padding, '', $vertical_header_inner_left_padding ) .'}';
+				$css .= '#site-header.vertical-header #site-header-inner>*:not(#site-navigation-wrap), #site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > a, #site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > button.menu-link.dropdown-toggle{padding:'. oceanwp_spacing_css( '', $vertical_header_inner_right_padding, '', $vertical_header_inner_left_padding ) .'}';
 			}
 
 			// Tablet vertical header padding
@@ -571,7 +571,7 @@ class OceanWP_Customize_Header_CSS {
 
 			// Menu items padding
 			if ( ! empty( $vertical_header_menu_items_padding ) && 17 != $vertical_header_menu_items_padding ) {
-				$css .= '#site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > a, #site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle{padding-top:'. $vertical_header_menu_items_padding .'px; padding-bottom:'. $vertical_header_menu_items_padding .'px;}';
+				$css .= '#site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > a, #site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > button.menu-link.dropdown-toggle, #site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle{padding-top:'. $vertical_header_menu_items_padding .'px; padding-bottom:'. $vertical_header_menu_items_padding .'px;}';
 			}
 
 			// Search top border width
@@ -596,22 +596,22 @@ class OceanWP_Customize_Header_CSS {
 
 			// Sub menu links color
 			if ( ! empty( $vertical_header_sub_menu_sub_menu_links_color ) && '#333333' != $vertical_header_sub_menu_sub_menu_links_color ) {
-				$css .= '#site-header.vertical-header .dropdown-menu ul li a.menu-link{color:'. $vertical_header_sub_menu_sub_menu_links_color .';}';
+				$css .= '#site-header.vertical-header .dropdown-menu ul li a.menu-link, #site-header.vertical-header .dropdown-menu ul li > button.menu-link.dropdown-toggle{color:'. $vertical_header_sub_menu_sub_menu_links_color .';}';
 			}
 
 			// Sub menu links hover color
 			if ( ! empty( $vertical_header_sub_menu_links_hover_color ) && '#555555' != $vertical_header_sub_menu_links_hover_color ) {
-				$css .= '#site-header.vertical-header .dropdown-menu ul li a.menu-link:hover{color:'. $vertical_header_sub_menu_links_hover_color .';}';
+				$css .= '#site-header.vertical-header .dropdown-menu ul li a.menu-link:hover, #site-header.vertical-header .dropdown-menu ul li > button.menu-link.dropdown-toggle:hover, #site-header.vertical-header .dropdown-menu ul li > button.menu-link.dropdown-toggle:focus-visible{color:'. $vertical_header_sub_menu_links_hover_color .';}';
 			}
 
 			// Sub menu links background color
 			if ( ! empty( $vertical_header_sub_menu_links_bg ) ) {
-				$css .= '#site-header.vertical-header .dropdown-menu ul li a.menu-link{background-color:'. $vertical_header_sub_menu_links_bg .';}';
+				$css .= '#site-header.vertical-header .dropdown-menu ul li a.menu-link, #site-header.vertical-header .dropdown-menu ul li > button.menu-link.dropdown-toggle{background-color:'. $vertical_header_sub_menu_links_bg .';}';
 			}
 
 			// Sub menu links hover background color
 			if ( ! empty( $vertical_header_sub_menu_links_hover_bg ) && '#f8f8f8' != $vertical_header_sub_menu_links_hover_bg ) {
-				$css .= '#site-header.vertical-header .dropdown-menu ul li a.menu-link:hover{background-color:'. $vertical_header_sub_menu_links_hover_bg .';}';
+				$css .= '#site-header.vertical-header .dropdown-menu ul li a.menu-link:hover, #site-header.vertical-header .dropdown-menu ul li > button.menu-link.dropdown-toggle:hover, #site-header.vertical-header .dropdown-menu ul li > button.menu-link.dropdown-toggle:focus-visible{background-color:'. $vertical_header_sub_menu_links_hover_bg .';}';
 			}
 
 			// Search top border width
@@ -681,12 +681,12 @@ class OceanWP_Customize_Header_CSS {
 
 			// Search button color
 			if ( ! empty( $top_header_search_button_color ) && '#333333' != $top_header_search_button_color ) {
-				$css .= '#site-header.top-header #search-toggle a{color:'. $top_header_search_button_color .';}';
+				$css .= '#site-header.top-header #search-toggle a,#site-header.top-header #search-toggle button.site-search-toggle{color:'. $top_header_search_button_color .';}';
 			}
 
 			// Search button hover color
 			if ( ! empty( $top_header_search_button_hover_color ) && '#13aff0' != $top_header_search_button_hover_color ) {
-				$css .= '#site-header.top-header #search-toggle a:hover{color:'. $top_header_search_button_hover_color .';}';
+				$css .= '#site-header.top-header #search-toggle a:hover,#site-header.top-header #search-toggle button.site-search-toggle:hover{color:'. $top_header_search_button_hover_color .';}';
 			}
 
 		}
@@ -1096,14 +1096,14 @@ class OceanWP_Customize_Header_CSS {
 
 		// Mobile menu links color
 		if ( ! empty( $mobile_menu_links ) && '#555555' != $mobile_menu_links ) {
-			$css .= 'body .sidr a, body .sidr-class-dropdown-toggle, #mobile-dropdown ul li a, #mobile-dropdown ul li a .dropdown-toggle, .menu-item-has-children>.oceanwp-sub-menu-toggle:not(.oceanwp-sub-menu-toggle-vertical-header), #mobile-fullscreen ul li a, #mobile-fullscreen .oceanwp-social-menu.simple-social ul li a{color:'. $mobile_menu_links .';}';
-			$css .= '#mobile-fullscreen a.close .close-icon-inner, #mobile-fullscreen a.close .close-icon-inner::after{background-color:'. $mobile_menu_links .';}';
+			$css .= 'body .sidr a, body .sidr-class-dropdown-toggle, #mobile-dropdown ul li a, #mobile-dropdown ul li > button.menu-link.dropdown-toggle, #mobile-dropdown ul li a .dropdown-toggle, .menu-item-has-children>.oceanwp-sub-menu-toggle:not(.oceanwp-sub-menu-toggle-vertical-header), #mobile-fullscreen ul li a, #mobile-fullscreen ul li > button.menu-link.dropdown-toggle, #mobile-fullscreen .oceanwp-social-menu.simple-social ul li a{color:'. $mobile_menu_links .';}';
+			$css .= '#mobile-fullscreen a.close .close-icon-inner, #mobile-fullscreen a.close .close-icon-inner::after, #mobile-fullscreen button.close .close-icon-inner, #mobile-fullscreen button.close .close-icon-inner::after{background-color:'. $mobile_menu_links .';}';
 		}
 
 		// Mobile menu links hover color
 		if ( ! empty( $mobile_menu_links_hover ) && '#13aff0' != $mobile_menu_links_hover ) {
-			$css .= 'body .sidr a:hover, body .sidr-class-dropdown-toggle:hover, .menu-item-has-children>.oceanwp-sub-menu-toggle:not(.oceanwp-sub-menu-toggle-vertical-header):hover, body .sidr-class-dropdown-toggle .fa, body .sidr-class-menu-item-has-children.active > a, body .sidr-class-menu-item-has-children.active > a > .sidr-class-dropdown-toggle, #mobile-dropdown ul li a:hover, #mobile-dropdown ul li a .dropdown-toggle:hover, #mobile-dropdown .menu-item-has-children.active > a, #mobile-dropdown .menu-item-has-children.active > a > .dropdown-toggle, #mobile-fullscreen ul li a:hover, #mobile-fullscreen .oceanwp-social-menu.simple-social ul li a:hover{color:'. $mobile_menu_links_hover .';}';
-			$css .= '#mobile-fullscreen a.close:hover .close-icon-inner, #mobile-fullscreen a.close:hover .close-icon-inner::after{background-color:'. $mobile_menu_links_hover .';}';
+			$css .= 'body .sidr a:hover, body .sidr-class-dropdown-toggle:hover, .menu-item-has-children>.oceanwp-sub-menu-toggle:not(.oceanwp-sub-menu-toggle-vertical-header):hover, body .sidr-class-dropdown-toggle .fa, body .sidr-class-menu-item-has-children.active > a, body .sidr-class-menu-item-has-children.active > a > .sidr-class-dropdown-toggle, #mobile-dropdown ul li a:hover, #mobile-dropdown ul li > button.menu-link.dropdown-toggle:hover, #mobile-dropdown ul li > button.menu-link.dropdown-toggle:focus-visible, #mobile-dropdown ul li a .dropdown-toggle:hover, #mobile-dropdown .menu-item-has-children.active > a, #mobile-dropdown .menu-item-has-children.active > button.menu-link.dropdown-toggle, #mobile-dropdown .menu-item-has-children.active > a > .dropdown-toggle, #mobile-dropdown .menu-item-has-children.open-sub > button.menu-link.dropdown-toggle, #mobile-fullscreen ul li a:hover, #mobile-fullscreen ul li > button.menu-link.dropdown-toggle:hover, #mobile-fullscreen ul li > button.menu-link.dropdown-toggle:focus-visible, #mobile-fullscreen .menu-item-has-children.active > button.menu-link.dropdown-toggle, #mobile-fullscreen .menu-item-has-children.open-sub > button.menu-link.dropdown-toggle, #mobile-fullscreen .oceanwp-social-menu.simple-social ul li a:hover{color:'. $mobile_menu_links_hover .';}';
+			$css .= '#mobile-fullscreen a.close:hover .close-icon-inner, #mobile-fullscreen a.close:hover .close-icon-inner::after, #mobile-fullscreen button.close:hover .close-icon-inner, #mobile-fullscreen button.close:hover .close-icon-inner::after{background-color:'. $mobile_menu_links_hover .';}';
 		}
 
 		// Mobile menu dropdowns background color
@@ -1155,12 +1155,12 @@ class OceanWP_Customize_Header_CSS {
 
 		// Mobile menu links background color
 		if ( 'fullscreen' == $mobile_style && ! empty( $full_screen_mobile_menu_links_bg ) ) {
-			$css .= '#mobile-fullscreen ul > li > a{background-color:'. $full_screen_mobile_menu_links_bg .';}';
+			$css .= '#mobile-fullscreen ul > li > a, #mobile-fullscreen ul > li > button.menu-link.dropdown-toggle{background-color:'. $full_screen_mobile_menu_links_bg .';}';
 		}
 
 		// Mobile menu links hover background color
 		if ( 'fullscreen' == $mobile_style && ! empty( $full_screen_mobile_menu_links_hover_bg ) ) {
-			$css .= '#mobile-fullscreen ul > li > a:hover{background-color:'. $full_screen_mobile_menu_links_hover_bg .';}';
+			$css .= '#mobile-fullscreen ul > li > a:hover, #mobile-fullscreen ul > li > button.menu-link.dropdown-toggle:hover, #mobile-fullscreen ul > li > button.menu-link.dropdown-toggle:focus-visible{background-color:'. $full_screen_mobile_menu_links_hover_bg .';}';
 		}
 
 		// Return CSS.

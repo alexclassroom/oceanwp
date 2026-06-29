@@ -182,31 +182,31 @@ class OceanWP_Colors_CSS {
 		}
 
 		// Theme buttons background color.
-		if ( ! empty( $theme_button_bg ) && '#13aff0' != $theme_button_bg ) {
+		if ( ! empty( $theme_button_bg ) && $theme_button_bg_default != $theme_button_bg ) {
 			$css .= 'body .theme-button,body input[type="submit"],body button[type="submit"],body button,body .button, body div.wpforms-container-full .wpforms-form input[type=submit], body div.wpforms-container-full .wpforms-form button[type=submit], body div.wpforms-container-full .wpforms-form .wpforms-page-button,.woocommerce-cart .wp-element-button,.woocommerce-checkout .wp-element-button,.wp-block-button__link{background-color:' . $theme_button_bg . ';}';
 		}
 
 		// Theme buttons background color.
-		if ( ! empty( $theme_button_hover_bg ) && '#0b7cac' != $theme_button_hover_bg ) {
+		if ( ! empty( $theme_button_hover_bg ) && $theme_button_hover_bg_default != $theme_button_hover_bg ) {
 			$css .= 'body .theme-button:hover,body input[type="submit"]:hover,body button[type="submit"]:hover,body button:hover,body .button:hover, body div.wpforms-container-full .wpforms-form input[type=submit]:hover, body div.wpforms-container-full .wpforms-form input[type=submit]:active, body div.wpforms-container-full .wpforms-form button[type=submit]:hover, body div.wpforms-container-full .wpforms-form button[type=submit]:active, body div.wpforms-container-full .wpforms-form .wpforms-page-button:hover, body div.wpforms-container-full .wpforms-form .wpforms-page-button:active,.woocommerce-cart .wp-element-button:hover,.woocommerce-checkout .wp-element-button:hover,.wp-block-button__link:hover{background-color:' . $theme_button_hover_bg . ';}';
 		}
 
-		// Theme buttons background color.
+		// Theme buttons text color.
 		if ( ! empty( $theme_button_color ) && '#ffffff' != $theme_button_color ) {
 			$css .= 'body .theme-button,body input[type="submit"],body button[type="submit"],body button,body .button, body div.wpforms-container-full .wpforms-form input[type=submit], body div.wpforms-container-full .wpforms-form button[type=submit], body div.wpforms-container-full .wpforms-form .wpforms-page-button,.woocommerce-cart .wp-element-button,.woocommerce-checkout .wp-element-button,.wp-block-button__link{color:' . $theme_button_color . ';}';
 		}
 
-		// Theme buttons hover color.
+		// Theme buttons text hover color.
 		if ( ! empty( $theme_button_hover_color ) && '#ffffff' != $theme_button_hover_color ) {
 			$css .= 'body .theme-button:hover,body input[type="submit"]:hover,body button[type="submit"]:hover,body button:hover,body .button:hover, body div.wpforms-container-full .wpforms-form input[type=submit]:hover, body div.wpforms-container-full .wpforms-form input[type=submit]:active, body div.wpforms-container-full .wpforms-form button[type=submit]:hover, body div.wpforms-container-full .wpforms-form button[type=submit]:active, body div.wpforms-container-full .wpforms-form .wpforms-page-button:hover, body div.wpforms-container-full .wpforms-form .wpforms-page-button:active,.woocommerce-cart .wp-element-button:hover,.woocommerce-checkout .wp-element-button:hover,.wp-block-button__link:hover{color:' . $theme_button_border_color . ';}';
 		}
 
-		// Theme buttons background color.
+		// Theme buttons border color.
 		if ( ! empty( $theme_button_border_color ) && '' != $theme_button_border_color ) {
 			$css .= 'body .theme-button,body input[type="submit"],body button[type="submit"],body button,body .button, body div.wpforms-container-full .wpforms-form input[type=submit], body div.wpforms-container-full .wpforms-form button[type=submit], body div.wpforms-container-full .wpforms-form .wpforms-page-button,.woocommerce-cart .wp-element-button,.woocommerce-checkout .wp-element-button,.wp-block-button__link{border-color:' . $theme_button_color . ';}';
 		}
 
-		// Theme buttons hover color.
+		// Theme buttons border hover color.
 		if ( ! empty( $theme_button_hover_border ) && '' != $theme_button_hover_border ) {
 			$css .= 'body .theme-button:hover,body input[type="submit"]:hover,body button[type="submit"]:hover,body button:hover,body .button:hover, body div.wpforms-container-full .wpforms-form input[type=submit]:hover, body div.wpforms-container-full .wpforms-form input[type=submit]:active, body div.wpforms-container-full .wpforms-form button[type=submit]:hover, body div.wpforms-container-full .wpforms-form button[type=submit]:active, body div.wpforms-container-full .wpforms-form .wpforms-page-button:hover, body div.wpforms-container-full .wpforms-form .wpforms-page-button:active,.woocommerce-cart .wp-element-button:hover,.woocommerce-checkout .wp-element-button:hover,.wp-block-button__link:hover{border-color:' . $theme_button_hover_border . ';}';
 		}

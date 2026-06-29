@@ -42,16 +42,6 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 		private $submenu_dropdown_target = 'link';
 
 		/**
-		 * Mobile dropdown target.
-		 *
-		 * link = parent menu item toggles submenu.
-		 * icon = separate icon control toggles submenu.
-		 *
-		 * @var string
-		 */
-		//private $mobile_dropdown_target = 'link';
-
-		/**
 		 * Submenu IDs indexed by depth.
 		 *
 		 * @var array
@@ -84,6 +74,26 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 
 		private function has_submenu_controls() {
 			return $this->submenu_controls_enabled;
+		}
+
+		/**
+		 * Check whether this walker instance is rendering a mobile menu.
+		 *
+		 * Mobile menus should keep legacy category menu behavior: category
+		 * items with "Display Latest Posts" remain normal category links.
+		 * The generated latest-posts megamenu is desktop navigation only.
+		 *
+		 * @return bool
+		 */
+		private function is_mobile_menu_context() {
+			return in_array(
+				$this->context,
+				array(
+					'mobile-dropdown',
+					'mobile-fullscreen',
+				),
+				true
+			);
 		}
 
 		/**
@@ -167,8 +177,14 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 				}
 			}
 
-			// Latest post for menu item categories
-			if ( isset( $item->category_post ) && $item->category_post != '' && $item->object == 'category' && 'vertical' != oceanwp_header_style() ) {
+			// Latest posts category megamenu is desktop navigation only.
+			if (
+				isset( $item->category_post )
+				&& $item->category_post != ''
+				&& $item->object == 'category'
+				&& 'vertical' != oceanwp_header_style()
+				&& ! $this->is_mobile_menu_context()
+			) {
 				$classes[] = 'menu-item-has-children megamenu-li full-mega mega-cat';
 			}
 
@@ -431,6 +447,7 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 				&& $item->category_post !== ''
 				&& 'full_screen' !== $header_style
 				&& 'vertical' !== $header_style
+				&& ! $this->is_mobile_menu_context()
 			 ) {
 				global $post;
 
@@ -572,6 +589,7 @@ if ( ! class_exists( 'OceanWP_Custom_Nav_Walker' ) ) {
 				&& 'category' === $element->object
 				&& 'full_screen' !== $header_style
 				&& 'vertical' !== $header_style
+				&& ! $this->is_mobile_menu_context()
 			);
 
 			if ( isset( $args[0] ) && is_object( $args[0] ) ) {

@@ -1,5 +1,9 @@
 === Accessibility Statement ===
-OceanWP is developed with accessibility in mind, continuously working toward full compliance with the WordPress Accessibility-Ready Theme requirements. To protect existing sites from unexpected layout changes, we have introduced a dedicated "Accessibility - A11Y" Customizer panel. For new installations, these native accessibility enhancements are enabled by default, while legacy installations can opt-in seamlessly to achieve an optimized, accessible experience.
+OceanWP is developed with accessibility in mind and aims to support the WordPress Accessibility-Ready Theme requirements.
+
+Accessibility is reviewed as part of our theme development, testing, and maintenance workflow. OceanWP includes accessibility-related features for core theme functionality, including keyboard navigation support, skip link support, screen-reader text support, accessible search and menu controls where applicable, visible focus styles, improved link distinction, and semantic markup improvements.
+
+To protect existing websites from unexpected layout or design changes, some newer accessibility enhancements are controlled through the "Accessibility - A11Y" Customizer panel. These enhancements are enabled by default for new installations and can be enabled, disabled, or adjusted by site administrators on existing installations.
 
 For more information see: [WordPress Accessibility-Ready Guidelines](https://wpaccessibility.org/docs/topics/theme-guidelines/)
 
@@ -7,44 +11,52 @@ For more information see: [WordPress Accessibility-Ready Guidelines](https://wpa
 Accessibility audit completed: No
 
 == Testing Tools and Methodology ==
-Accessibility is integrated directly into the OceanWP core development, optimization, and update workflow. We utilize a hybrid approach combining automated evaluations and meticulous manual testing:
+Accessibility is reviewed as part of the OceanWP development and release process. Testing combines automated checks with manual review of common theme templates, layouts, and interactive components.
 
-- **Automated Tools:** Internal structural audits and automated browser-based accessibility checkers to catch baseline contrast, labeling, and nesting flaws.
-- **Keyboard Navigation:** Intensive manual testing to guarantee all interactive flows (such as toggle states and drop-downs) are entirely operable without a pointer device.
-- **Screen Reader Text Handling:** Manual validation to ensure that utility styling explicitly outputs necessary non-visual hints for screen reader devices.
-- **Regression Controls:** Reviewing all updates and user reports against our internal structural standards before any official theme release.
+Current accessibility testing and review includes:
+- **Automated Checks:** Browser-based accessibility testing tools are used to identify common issues such as missing labels, contrast concerns, invalid nesting, and structural problems.
+- **Keyboard Testing:** Common navigation and interaction flows are manually tested with keyboard-only input, including menus, submenu toggles, search controls, modal-style interfaces, form controls, and skip links.
+- **Screen Reader Text Review:** Screen-reader-only text and accessible labels are reviewed to ensure that controls provide useful context when visual text is not available.
+- **Focus Visibility Review:** Interactive elements are reviewed for visible focus indication during keyboard navigation.
+- **Responsive and Zoom Testing:** Theme layouts and common components are reviewed at different viewport sizes and browser zoom levels, including testing up to 400% zoom where practical.
+- **Regression Review:** Accessibility-related fixes and reported issues are reviewed as part of ongoing theme maintenance and release testing.
 
 Primary accessibility testing tools include:
 - [The WAVE browser extension](https://wave.webaim.org/extension/).
-- Browser Inspectors for all major web browsers (Chrome, Opera, Firefox, Edge, Brave).
-- Heading Mapping: Structural verification of logical heading trees and hierarchy containment using extensions.
-- Zoom: Built-in browser zoom configurations, testing specifically up to 400% zoom (both regular page scaling and Text Only zoom layouts) to ensure preservation of content and functionality.
+- Browser developer tools in major browsers
+- Keyboard-only navigation testing
+- Screen-reader text and accessible-name inspection
+- Heading structure review
+- Browser zoom and responsive layout testing
 
 == Screen Reader Text Class ==
 .screen-reader-text
 
 == Accessibility Features ==
-*Note on Configuration:* To respect existing user designs, some advanced semantic HTML changes, stylesheets, and custom toggles are controlled via our Customizer panel. These options are enabled by default on all new site installations and remain fully configurable under user control.
+OceanWP includes the following accessibility-related features in core theme functionality:
+- Skip to Content Link: A skip link is provided to allow keyboard users to bypass repeated navigation and move directly to the main content area.
+- Screen Reader Text Utility: The .screen-reader-text class is supported for visually hidden text that remains available to assistive technologies.
+- Keyboard Navigation Support: Core navigation and interactive theme controls are reviewed for keyboard operation.
+- Visible Focus Styles: Keyboard focus indicators are provided for interactive elements.
+- Accessible Navigation Menus: Theme navigation menus use list-based markup and include keyboard-accessible dropdown behavior where applicable.
+- Accessible Controls: Search, menu, submenu, and media controls are reviewed for accessible names, roles, and states where applicable.
+- Semantic Markup Improvements: OceanWP continues to modernize legacy markup with more appropriate semantic HTML in supported theme areas.
+- Distinguishable Text Links: Inline text links in supported content areas and widgets include visual distinction that does not rely only on color.
+- Contextual Read More Links: Blog, archive, and excerpt "Read More" links include additional screen-reader context where supported.
+- Form Field Accessibility: Theme search and form patterns are reviewed for labels, accessible names, and visible label options where applicable.
+- Header Media Controls: Supported video header implementations include accessible play and pause controls.
+- External Link Indicators: Header and top bar social links can include configurable visual and screen-reader indicators when links open external destinations.
+- Accessibility Customizer Panel: The "Accessibility - A11Y" panel allows site administrators to manage supported accessibility enhancements and compatibility options.
 
-- **Native A11Y Customizer Panel:** A dedicated suite of accessibility controls allowing administrators to globalize modern accessibility overrides.
-- **Flexible Heading Architecture:** Theme layouts feature a naturally logical nested heading flow by default. To preserve ultimate layout authority for compliance and SEO requirements, users are given absolute control over heading tags via either the native WordPress Customizer settings or granular PHP filters.
-- **Distinguishable Contextual Links:** In accordance with visual requirements, standard inline text links nestled inside main content bodies, post content, blocks, and widgets feature permanent underlines. State transitions are explicitly handled (eg., changes on mouse-over or focus states) without relying exclusively on color shifts.
-- **Unambiguous Read More Contexts:** Standard blog index, archive, and query excerpt "Read More" or "Continue Reading" triggers are explicitly appended with screen-reader-accessible post title structures. This provides full utility context when screen reader users load individual elements out of context.
-- **Accessibility-Safe Optimization Stylesheet:** A modular normalized stylesheet dedicated strictly to enforcing uniform accessibility patches, conditionally loaded only when core accessibility systems are active.
-- **Semantic HTML Modernization:** Ongoing conversion of legacy element types into appropriate structural controls (eg., refactoring previous graphical links into semantic HTML `<button>` elements for search and mobile menu triggers, mobile menu toggles, and submenu/dropdown states).
-- **Advanced Focus Trapping:** Enforced modal isolation and focus trapping for modern search forms and standard responsive menus, with built-in support for standard `Escape` key abandonment behavior.
-- **Accessible Navigation Menus:** Navigation menus are built with proper list markup and include comprehensive support for keyboard-accessible dropdown menus.
-- **External Link Icons:** Dedicated visual and screen-reader indicators for header and top bar social menus when links target external domains (configurable).
-- **Form Field Accessibility:** Enhanced visual contextual labels natively positioned explicitly above form element inputs.
-- **Media Header Controls:** Built-in semantic pause and play commands for standard video headers.
-- **Skip to Content Link:** A visible-on-focus skip link is provided to allow keyboard users to bypass the navigation and jump directly to the main content area.
-- **Keyboard Navigation & Focus Styles:** All interactive elements (menus, buttons, links, forms) are fully operable via keyboard with visible focus indicators.
-- **ARIA Landmarks & Semantic Structure:** Core layout elements utilize HTML5 structural tags and appropriate ARIA landmark roles to establish a logical document outline for assistive technologies.
+== Compatibility Notes ==
+OceanWP is a highly configurable theme and may be used with custom menus, custom headers, page builders, WooCommerce, third-party plugins, custom CSS, and child themes. Site owners should test their final site configuration, content, color choices, plugins, and customizations for accessibility.
 
-*Note on Legacy Component Support:* The legacy third-party mobile sidebar mechanism (Sidr) - the Sidebar Mobile Header Style - is currently excluded from advanced accessibility features due to internal dependency restrictions. It remains available strictly as a legacy option to ensure backward compatibility for existing websites for a one-year transition period, and is actively scheduled for complete replacement by a native, fully accessible PHP/JS template architecture.
+Some newer semantic markup and accessibility enhancements are controlled through the "Accessibility - A11Y" Customizer panel to preserve backward compatibility for existing websites.
+
+The legacy Sidebar Mobile Header Style is maintained for backward compatibility. For the most accessible mobile navigation experience, we recommend using the supported Drop Down or Full Screen mobile header styles with the current accessibility enhancements enabled.
 
 == Accessibility Help Contact ==
-For general accessibility inquiries or assistance setting up your theme controls, please use our support desk or community forum: https://wordpress.org/support/theme/oceanwp/
+For accessibility help with OceanWP theme settings, please use the OceanWP support forum: https://wordpress.org/support/theme/oceanwp/
 
 == Where to Report Issues ==
-Please report any discovered accessibility bugs or structural recommendations through our dedicated channel: https://wordpress.org/support/theme/oceanwp/
+Please report accessibility issues or structural accessibility recommendations through the OceanWP support forum: https://wordpress.org/support/theme/oceanwp/
