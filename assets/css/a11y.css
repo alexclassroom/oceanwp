@@ -1,3 +1,55 @@
+body input[type=button],
+body input[type=reset],
+body input[type=submit],
+body button[type=submit],
+body .theme-button,
+body .button,
+body div.wpforms-container-full .wpforms-form input[type=submit],
+body div.wpforms-container-full .wpforms-form button[type=submit],
+body div.wpforms-container-full .wpforms-form .wpforms-page-button,
+body.woocommerce-cart .wp-element-button,
+body.woocommerce-checkout .wp-element-button,
+body .wp-block-button__link {
+  background-color: var(--owp-button-bg-color, #13aff0);
+  color: var(--owp-button-text-color, #ffffff);
+  font-size: var(--owp-button-font-size, 12px);
+  font-weight: var(--owp-button-font-weight, 600);
+  text-transform: var(--owp-button-text-transform, uppercase);
+  padding: var(--owp-button-padding-top, 14px) var(--owp-button-padding-right, 20px) var(--owp-button-padding-bottom, 14px) var(--owp-button-padding-left, 20px);
+  letter-spacing: var(--owp-button-letter-spacing, 0.1em);
+  line-height: var(--owp-button-line-height, 1);
+}
+
+body input[type=button]:hover,
+body input[type=reset]:hover,
+body input[type=submit]:hover,
+body button[type=submit]:hover,
+body input[type=button]:active,
+body input[type=reset]:active,
+body input[type=submit]:active,
+body button[type=submit]:active,
+body input[type=button]:focus,
+body input[type=reset]:focus,
+body input[type=submit]:focus,
+body button[type=submit]:focus,
+body .theme-button:hover,
+body .theme-button:focus,
+body .button:hover,
+body .button:focus,
+body div.wpforms-container-full .wpforms-form input[type=submit]:hover,
+body div.wpforms-container-full .wpforms-form input[type=submit]:active,
+body div.wpforms-container-full .wpforms-form button[type=submit]:hover,
+body div.wpforms-container-full .wpforms-form button[type=submit]:active,
+body div.wpforms-container-full .wpforms-form .wpforms-page-button:hover,
+body div.wpforms-container-full .wpforms-form .wpforms-page-button:active,
+body.woocommerce-cart .wp-element-button:hover,
+body.woocommerce-checkout .wp-element-button:hover,
+body .wp-block-button__link:hover,
+body .wp-block-button__link:focus {
+  background-color: var(--owp-button-bg-color-hover, #0b7cac);
+  color: var(--owp-button-text-color-hover, #ffffff);
+}
+
 body :where(.theme-button,
 .button,
 button,
@@ -54,13 +106,13 @@ textarea):focus-within {
 }
 
 .sidebar-container.widget-area a {
-  color: var(--owp-widget-link-color);
-  text-decoration: var(--owp-widget-link-text-decoration) var(--owp-widget-link-underline-offset, 0.1em);
+  color: var(--owp-widget-link-color, var(--owp-link-color, #333333));
+  text-decoration: var(--owp-widget-link-text-decoration, underline) 0.1em;
   text-underline-offset: var(--owp-widget-link-underline-offset, 0.2em);
 }
 .sidebar-container.widget-area a:hover {
-  color: var(--owp-widget-link-color-hover);
-  text-decoration: none;
+  color: var(--owp-widget-link-color-hover, var(--owp-link-color-hover, #13aff0));
+  text-decoration: var(--owp-widget-link-text-decoration-hover, none) 0.1em;
 }
 .sidebar-container.widget-area a:focus, .sidebar-container.widget-area a:focus-visible {
   outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);

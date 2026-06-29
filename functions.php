@@ -84,8 +84,6 @@ final class OCEANWP_Theme_Class {
 			// Load his file in last.
 			add_action( 'wp_enqueue_scripts', array( 'OCEANWP_Theme_Class', 'custom_style_css' ), 9999 );
 
-			// add_action( 'wp_enqueue_scripts', array( 'OCEANWP_Theme_Class', 'custom_a11y_style_css' ), 9999 );
-
 			// Remove Customizer CSS script from Front-end.
 			add_action( 'init', array( 'OCEANWP_Theme_Class', 'remove_customizer_custom_css' ) );
 
@@ -530,7 +528,8 @@ final class OCEANWP_Theme_Class {
 			wp_enqueue_style( 'ow-perfect-scrollbar' );
 		}
 
-		if ( true === oceanwp_is_accessibility_feature_enabled( 'ocean_accessibility_mode' ) ) {
+		if ( function_exists( 'oceanwp_is_accessibility_feature_enabled' )
+			&& oceanwp_is_accessibility_feature_enabled( 'ocean_accessibility_mode' ) ) {
 			wp_enqueue_style( 'oceanwp-a11y-style', $dir . 'a11y.min.css', false, $theme_version );
 		}
 	}
