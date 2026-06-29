@@ -36,6 +36,11 @@ if ( ! function_exists( 'oceanwp_get_customizer_defaults_map' ) ) {
 					'new' => '#007a99',
 				),
 
+				'ocean_hover_primary_color' => array(
+					'old' => '#0b7cac',
+					'new' => '#005f78',
+				),
+
 				'ocean_links_color' => array(
 					'old' => '#333333',
 					'new' => '#007a99',
@@ -58,12 +63,12 @@ if ( ! function_exists( 'oceanwp_get_customizer_defaults_map' ) ) {
 
 				'ocean_theme_button_color' => array(
 					'old' => '#ffffff',
-					'new' => '#000000',
+					'new' => '#ffffff',
 				),
 
 				'ocean_theme_button_hover_color' => array(
 					'old' => '#ffffff',
-					'new' => '#000000',
+					'new' => '#ffffff',
 				),
 
 				/*

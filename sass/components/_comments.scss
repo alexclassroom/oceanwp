@@ -109,11 +109,11 @@
 }
 
 .comment-author .comment-meta .comment-reply-link {
-	color: $color-5;
+	color: var(--owp-link-color, #{$color-5});
 }
 
 .comment-author .comment-meta .comment-reply-link:hover {
-	color: $color-2;
+	color: var(--owp-link-color-hover, #{$color-2});
 }
 
 #respond #cancel-comment-reply-link {
@@ -127,8 +127,8 @@
     letter-spacing: 0.1em;
 
     &:hover {
-    	color: $color-5;
-    	border-color: $color-5;
+    	color: var(--owp-link-color-hover, #{$color-5});
+    	border-color: var(--owp-link-color-hover, #{$color-5});
     }
 }
 

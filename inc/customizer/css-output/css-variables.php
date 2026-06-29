@@ -514,6 +514,23 @@ class OceanWP_CSS_Variables {
 			array(
 
 				/*
+				 * Global primary/accent colors.
+				 */
+				array(
+					'var'      => '--owp-primary-color',
+					'setting'  => 'ocean_primary_color',
+					'fallback' => '#13aff0',
+					'type'     => 'color',
+				),
+
+				array(
+					'var'      => '--owp-primary-color-hover',
+					'setting'  => 'ocean_hover_primary_color',
+					'fallback' => '#0b7cac',
+					'type'     => 'color',
+				),
+
+				/*
 				 * Global links.
 				 */
 				array(

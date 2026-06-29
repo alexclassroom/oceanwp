@@ -181,11 +181,12 @@ form :where(
 
         &:hover {
             color: var(--owp-widget-link-color-hover, var(--owp-link-color-hover, #13aff0));
-            text-decoration: var(--owp-widget-link-text-decoration-hover, none) 0.1em;
+            text-decoration: none;
         }
 
         &:focus-visible {
             outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+            text-decoration: none;
             outline-offset: var(--owp-focus-outline-offset);
         }
     }
@@ -589,7 +590,7 @@ label.mobile-fs-search-visible-label {
                 letter-spacing: 0.6px;
 
                 &:hover {
-                    color: $color-5;
+                    color: var(--owp-primary-color, #{$color-5});
                 }
             }
 
@@ -605,7 +606,7 @@ label.mobile-fs-search-visible-label {
                 cursor: pointer;
 
                 &:hover {
-                    color: $color-5;
+                    color: var(--owp-primary-color, #{$color-5});
                 }
 
                 &:focus-visible {
@@ -635,7 +636,7 @@ label.mobile-fs-search-visible-label {
         }
 
         &:hover {
-            color: #13aff0;
+            color: var(--owp-primary-color, #{$color-5});
             background-color: transparent;
         }
 
@@ -937,5 +938,6 @@ button.dropdown-toggle,
 
 .comment-respond .logged-in-as a:hover,
 .comment-respond .logged-in-as a:focus-visible {
-	color: var(--owp-link-color-hover, #13aff0);
+	color: var(--owp-link-color-hover, #{$color-5});
+    text-decoration: none;
 }

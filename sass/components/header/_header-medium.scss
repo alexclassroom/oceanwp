@@ -89,7 +89,7 @@
             @include transition(all 0.3s ease);
 
             &:hover {
-                color: $color-5;
+                color: var(--owp-primary-color, #{$color-5});
             }
         }
 

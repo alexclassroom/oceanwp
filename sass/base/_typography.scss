@@ -2,10 +2,10 @@
  * Set link colors.
  */
 a {
-	color: $link-color;
+	color: var(--owp-link-color, #{$link-color});
 
 	&:hover {
-		color: $link-hover-color;
+		color: var(--owp-link-color-hover, #{$link-hover-color});
 	}
 }
 
@@ -13,7 +13,7 @@ a.light {
 	color: $color-1;
 
 	&:hover {
-		color: $link-hover-color;
+		color: var(--owp-link-color-hover, #{$link-hover-color});
 	}
 }
 
