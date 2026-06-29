@@ -43,12 +43,12 @@ if ( ! function_exists( 'oceanwp_get_customizer_defaults_map' ) ) {
 
 				'ocean_links_color' => array(
 					'old' => '#333333',
-					'new' => '#007a99',
+					'new' => '#333333',
 				),
 
 				'ocean_links_color_hover' => array(
 					'old' => '#13aff0',
-					'new' => '#005f78',
+					'new' => '#007a99',
 				),
 
 				'ocean_theme_button_bg' => array(

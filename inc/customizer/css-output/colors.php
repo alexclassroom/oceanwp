@@ -49,8 +49,10 @@ class OceanWP_Colors_CSS {
 		$separate_outside_bg = get_theme_mod( 'ocean_separate_outside_bg', '#f1f1f1' );
 		$boxed_inner_bg      = get_theme_mod( 'ocean_boxed_inner_bg', '#ffffff' );
 
-		$theme_button_bg               = get_theme_mod( 'ocean_theme_button_bg', '#13aff0' );
-		$theme_button_hover_bg         = get_theme_mod( 'ocean_theme_button_hover_bg', '#0b7cac' );
+		$theme_button_bg_default       = function_exists( 'oceanwp_get_customizer_default' ) ? oceanwp_get_customizer_default( 'ocean_theme_button_bg', '#13aff0' ) : '#13aff0';
+		$theme_button_bg               = get_theme_mod( 'ocean_theme_button_bg', $theme_button_bg_default );
+		$theme_button_hover_bg_default = function_exists( 'oceanwp_get_customizer_default' ) ? oceanwp_get_customizer_default( 'ocean_theme_button_hover_bg', '#0b7cac' ) : '#0b7cac';
+		$theme_button_hover_bg         = get_theme_mod( 'ocean_theme_button_hover_bg', $theme_button_hover_bg_default );
 		$theme_button_color            = get_theme_mod( 'ocean_theme_button_color', '#ffffff' );
 		$theme_button_hover_color      = get_theme_mod( 'ocean_theme_button_hover_color', '#ffffff' );
 		$theme_button_border_color     = get_theme_mod( 'ocean_theme_button_color', '#ffffff' );

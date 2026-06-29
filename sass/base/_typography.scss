@@ -32,8 +32,8 @@ a, a:hover {
 		@include transition( all .3s ease );
 
 		&:hover {
-			text-decoration: underline;
-			text-decoration-style: dotted;
+			text-decoration: none;
+			text-decoration-style: none;
 			text-decoration-skip-ink: none;
 			@include transition( all .3s ease );
 		}
@@ -90,7 +90,7 @@ h6 {
     	font-family: 'Font Awesome 5 Free';
     	font-size: 18px;
     	font-weight: 600;
-    	color: $color-5;
+    	color: var(--owp-primary-color, #{$color-5});
     	padding-right: 6px;
     }
 }
@@ -123,12 +123,12 @@ samp {
 pre {
 	margin: 20px 0;
 	padding: 20px;
-	color: #2080ad;
-	background-color: #fafafa;
+	color: #175b7b;
+	background-color: #f9f9f9;
 }
 
 code {
-	color: #2080ad;
+	color: #175b7b;
 }
 
 .wp-block-quote {
@@ -136,7 +136,7 @@ code {
 	padding-left: 20px;
 	border-left-width: 3px;
 	border-style: solid;
-	border-left-color: $color-5;
+	border-left-color: var(--owp-primary-color, #{$color-5});
 }
 
 blockquote {
@@ -145,7 +145,7 @@ blockquote {
 	padding-left: 20px;
 	border-left-width: 3px;
 	border-style: solid;
-	border-left-color: $color-5;
+	border-left-color: var(--owp-primary-color, #{$color-5});
 
 	cite {
 		position: relative;

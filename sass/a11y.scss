@@ -90,6 +90,7 @@ body .wp-block-button__link:hover,
 body .wp-block-button__link:focus {
     background-color: var(--owp-button-bg-color-hover, #0b7cac);
     color: var(--owp-button-text-color-hover, #ffffff);
+    @include transition( all .3s ease );
 }
 
 body :where(
@@ -182,6 +183,7 @@ form :where(
         &:hover {
             color: var(--owp-widget-link-color-hover, var(--owp-link-color-hover, #13aff0));
             text-decoration: none;
+            @include transition( all .3s ease );
         }
 
         &:focus-visible {
@@ -339,12 +341,14 @@ form :where(
 
 		&:hover {
 			outline: none;
+            @include transition( all .3s ease );
 		}
 
         &:hover {
             background-color: var(--owp-header-media-button-bg-color-hover, rgba(0, 0, 0, 0.75));
             color: var(--owp-header-media-button-icon-color-hover, #ffffff);
             border-color: var(--owp-header-media-button-border-color-hover, rgba(255, 255, 255, 0.9));
+            @include transition( all .3s ease );
         }
 
         &:focus-visible {
@@ -353,6 +357,7 @@ form :where(
             background-color: var(--owp-header-media-button-bg-color-focus, rgba(0, 0, 0, 0.75));
             color: var(--owp-header-media-button-icon-color-focus, #ffffff);
             border-color: var(--owp-header-media-button-border-color-focus, rgba(255, 255, 255, 0.9));
+            @include transition( all .3s ease );
         }
     }
 }
@@ -940,4 +945,5 @@ button.dropdown-toggle,
 .comment-respond .logged-in-as a:focus-visible {
 	color: var(--owp-link-color-hover, #{$color-5});
     text-decoration: none;
+    @include transition( all .3s ease );
 }
