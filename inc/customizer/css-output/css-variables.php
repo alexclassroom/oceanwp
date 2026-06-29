@@ -720,7 +720,7 @@ class OceanWP_CSS_Variables {
 					'var'     => '--owp-widget-link-color',
 					'setting' => '',
 					'old'     => 'var(--owp-link-color, #333333)',
-					'new'     => '#000000',
+					'new'     => '#007a99',
 					'type'    => 'raw',
 				),
 
@@ -728,7 +728,7 @@ class OceanWP_CSS_Variables {
 					'var'     => '--owp-widget-link-color-hover',
 					'setting' => '',
 					'old'     => 'var(--owp-link-color-hover, #13aff0)',
-					'new'     => '#000000',
+					'new'     => '#005f78',
 					'type'    => 'raw',
 				),
 
@@ -752,7 +752,7 @@ class OceanWP_CSS_Variables {
 					'var'     => '--owp-widget-link-underline-offset',
 					'setting' => '',
 					'old'     => 'auto',
-					'new'     => '0.15em',
+					'new'     => '0.2em',
 					'type'    => 'size',
 				),
 
