@@ -455,8 +455,52 @@ label.mobile-fs-search-visible-label {
 #site-header.vertical-header .vertical-toggle:hover {
   background-color: transparent;
 }
+#site-header.vertical-header #site-navigation-wrap .dropdown-menu li > button.menu-link.dropdown-toggle {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  line-height: 1;
+  padding: 17px 30px;
+  text-align: left;
+  color: #555;
+  background: transparent;
+  border: 0;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: 0.6px;
+  text-transform: none;
+}
+#site-header.vertical-header #site-navigation-wrap .dropdown-menu li > button.menu-link.dropdown-toggle:hover, #site-header.vertical-header #site-navigation-wrap .dropdown-menu li > button.menu-link.dropdown-toggle:active, #site-header.vertical-header #site-navigation-wrap .dropdown-menu li > button.menu-link.dropdown-toggle:focus {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+#site-header.vertical-header #site-navigation-wrap .dropdown-menu li > button.menu-link.dropdown-toggle .nav-arrow {
+  display: flex;
+  padding-left: 6px;
+  line-height: 1;
+  pointer-events: none;
+}
+#site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > button.menu-link.dropdown-toggle:hover, #site-header.vertical-header #site-navigation-wrap .dropdown-menu > li > button.menu-link.dropdown-toggle:focus-visible {
+  color: var(--owp-primary-color-hover, #13aff0);
+}
+#site-header.vertical-header #site-navigation-wrap .dropdown-menu ul li > button.menu-link.dropdown-toggle {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: capitalize;
+}
+#site-header.vertical-header #site-navigation-wrap .dropdown-menu ul li > button.menu-link.dropdown-toggle:hover, #site-header.vertical-header #site-navigation-wrap .dropdown-menu ul li > button.menu-link.dropdown-toggle:focus-visible {
+  color: #555;
+  background-color: #f8f8f8;
+}
 #site-header.vertical-header #site-navigation-wrap .oceanwp-has-accessible-toggle > .dropdown-toggle {
-  padding: 12px 30px;
+  padding: 17px 30px;
 }
 #site-header.vertical-header #site-navigation-wrap .oceanwp-has-accessible-toggle > .dropdown-toggle .nav-arrow {
   display: flex;
@@ -659,6 +703,49 @@ button.dropdown-toggle:focus-visible,
   outline-offset: var(--owp-focus-outline-offset);
 }
 
+#mobile-dropdown ul li > button.menu-link.dropdown-toggle,
+#mobile-dropdown ul li > button.oceanwp-sub-menu-toggle-icon {
+  color: #555;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+}
+#mobile-dropdown ul li > button.menu-link.dropdown-toggle:hover, #mobile-dropdown ul li > button.menu-link.dropdown-toggle:active, #mobile-dropdown ul li > button.menu-link.dropdown-toggle:focus,
+#mobile-dropdown ul li > button.oceanwp-sub-menu-toggle-icon:hover,
+#mobile-dropdown ul li > button.oceanwp-sub-menu-toggle-icon:active,
+#mobile-dropdown ul li > button.oceanwp-sub-menu-toggle-icon:focus {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+#mobile-dropdown ul li > button.menu-link.dropdown-toggle:hover, #mobile-dropdown ul li > button.menu-link.dropdown-toggle:focus-visible,
+#mobile-dropdown ul li > button.oceanwp-sub-menu-toggle-icon:hover,
+#mobile-dropdown ul li > button.oceanwp-sub-menu-toggle-icon:focus-visible {
+  color: var(--owp-primary-color-hover, #13aff0);
+}
+#mobile-dropdown ul li > button.menu-link.dropdown-toggle {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 12px 40px;
+  text-align: left;
+}
+#mobile-dropdown ul li.active > button.menu-link.dropdown-toggle,
+#mobile-dropdown ul li.active > button.oceanwp-sub-menu-toggle-icon, #mobile-dropdown ul li.open-sub > button.menu-link.dropdown-toggle,
+#mobile-dropdown ul li.open-sub > button.oceanwp-sub-menu-toggle-icon {
+  color: var(--owp-primary-color-hover, #13aff0);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
 [data-oceanwp-submenu-toggle]:focus-visible {
   outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
   outline-offset: var(--owp-focus-outline-offset);
@@ -720,14 +807,28 @@ button.dropdown-toggle:focus-visible,
 #full-screen-menu li > button.menu-link {
   display: block;
   color: #fff;
+  background: transparent;
+  border: 0;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
   letter-spacing: 2px;
   text-transform: uppercase;
   padding: 12px 0;
   text-align: center;
-  border: 0;
 }
-#mobile-fullscreen li > button.menu-link:hover,
-#full-screen-menu li > button.menu-link:hover {
+#mobile-fullscreen li > button.menu-link:hover, #mobile-fullscreen li > button.menu-link:active, #mobile-fullscreen li > button.menu-link:focus,
+#full-screen-menu li > button.menu-link:hover,
+#full-screen-menu li > button.menu-link:active,
+#full-screen-menu li > button.menu-link:focus {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+#mobile-fullscreen li > button.menu-link:hover, #mobile-fullscreen li > button.menu-link:focus-visible,
+#full-screen-menu li > button.menu-link:hover,
+#full-screen-menu li > button.menu-link:focus-visible {
   color: #929292;
 }
 #mobile-fullscreen li > button.menu-link .nav-arrow,

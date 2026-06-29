@@ -2799,11 +2799,35 @@ a.pure-button-selected {
   border-left: 1px solid #f1f1f1;
   padding: 0 6px;
 }
-#site-header.top-header #search-toggle a {
+#site-header.top-header #search-toggle a,
+#site-header.top-header #search-toggle button.site-search-toggle {
   display: inline-block;
   font-size: 12px;
   width: 28px;
   text-align: center;
+}
+#site-header.top-header #search-toggle a,
+#site-header.top-header #search-toggle button.site-search-toggle {
+  color: #333;
+}
+#site-header.top-header #search-toggle a:hover,
+#site-header.top-header #search-toggle button.site-search-toggle:hover {
+  color: #13aff0;
+}
+#site-header.top-header #search-toggle a .owp-icon use,
+#site-header.top-header #search-toggle button.site-search-toggle .owp-icon use {
+  stroke: currentColor;
+}
+#site-header.top-header #search-toggle button.site-search-toggle {
+  height: auto;
+  line-height: inherit;
+  font-weight: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
 }
 #site-header.top-header.search-overlay #search-toggle .search-overlay-toggle {
   position: relative;
