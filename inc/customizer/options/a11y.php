@@ -14,16 +14,27 @@ $options = [
 	'ocean_accessibility_mode' => [
 		'type'              => 'ocean-switch',
 		'label'             => esc_html__( 'Enable Accessibility Mode', 'oceanwp' ),
+		'desc'              => esc_html__( 'Accessibility Mode controls all accessibility improvements. All other settings in this panel depend on it. When Accessibility Mode is disabled, those settings may not function as expected. Disable only if you do not want to use any options in this panel.', 'oceanwp' ),
 		'section'           => 'ocean_accessibility',
 		'default'           => ocean_accessibility_get_default_value(),
 		'transport'         => 'refresh',
 		'priority'          => 10,
 		'sanitize_callback' => 'oceanwp_sanitize_checkbox',
+	],
+
+	'ocean_divider_after_accessibility_mode_switch' => [
+		'type' => 'ocean-divider',
+		'section' => 'ocean_accessibility',
+		'transport' => 'postMessage',
+		'priority' => 10,
+		'top' => 10,
+		'bottom' => 10,
 	],
 
 	'ocean_accessibility_main_header_tags' => [
 		'type'              => 'ocean-switch',
 		'label'             => esc_html__( 'Enable Main Header Tags', 'oceanwp' ),
+		'desc'              => esc_html__( 'Uses improved HTML for the main desktop header and navigation.', 'oceanwp' ),
 		'section'           => 'ocean_accessibility',
 		'default'           => ocean_accessibility_get_default_value(),
 		'transport'         => 'refresh',
@@ -31,14 +42,33 @@ $options = [
 		'sanitize_callback' => 'oceanwp_sanitize_checkbox',
 	],
 
+	'ocean_divider_after_main_header_tags' => [
+		'type' => 'ocean-divider',
+		'section' => 'ocean_accessibility',
+		'transport' => 'postMessage',
+		'priority' => 10,
+		'top' => 10,
+		'bottom' => 10,
+	],
+
 	'ocean_accessibility_mobile_header_tags' => [
 		'type'              => 'ocean-switch',
 		'label'             => esc_html__( 'Enable Mobile Header Tags', 'oceanwp' ),
+		'desc'              => esc_html__( 'Uses improved HTML for the Full Screen and Dropdown mobile header types and navigation.', 'oceanwp' ),
 		'section'           => 'ocean_accessibility',
 		'default'           => ocean_accessibility_get_default_value(),
 		'transport'         => 'refresh',
 		'priority'          => 10,
 		'sanitize_callback' => 'oceanwp_sanitize_checkbox',
+	],
+
+	'ocean_divider_after_mobile_header_tags' => [
+		'type' => 'ocean-divider',
+		'section' => 'ocean_accessibility',
+		'transport' => 'postMessage',
+		'priority' => 10,
+		'top' => 10,
+		'bottom' => 10,
 	],
 
     'ocean_spacer_for_a11y_search_section' => [
@@ -62,6 +92,7 @@ $options = [
 			 'ocean_accessibility_header_search_tags' => [
 				'type'              => 'ocean-switch',
 				'label'             => esc_html__( 'Enable Semantic Header Search', 'oceanwp' ),
+				'desc'              => esc_html__( 'Uses improved HTML for all theme search forms, including desktop and mobile search.', 'oceanwp' ),
 				'section'           => 'ocean_accessibility_search_section',
 				'default'           => ocean_accessibility_get_default_value(),
 				'transport'         => 'refresh',
@@ -195,6 +226,7 @@ $options = [
 			'ocean_display_comment_form_label' => [
                 'type'              => 'ocean-switch',
                 'label'             => esc_html__( 'Display Comment Form Label', 'oceanwp' ),
+				'desc'              => esc_html__( 'Replaces the placeholder text in all comment form fields with visible labels above each field.', 'oceanwp' ),
                 'section'           => 'ocean_accessibility_comment_form_section',
                 'default'           => ocean_accessibility_get_default_value(),
                 'transport'         => 'refresh',
@@ -333,6 +365,7 @@ $options = [
 			'ocean_accessible_header_video_layout' => [
 				'type'              => 'ocean-switch',
 				'label'             => esc_html__( 'Enable Accessible Header Video Layout', 'oceanwp' ),
+				'desc'              => esc_html__( 'Displays the uploaded header video in a dedicated media container instead of using it as a header background. This enables visible video controls and improves accessibility. Using a header image as fallback for tablet and mobile is recommended. This option does not apply to the Full Screen header style.', 'oceanwp' ),
 				'section'           => 'ocean_a11y_header_media_section',
 				'default'           => ocean_accessibility_get_header_media_default_value(),
 				'transport'         => 'refresh',
@@ -592,49 +625,6 @@ $options = [
 		]
 	],
 
-	// 'ocean_display_header_video_controls' => [
-	// 	'type'              => 'ocean-switch',
-	// 	'label'             => esc_html__( 'Display Header Video Control Buttons', 'oceanwp' ),
-	// 	'section'           => 'ocean_accessibility',
-	// 	'default'           => ocean_accessibility_get_default_value(),
-	// 	'transport'         => 'postMessage',
-	// 	'priority'          => 10,
-	// 	'hideLabel'         => false,
-	// 	'sanitize_callback' => 'oceanwp_sanitize_checkbox',
-    //     'active_callback'    => 'oceanwp_cac_has_header_video',
-	// ],
-
-    // 'ocean_header_video_background_overlay' => [
-	// 	'type' => 'ocean-color',
-	// 	'label' => esc_html__( 'Video Background Overlay', 'oceanwp' ),
-	// 	'section' => 'ocean_accessibility',
-	// 	'transport' => 'postMessage',
-	// 	'priority' => 10,
-	// 	'hideLabel' => false,
-	// 	'showAlpha' => true,
-	// 	'showPalette' => true,
-	// 	'sanitize_callback' => 'wp_kses_post',
-    //     'active_callback'    => 'oceanwp_cac_has_header_video',
-	// 	'setting_args' => [
-	// 		'normal' => [
-	// 			'id' => 'ocean_header_video_background_overlay',
-	// 			'key' => 'normal',
-	// 			'label' =>  esc_html__( 'Select Color', 'oceanwp' ),
-	// 			'selector' => [
-    //                 // '#site-header.has-header-media .overlay-header-media.has-video' => 'background-color',
-    //                 // '#site-header.has-header-media .overlay-header-media.has-video-image' => 'background-color'
-
-	// 				'#site-header.has-header-media .custom-header-media.has-video:before' => 'background',
-    //                 '#site-header.has-header-media .custom-header-media.has-video-image:before' => 'background'
-    //             ],
-    //             'attr' => [
-    //                 'transport' => 'postMessage',
-    //                 'default'   => 'rgba(0,0,0,0.3)',
-    //             ]
-	// 		],
-	// 	]
-	// ],
-
 	'ocean_spacer_for_main_header_social_menu_section' => [
 		'type' => 'ocean-spacer',
 		'section' => 'ocean_accessibility',
@@ -654,7 +644,8 @@ $options = [
 		'options' => [
 			'ocean_display_social_external_icon' => [
 				'type'              => 'ocean-switch',
-				'label'             => esc_html__( 'Display Social External Icon', 'oceanwp' ),
+				'label'             => esc_html__( 'Display Social External Link Icon', 'oceanwp' ),
+				'desc'              => esc_html__( 'Displays a small visual icon on social menu links that open in a new tab. This option is optional and only affects the icon appearance.', 'oceanwp' ),
 				'section'           => 'ocean_main_header_social_menu_section',
 				'default'           => false,
 				'transport'         => 'refresh',
@@ -837,7 +828,8 @@ $options = [
 		'options' => [
 			'ocean_display_top_bar_social_external_icon' => [
 				'type'              => 'ocean-switch',
-				'label'             => esc_html__( 'Display Top Bar Social External Icon', 'oceanwp' ),
+				'label'             => esc_html__( 'Display Top Bar Social External Link Icon', 'oceanwp' ),
+				'desc'              => esc_html__(' Displays a small visual icon on social menu links that open in a new tab. This option is optional and only affects the icon appearance.', 'oceanwp' ),
 				'section'           => 'ocean_top_bar_social_menu_external_icon_section',
 				'default'           => false,
 				'transport'         => 'refresh',
