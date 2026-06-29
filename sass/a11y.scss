@@ -4,6 +4,39 @@
 // Mixins
 @import "mixins";
 
+// Focus-visible helpers.
+// Keep :focus as the fallback for browsers that do not understand :focus-visible.
+// Modern browsers suppress the ring for pointer/click focus through :focus:not(:focus-visible).
+@mixin owp-focus-ring($offset: var(--owp-focus-outline-offset, 2px)) {
+    outline: var(--owp-focus-outline-width, 2px) solid var(--owp-focus-outline-color, currentColor);
+    outline-offset: $offset;
+}
+
+@mixin owp-focus-visible-only($offset: var(--owp-focus-outline-offset, 2px)) {
+    &:focus {
+        @include owp-focus-ring($offset);
+        }
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:focus-visible {
+        @include owp-focus-ring($offset);
+    }
+}
+
+@mixin owp-form-focus-ring() {
+    border-color: var(--owp-form-focus-border-color, var(--owp-input-border-color, var(--owp-focus-outline-color, currentColor)));
+    outline: var(--owp-form-focus-outline-width, 0) solid transparent;
+    box-shadow: 0 0 0 4px rgba(0, 122, 153, 0.18);
+    box-shadow: 0 0 0 4px color-mix(
+        in srgb,
+        var(--owp-focus-outline-color, currentColor) 18%,
+        transparent
+    );
+}
+
 body input[type="button"],
 body input[type="reset"],
 body input[type="submit"],
@@ -60,20 +93,42 @@ body .wp-block-button__link:focus {
 }
 
 body :where(
-    .theme-button,
-    .button,
-    button,
-    input[type="submit"],
-    .wpforms-page-button,
-    .wp-element-button,
-    .wp-block-button__link
+    a[href],
+    area[href],
+    button:not([disabled]),
+    input:not([type="hidden"]):not([disabled]),
+    select:not([disabled]),
+    textarea:not([disabled]),
+    summary,
+    iframe,
+    [tabindex]:not([tabindex="-1"]),
+    [role="button"],
+    [role="link"],
+    [role="menuitem"],
+    [role="tab"],
+    [contenteditable="true"]
 ) {
+    @include owp-focus-visible-only;
+}
 
-    &:focus,
-    &:focus-visible {
-        outline: var(--owp-focus-outline-width, 2px) solid var(--owp-focus-outline-color, currentColor);
-        outline-offset: var(--owp-focus-outline-offset, -5px);
-        box-shadow: none;
+@media (forced-colors: active) {
+    body :where(
+        a[href],
+        area[href],
+        button:not([disabled]),
+        input:not([type="hidden"]):not([disabled]),
+        select:not([disabled]),
+        textarea:not([disabled]),
+        summary,
+        iframe,
+        [tabindex]:not([tabindex="-1"]),
+        [role="button"],
+        [role="link"],
+        [role="menuitem"],
+        [role="tab"],
+        [contenteditable="true"]
+    ):focus-visible {
+        outline-color: Highlight;
     }
 }
 
@@ -96,7 +151,18 @@ form :where(
     select,
     textarea
 ) {
-    &:focus,
+    &:focus {
+        @include owp-form-focus-ring;
+    }
+
+    &:focus:not(:focus-visible) {
+        box-shadow: none;
+    }
+
+    &:focus-visible {
+        @include owp-form-focus-ring;
+    }
+
     &:focus-within {
         border: 2px solid var(--owp-input-border-color);
         box-shadow: 0 0 0 4px color-mix(
@@ -118,7 +184,6 @@ form :where(
             text-decoration: var(--owp-widget-link-text-decoration-hover, none) 0.1em;
         }
 
-        &:focus,
         &:focus-visible {
             outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
             outline-offset: var(--owp-focus-outline-offset);
@@ -281,7 +346,6 @@ form :where(
             border-color: var(--owp-header-media-button-border-color-hover, rgba(255, 255, 255, 0.9));
         }
 
-        &:focus,
         &:focus-visible {
             outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
             outline-offset: var(--owp-focus-outline-offset);
@@ -343,7 +407,6 @@ form.sidr-class-mobile-searchform {
         border: 0;
         margin-top: 0;
 
-        &:focus,
         &:focus-visible {
             outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
             outline-offset: var(--owp-focus-outline-offset);
@@ -425,7 +488,6 @@ label.mobile-fs-search-visible-label {
             background-color: transparent;
         }
 
-        &:focus,
         &:focus-visible {
             outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
             outline-offset: var(--owp-focus-outline-offset);
@@ -446,7 +508,6 @@ label.mobile-fs-search-visible-label {
             background-color: transparent;
         }
 
-        &:focus,
         &:focus-visible {
             outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
             outline-offset: var(--owp-focus-outline-offset);
@@ -547,7 +608,6 @@ label.mobile-fs-search-visible-label {
                     color: $color-5;
                 }
 
-                &:focus,
                 &:focus-visible {
                     outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
                     outline-offset: var(--owp-focus-outline-offset);
@@ -579,7 +639,6 @@ label.mobile-fs-search-visible-label {
             background-color: transparent;
         }
 
-        &:focus,
         &:focus-visible {
             outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
             outline-offset: var(--owp-focus-outline-offset);
@@ -609,7 +668,6 @@ label.mobile-fs-search-visible-label {
         line-height: 40px;
 		border: 0;
 
-        &:focus,
         &:focus-visible {
             outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
             outline-offset: var(--owp-focus-outline-offset);
@@ -628,7 +686,6 @@ label.mobile-fs-search-visible-label {
     background: transparent;
     border: 0;
 
-    &:focus,
     &:focus-visible {
         outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
         outline-offset: var(--owp-focus-outline-offset);
@@ -645,7 +702,6 @@ label.mobile-fs-search-visible-label {
         }
 
         button[type="submit"] {
-            &:focus,
             &:focus-visible {
                 outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
                 outline-offset: var(--owp-focus-outline-offset);
@@ -670,21 +726,14 @@ button.dropdown-toggle,
 button.dropdown-toggle,
 .oceanwp-sub-menu-toggle {
 
-    &:focus,
     &:focus-visible {
         outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
         outline-offset: var(--owp-focus-outline-offset);
     }
 }
 
-button.dropdown-toggle:focus:not(:focus-visible),
-.oceanwp-sub-menu-toggle:focus:not(:focus-visible) {
-    outline: none;
-}
-
 [data-oceanwp-submenu-toggle] {
 
-    &:focus,
     &:focus-visible {
         outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
         outline-offset: var(--owp-focus-outline-offset);
@@ -878,4 +927,15 @@ button.dropdown-toggle:focus:not(:focus-visible),
             }
         }
     }
+}
+
+.comment-respond .logged-in-as a {
+	color: var(--owp-link-color, #333333);
+	text-decoration: underline 0.1em;
+	text-underline-offset: 0.2em;
+}
+
+.comment-respond .logged-in-as a:hover,
+.comment-respond .logged-in-as a:focus-visible {
+	color: var(--owp-link-color-hover, #13aff0);
 }
