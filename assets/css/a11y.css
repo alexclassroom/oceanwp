@@ -210,10 +210,11 @@ textarea):focus-within {
 }
 .sidebar-container.widget-area a:hover {
   color: var(--owp-widget-link-color-hover, var(--owp-link-color-hover, #13aff0));
-  text-decoration: var(--owp-widget-link-text-decoration-hover, none) 0.1em;
+  text-decoration: none;
 }
 .sidebar-container.widget-area a:focus-visible {
   outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
+  text-decoration: none;
   outline-offset: var(--owp-focus-outline-offset);
 }
 
@@ -525,7 +526,7 @@ label.mobile-fs-search-visible-label {
   letter-spacing: 0.6px;
 }
 #site-navigation-wrap .dropdown-menu > li button.dropdown-toggle:hover {
-  color: #13aff0;
+  color: var(--owp-primary-color, #13aff0);
 }
 #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle {
   display: block;
@@ -539,7 +540,7 @@ label.mobile-fs-search-visible-label {
   cursor: pointer;
 }
 #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:hover {
-  color: #13aff0;
+  color: var(--owp-primary-color, #13aff0);
 }
 #site-navigation-wrap .dropdown-menu > li > button.site-search-toggle:focus-visible {
   outline: var(--owp-focus-outline-width) solid var(--owp-focus-outline-color, currentColor);
@@ -560,7 +561,7 @@ label.mobile-fs-search-visible-label {
   padding-left: 0;
 }
 .oceanwp-mobile-menu-icon > button:hover {
-  color: #13aff0;
+  color: var(--owp-primary-color, #13aff0);
   background-color: transparent;
 }
 .oceanwp-mobile-menu-icon > button:focus-visible {
@@ -796,4 +797,5 @@ button.dropdown-toggle:focus-visible,
 .comment-respond .logged-in-as a:hover,
 .comment-respond .logged-in-as a:focus-visible {
   color: var(--owp-link-color-hover, #13aff0);
+  text-decoration: none;
 }
