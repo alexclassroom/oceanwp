@@ -1,5 +1,10 @@
 # OceanWP Changelog
 
+### _2026.07.01_ - 4.2.2
+- **Added**:: Customizer: Accessibility - A11Y: Enable Keyboard Focus Outline: Option to display inline style for keyboard navigation when all other accessibility options are disabled.
+- **Tweak**:: Accessibility: Headers: Vertical Header: Search Form: Don't display placeholder text if visible label present.
+- **Updated**:: Template: .../partials/header/style/vertical-header-search.php
+
 ### _2026.07.01_ - 4.2.1
 - **Improved**:: Accessibility: Focus outline colors logic and fallbacks for keyboard navigation.
 - **Fixed**:: Accessibility: Focus outline color not visible on existing websites that upgraded from previous OceanWP versions to 4.2.0 and enabled the new Accessibility Mode option via Customize > Accessibility - A11Y.
