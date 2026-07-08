@@ -4,6 +4,7 @@
 - **Added**:: Customizer: Accessibility - A11Y: Enable Keyboard Focus Outline: Option to display inline style for keyboard navigation when all other accessibility options are disabled.
 - **Tweak**:: Accessibility: Headers: Vertical Header: Search Form: Don't display placeholder text if visible label present.
 - **Updated**:: Template: .../partials/header/style/vertical-header-search.php
+- **Fixed**:: CSS Output: An additional coma ',' in the Header CSS output causing Header SVG backgrounds to inherit header menu styling, such as stroke and color.
 
 ### _2026.07.01_ - 4.2.1
 - **Improved**:: Accessibility: Focus outline colors logic and fallbacks for keyboard navigation.
