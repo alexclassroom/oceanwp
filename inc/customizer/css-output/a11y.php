@@ -1,6 +1,6 @@
 <?php
 /**
- * OceanWP Customizer CSS Output for Accessibility.
+ * OceanWP Customizer Inline CSS Output for Accessibility.
  *
  * @package OceanWP WordPress theme
  */
