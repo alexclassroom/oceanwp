@@ -5922,3 +5922,17 @@ if ( ! function_exists( 'oceanwp_get_theme_mod_default' ) ) {
 		return $fallback;
 	}
 }
+
+/**
+ * Compare the current WordPress version.
+ *
+ * @param string $version  Version to compare against (e.g. '7', '7.0', '7.3').
+ * @param string $operator Comparison operator. Default '>='.
+ *
+ * @return bool
+ */
+function oceanwp_compare_wp_version( $version, $operator = '>=' ) {
+	global $wp_version;
+
+	return version_compare( $wp_version, $version, $operator );
+}

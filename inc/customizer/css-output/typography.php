@@ -28,7 +28,7 @@ class OceanWP_Typography_CSS {
 	 */
 	public function __construct() {
 		add_filter('ocean_head_css', array($this, 'generate_css'), 99);
-		add_action('enqueue_block_editor_assets', array( $this, 'gutenberg_editor_style' ));
+		add_action('enqueue_block_assets', array( $this, 'gutenberg_editor_style' ));
 		add_action('wp_enqueue_scripts', array($this, 'load_fonts'));
 		add_action('block_editor_settings_all', array( $this, 'load_fonts_in_block_editor' ), 10, 1);
 	}
@@ -70,6 +70,16 @@ class OceanWP_Typography_CSS {
 	 */
 	public function gutenberg_editor_style( $output ) {
 
+		$is_wp_7_or_higher = oceanwp_compare_wp_version( '7.0', '>=' );
+
+		if ( $is_wp_7_or_higher ) {
+			$enabled = get_option('oe_display_front_end_style_editor_active_status', 'no');
+
+			if ( 'yes' !== $enabled ) {
+				return;
+			}
+		}
+
 		$options = ocean_get_customize_settings_data();
 
 		$css = '';
@@ -89,7 +99,12 @@ class OceanWP_Typography_CSS {
 		}
 
 		if ( ! empty( $output ) ) {
-			wp_add_inline_style( 'wp-block-editor', $output );
+
+			$editor_style_handle = $is_wp_7_or_higher
+				? 'wp-block-editor-content'
+				: 'wp-block-editor';
+
+			wp_add_inline_style( $editor_style_handle, $output );
 		}
 	}
 
