@@ -5934,5 +5934,12 @@ if ( ! function_exists( 'oceanwp_get_theme_mod_default' ) ) {
 function oceanwp_compare_wp_version( $version, $operator = '>=' ) {
 	global $wp_version;
 
-	return version_compare( $wp_version, $version, $operator );
+	$result = version_compare( $wp_version, $version, $operator );
+
+	return (bool) apply_filters(
+		'oceanwp_compare_wp_version',
+		$result,
+		$version,
+		$operator
+	);
 }
