@@ -70,6 +70,10 @@ class OceanWP_Typography_CSS {
 	 */
 	public function gutenberg_editor_style( $output ) {
 
+		if ( ! is_admin() ) {
+			return;
+		}
+
 		$is_wp_7_or_higher = oceanwp_compare_wp_version( '7.0', '>=' );
 
 		if ( $is_wp_7_or_higher ) {
