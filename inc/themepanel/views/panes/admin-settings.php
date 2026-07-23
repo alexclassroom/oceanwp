@@ -60,7 +60,7 @@ $is_wp_7_or_higher = oceanwp_compare_wp_version( '7.0' );
 		<!-- Display Front-End Style Inside the WordPress Editor -->
 		<div class="oceanwp-tp-wide-block">
 			<div class="oceanwp-tp-block-outer">
-				<img class="oceanwp-tp-wide-block-image" src="<?php echo esc_url( OCEANWP_THEME_PANEL_URI . '/assets/images/icons/regenerate-google-cache.png' ); ?>" />
+				<img class="oceanwp-tp-wide-block-image" src="<?php echo esc_url( OCEANWP_THEME_PANEL_URI . '/assets/images/icons/frontend-style-on-editor.png' ); ?>" />
 				<h2 class="oceanwp-tp-block-title"><?php esc_html_e( 'Display Front-End Style Inside the WordPress Editor', 'oceanwp' ); ?></h2>
 			</div>
 			<?php if ( $extra_mode_actived ) : ?>
