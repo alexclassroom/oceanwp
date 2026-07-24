@@ -77,7 +77,11 @@ class OceanWP_Typography_CSS {
 		$is_wp_7_or_higher = oceanwp_compare_wp_version( '7.0', '>=' );
 
 		if ( $is_wp_7_or_higher ) {
+
 			$enabled = get_option('oe_display_front_end_style_editor_active_status', 'no');
+
+			// Apply filter.
+			$enabled = apply_filters( 'oceanwp_enable_front_end_style_editor', $enabled );
 
 			if ( 'yes' !== $enabled ) {
 				return;
