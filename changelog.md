@@ -1,11 +1,12 @@
 # OceanWP Changelog
 
-### _2026.XX.XX_ - 4.2.2
+### _2026.07.27_ - 4.2.2
 - **Added**:: Customizer: Accessibility - A11Y: Enable Keyboard Focus Outline: Option to display inline style for keyboard navigation when all other accessibility options are disabled.
+- **Added**:: OceanWP Theme Panel: Admin Settings: Display Front-End Style Inside the Block Editor option. Minimum requirements: WordPress version 7, and Ocean Extra 2.5.8.
 - **Tweak**:: Accessibility: Headers: Vertical Header: Search Form: Don't display placeholder text if visible label present.
 - **Updated**:: Template: .../partials/header/style/vertical-header-search.php
-- **Fixed**:: CSS Output: An additional coma ',' in the Header CSS output causing Header SVG backgrounds to inherit header menu styling, such as stroke and color.
-- **Fixed**:: Mobile sidebar is not closing when using the custom anchor link (16538)
+- **Fixed**:: CSS Output: An additional comma ',' in the Header CSS output causing Header SVG backgrounds to inherit header menu styling, such as stroke and color.
+- **Fixed**:: Header: Mobile: Sidebar type: Menu doesn't close when an anchor link is selected.
 
 ### _2026.07.01_ - 4.2.1
 - **Improved**:: Accessibility: Focus outline colors logic and fallbacks for keyboard navigation.

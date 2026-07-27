@@ -61,10 +61,10 @@ $is_wp_7_or_higher = oceanwp_compare_wp_version( '7.0' );
 		<div class="oceanwp-tp-wide-block">
 			<div class="oceanwp-tp-block-outer">
 				<img class="oceanwp-tp-wide-block-image" src="<?php echo esc_url( OCEANWP_THEME_PANEL_URI . '/assets/images/icons/frontend-style-on-editor.png' ); ?>" />
-				<h2 class="oceanwp-tp-block-title"><?php esc_html_e( 'Display Front-End Style Inside the WordPress Editor', 'oceanwp' ); ?></h2>
+				<h2 class="oceanwp-tp-block-title"><?php esc_html_e( 'Display Front-End Style Inside the Block Editor', 'oceanwp' ); ?></h2>
 			</div>
 			<?php if ( $extra_mode_actived ) : ?>
-				<h3 class="oceanwp-tp-block-description"><?php esc_html_e( 'Makes the WordPress block editor match your website\'s front-end by applying the theme\'s typography and styling settings, providing a more accurate editing experience.', 'oceanwp' ); ?></h3>
+				<h3 class="oceanwp-tp-block-description"><?php esc_html_e( 'Apply your website\'s front-end theme style (typography, colors, etc.) inside the WordPress block editor (Gutenberg) for a more accurate editing experience.', 'oceanwp' ); ?></h3>
 				<div id="ocean-display-front-end-style-editor" class="oceanwp-tp-switcher column-wrap">
 				<label for="oceanwp-switch-display-front-end-style-editor" class="column-name">
 					<input type="checkbox" role="checkbox" name="display-front-end-style-editor" value="true" id="oceanwp-switch-display-front-end-style-editor" <?php checked( $oe_display_front_end_style_editor_active_status === 'yes' ); ?> />
