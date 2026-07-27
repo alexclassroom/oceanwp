@@ -78,6 +78,13 @@ class OceanWP_Typography_CSS {
 
 		if ( $is_wp_7_or_higher ) {
 
+			if (
+				! defined( 'OE_VERSION' )
+				|| version_compare( OE_VERSION, '2.5.8', '<' )
+			) {
+				return;
+			}
+
 			$enabled = get_option('oe_display_front_end_style_editor_active_status', 'no');
 
 			// Apply filter.
