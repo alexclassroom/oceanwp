@@ -1,6 +1,6 @@
 # OceanWP Changelog
 
-### _2026.07.27_ - 4.2.2
+### _2026.07.28_ - 4.2.2
 - **Added**:: Customizer: Accessibility - A11Y: Enable Keyboard Focus Outline: Option to display inline style for keyboard navigation when all other accessibility options are disabled.
 - **Added**:: OceanWP Theme Panel: Admin Settings: Display Front-End Style Inside the Block Editor option. Minimum requirements: WordPress version 7, and Ocean Extra 2.5.8.
 - **Tweak**:: Accessibility: Headers: Vertical Header: Search Form: Don't display placeholder text if visible label present.
